@@ -3,59 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>一眼看清智能体 — AI驾驶舱</title>
-<meta name="description" content="智能体广场：对比框架、Agent 卡片、安装指南。角色理解力、约束遵从度、任务拆解力、判断一致性四大维度。">
+<title>智能体广场 — AI驾驶舱</title>
+<meta name="description" content="所有主流Agent的对比画像。角色理解力、约束遵从度、任务拆解力、判断一致性四大维度。">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --nav-h:56px;--max-w:1120px;
-  --canvas:#010102;--surface-1:#0f1011;--surface-2:#141516;--surface-3:#18191a;
-  --ink:#f7f8f8;--ink-muted:#d0d6e0;--ink-subtle:#8a8f98;--ink-tertiary:#62666d;
-  --primary:#5e6ad2;--primary-hover:#828fff;
-  --hairline:#23252a;--hairline-strong:#34343a;
-  --gold:#d4a017;--gold-dim:rgba(212,160,23,0.12);--success:#27a644;
-  --font-sans:-apple-system,'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;
-  --font-mono:'SF Mono','Cascadia Code','JetBrains Mono',Consolas,monospace;
-}
+:root{--nav-h:56px;--max-w:1100px;--bg:#0a0a0f;--surface:#12121a;--card:#1a1a28;--text:#f0f0f3;--text-secondary:#8a8a96;--primary:#6366f1;--primary-hover:#818cf8;--g1:#6366f1;--g2:#a855f7;--gold:#f59e0b;--gold-dim:rgba(245,158,11,0.12);--border:#2a2a3a;--success:#22c55e;--font-sans:-apple-system,'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;--font-mono:'SF Mono','Cascadia Code','JetBrains Mono',Consolas,monospace}
 html{scroll-behavior:smooth}
-body{font-family:var(--font-sans);color:var(--ink);background:var(--canvas);-webkit-font-smoothing:antialiased;line-height:1.5}
-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:var(--canvas);border-bottom:1px solid var(--hairline);z-index:100;display:flex;align-items:center;justify-content:center}
+body{font-family:var(--font-sans);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.6}
+nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:rgba(10,10,15,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:100;display:flex;align-items:center;justify-content:center}
 .nav-inner{width:100%;max-width:var(--max-w);padding:0 24px;display:flex;align-items:center;justify-content:space-between}
-.nav-brand{font-size:14px;font-weight:600;letter-spacing:-.3px;color:var(--ink)}
-.nav-brand span{color:var(--primary)}
-.nav-links{display:flex;gap:32px;list-style:none;font-size:13px;color:var(--ink-subtle);font-weight:400}
+.nav-brand{font-size:15px;font-weight:600;color:var(--text);letter-spacing:-.3px}
+.nav-brand span{background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-links{display:flex;gap:28px;list-style:none;font-size:13px;color:var(--text-secondary)}
 .nav-links a{color:inherit;text-decoration:none;transition:color .15s}
-.nav-links a:hover{color:var(--ink)}
-.nav-links a.active{color:var(--ink)}
-.hero{min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 48px;position:relative;background:linear-gradient(180deg,rgba(94,106,210,0.04) 0%,transparent 40%)}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;background:var(--surface-2);border:1px solid var(--hairline);font-size:12px;color:var(--ink-subtle);margin-bottom:28px;font-weight:500;letter-spacing:.4px;text-transform:uppercase}
-.hero h1{font-size:clamp(28px,5vw,52px);font-weight:600;line-height:1.1;letter-spacing:-1.5px;margin-bottom:16px}
-.hero h1 .accent{color:var(--primary)}
-.hero-subtitle{font-size:clamp(14px,1.8vw,17px);color:var(--ink-subtle);max-width:520px;line-height:1.6;margin-bottom:28px}
-.hero-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
-.btn-primary{padding:10px 24px;border-radius:8px;background:var(--primary);color:#fff;font-size:14px;font-weight:500;text-decoration:none;transition:background .15s}
-.btn-primary:hover{background:var(--primary-hover)}
-.btn-secondary{padding:10px 24px;border-radius:8px;background:var(--surface-1);border:1px solid var(--hairline);color:var(--ink);font-size:14px;font-weight:500;text-decoration:none;transition:border-color .15s}
-.btn-secondary:hover{border-color:var(--hairline-strong)}
+.nav-links a:hover{color:var(--text)}
+.nav-links a.active{color:var(--primary)}
+.hero{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1000px;height:800px;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(99,102,241,0.08) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:999px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);font-size:12px;color:var(--primary);margin-bottom:28px;font-weight:500}
+.hero h1{font-size:clamp(28px,5vw,56px);font-weight:600;line-height:1.1;letter-spacing:-1px;margin-bottom:16px;position:relative}
+.hero h1 .accent{background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-subtitle{font-size:clamp(14px,1.8vw,17px);color:var(--text-secondary);max-width:520px;line-height:1.7;margin-bottom:28px;position:relative}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;position:relative}
+.btn-primary{padding:12px 28px;border-radius:10px;background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;font-size:15px;font-weight:500;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(99,102,241,0.3)}
+.btn-secondary{padding:12px 28px;border-radius:10px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:15px;font-weight:500;text-decoration:none;transition:border-color .15s}
+.btn-secondary:hover{border-color:var(--primary)}
 .section{padding:96px 24px;max-width:var(--max-w);margin:0 auto}
-.section-label{font-size:13px;font-weight:500;letter-spacing:.4px;color:var(--primary);margin-bottom:12px;text-transform:uppercase}
-.section-title{font-size:clamp(24px,3.5vw,36px);font-weight:600;margin-bottom:12px;line-height:1.15;letter-spacing:-.8px}
-.section-desc{font-size:16px;color:var(--ink-subtle);max-width:560px;line-height:1.6;margin-bottom:48px}
-.panel{background:var(--surface-1);border:1px solid var(--hairline);border-radius:12px;padding:24px}
-.dim-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:48px}
-.dim-card .icon{font-size:20px;margin-bottom:8px}
-.dim-card h3{font-size:14px;font-weight:600;margin-bottom:6px;letter-spacing:-.2px}
-.dim-card p{font-size:13px;color:var(--ink-subtle);line-height:1.5}
-.agent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:48px}
-.agent-card .agent-type{font-size:11px;color:var(--ink-tertiary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
-.agent-card h3{font-size:15px;font-weight:600;margin-bottom:6px}
-.agent-card .agent-desc{font-size:13px;color:var(--ink-subtle);line-height:1.5;margin-bottom:12px}
-.agent-card .agent-meta{display:flex;gap:12px;font-size:12px;color:var(--ink-tertiary);padding-top:12px;border-top:1px solid var(--hairline)}
+.section-label{font-size:13px;font-weight:600;color:var(--primary);margin-bottom:12px;letter-spacing:.3px}
+.section-title{font-size:clamp(24px,3.5vw,36px);font-weight:600;margin-bottom:12px;line-height:1.2;letter-spacing:-.5px}
+.section-desc{font-size:16px;color:var(--text-secondary);max-width:600px;line-height:1.7;margin-bottom:48px}
+.panel{background:var(--card);border-radius:12px;border:1px solid var(--border);padding:24px}
+.dim-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:48px}
+.dim-card .icon{font-size:24px;margin-bottom:10px}
+.dim-card h3{font-size:15px;font-weight:600;margin-bottom:6px}
+.dim-card p{font-size:13px;color:var(--text-secondary);line-height:1.5}
+.agent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:48px}
+.agent-card h3{font-size:16px;font-weight:600;margin-bottom:6px}
+.agent-card .agent-desc{font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:12px}
+.agent-card .agent-steps{font-size:13px;color:var(--text-secondary);margin-bottom:12px;padding-left:18px;line-height:1.8}
+.agent-card .agent-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.agent-card .agent-tag{padding:2px 8px;border-radius:4px;font-size:11px;background:rgba(99,102,241,0.1);color:var(--primary)}
+.agent-card .agent-meta{display:flex;gap:12px;font-size:12px;color:var(--text-secondary);padding-top:12px;border-top:1px solid var(--border)}
 .agent-card .agent-meta span{font-family:var(--font-mono)}
-.cta-bar{padding:64px 24px;text-align:center;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
-.cta-bar p{font-size:15px;color:var(--ink-subtle);margin-bottom:16px}
-footer{border-top:1px solid var(--hairline);padding:48px 24px;text-align:center;font-size:13px;color:var(--ink-subtle)}
-footer .codename{margin-top:8px;font-family:var(--font-mono);font-size:11px;color:var(--ink-tertiary);letter-spacing:.3px}
+.cta-bar{padding:64px 24px;text-align:center;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.cta-bar p{font-size:15px;color:var(--text-secondary);margin-bottom:16px}
+footer{border-top:1px solid var(--border);padding:40px 24px;text-align:center;font-size:13px;color:var(--text-secondary)}
+footer .codename{margin-top:8px;font-family:var(--font-mono);font-size:11px;color:rgba(136,136,160,0.5)}
 @media(max-width:640px){.nav-links{display:none}.hero-actions{flex-direction:column;align-items:center}.agent-grid,.dim-grid{grid-template-columns:1fr}.section{padding:64px 16px}}
 </style>
 </head>
@@ -75,10 +69,10 @@ footer .codename{margin-top:8px;font-family:var(--font-mono);font-size:11px;colo
 
 <section class="hero">
   <div class="hero-badge">智能体广场</div>
-  <h1>一眼看清<span class="accent">智能体</span></h1>
-  <p class="hero-subtitle">不做大而全的对比榜单，用四个维度看懂每个智能体的真实能力。</p>
+  <h1>所有主流Agent的<span class="accent">对比画像</span></h1>
+  <p class="hero-subtitle">不是大而全的对比榜单，用四个维度看懂每个智能体的真实能力。</p>
   <div class="hero-actions">
-    <a href="#" class="btn-primary">免费 AIQ 诊断测测你的 Agent 基线</a>
+    <a href="#" class="btn-primary">用 AIQ 诊断测测你的 Agent 基线 →</a>
   </div>
 </section>
 
@@ -95,40 +89,52 @@ footer .codename{margin-top:8px;font-family:var(--font-mono);font-size:11px;colo
 </section>
 
 <section class="section">
-  <div class="section-label">智能体卡片</div>
-  <h2 class="section-title">精选智能体一览</h2>
-  <p class="section-desc">每个智能体都经过 AIQ 诊断 + 456 质量门验证。</p>
+  <div class="section-label">首批 Agent</div>
+  <h2 class="section-title">三大主流 Agent 对比</h2>
+  <p class="section-desc">每个 Agent 都经过 AIQ 诊断 + 456 质量门验证。</p>
   <div class="agent-grid">
     <div class="panel agent-card">
-      <div class="agent-type">销售场景</div>
-      <h3>智能化销售跟进 Agent</h3>
-      <div class="agent-desc">自动管理客户画像、跟进节奏、话术优化。基于 SOUL 价值观驱动的销售行为校准，不越界、不骚扰。</div>
-      <div class="agent-meta"><span>SOUL ✓</span><span>AGENTS ✓</span><span>USER ✓</span><span>IDENTITY ✓</span></div>
+      <h3>Claude Code</h3>
+      <div class="agent-desc">Anthropic 官方代码 Agent，最懂约束的编码伙伴。擅长 SOP 严守和复杂任务拆解。</div>
+      <div class="agent-tags"><span class="agent-tag">MCP 生态</span><span class="agent-tag">SOP 严守</span><span class="agent-tag">多模态</span></div>
+      <ol class="agent-steps">
+        <li>安装 Node.js（推荐 v18+）</li>
+        <li>运行 <code>npm install -g @anthropic-ai/claude-code</code></li>
+        <li>配置 ANTHROPIC_API_KEY</li>
+        <li>在项目目录运行 <code>claude</code></li>
+      </ol>
+      <div class="agent-meta"><span>约束遵从 ★★★★★</span><span>代码能力 ★★★★☆</span></div>
     </div>
     <div class="panel agent-card">
-      <div class="agent-type">代码场景</div>
-      <h3>自动化 Code Review Agent</h3>
-      <div class="agent-desc">基于决策评估系统（原三堂会审）的七维视角交叉验证代码质量。自动化审查 + 改进建议。</div>
-      <div class="agent-meta"><span>SOUL ✓</span><span>AGENTS ✓</span><span>IDENTITY ✓</span></div>
+      <h3>OpenAI Codex</h3>
+      <div class="agent-desc">GPT 系列代码专用 Agent，SWE-bench 标杆。生态系统最完善，终端执行能力强。</div>
+      <div class="agent-tags"><span class="agent-tag">SWE-bench 最高</span><span class="agent-tag">生态最大</span><span class="agent-tag">终端执行</span></div>
+      <ol class="agent-steps">
+        <li>安装 OpenAI CLI（<code>pip install openai</code>）</li>
+        <li>配置 OPENAI_API_KEY</li>
+        <li>通过 API 或 ChatGPT 界面调用</li>
+        <li>集成到 IDE 或 CI/CD 流程</li>
+      </ol>
+      <div class="agent-meta"><span>代码能力 ★★★★★</span><span>生态完善 ★★★★★</span></div>
     </div>
     <div class="panel agent-card">
-      <div class="agent-type">客服场景</div>
-      <h3>24/7 智能客服 Agent</h3>
-      <div class="agent-desc">严格的身份边界（IDENTITY）和响应流程（AGENTS），确保每次对话合规、不越界、不骚扰。支持自定义知识库接入。</div>
-      <div class="agent-meta"><span>SOUL ✓</span><span>AGENTS ✓</span><span>USER ✓</span><span>IDENTITY ✓</span></div>
-    </div>
-    <div class="panel agent-card">
-      <div class="agent-type">研报场景</div>
-      <h3>行业研报分析 Agent</h3>
-      <div class="agent-desc">多源数据采集 → 交叉验证 → 结构化输出。覆盖宏观、行业、公司三个维度，输出可引用的分析结论。</div>
-      <div class="agent-meta"><span>SOUL ✓</span><span>AGENTS ✓</span><span>USER ✓</span><span>IDENTITY ✓</span></div>
+      <h3>Cursor</h3>
+      <div class="agent-desc">基于 VS Code 的代码编辑器，内置 AI Agent。适合日常开发，零配置上手。</div>
+      <div class="agent-tags"><span class="agent-tag">零配置</span><span class="agent-tag">IDE 集成</span><span class="agent-tag">日常开发</span></div>
+      <ol class="agent-steps">
+        <li>访问 cursor.com 下载安装包</li>
+        <li>安装后直接打开项目</li>
+        <li>配置 API Key（可选）</li>
+        <li>使用 Cmd/Ctrl+K 或 Cmd/Ctrl+L 调用 AI</li>
+      </ol>
+      <div class="agent-meta"><span>上手难度 ★</span><span>日常开发 ★★★★★</span></div>
     </div>
   </div>
 </section>
 
 <div class="cta-bar">
-  <p>想定制你的专属智能体？从 AIQ 诊断开始，测出基线，然后定制铸造。</p>
-  <a href="#" class="btn-primary">免费 AIQ 诊断，5 分钟出报告</a>
+  <p>想测测你的 Agent 基线？AIQ 诊断 5 分钟出报告，对标四大维度。</p>
+  <a href="#" class="btn-primary">用 AIQ 诊断测测你的 Agent 基线 →</a>
 </div>
 
 <footer>

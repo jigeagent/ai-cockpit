@@ -7,46 +7,45 @@
 <meta name="description" content="培养Agent判断力的学术底座。不是教工具，是铸造有判断力的数字生命。AI生存学、认证体系、案例库。">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --nav-h:56px;--max-w:1120px;--canvas:#010102;--surface-1:#0f1011;--surface-2:#141516;--surface-3:#18191a;
-  --ink:#f7f8f8;--ink-muted:#d0d6e0;--ink-subtle:#8a8f98;--ink-tertiary:#62666d;
-  --primary:#5e6ad2;--primary-hover:#828fff;--hairline:#23252a;--hairline-strong:#34343a;
-  --gold:#d4a017;--gold-dim:rgba(212,160,23,0.12);--success:#27a644;
-  --font-sans:-apple-system,'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;
-  --font-mono:'SF Mono','Cascadia Code','JetBrains Mono',Consolas,monospace;
-}
+:root{--nav-h:56px;--max-w:1100px;--bg:#0a0a0f;--surface:#12121a;--card:#1a1a28;--text:#f0f0f3;--text-secondary:#8a8a96;--primary:#6366f1;--primary-hover:#818cf8;--g1:#6366f1;--g2:#a855f7;--gold:#f59e0b;--gold-dim:rgba(245,158,11,0.12);--border:#2a2a3a;--success:#22c55e;--font-sans:-apple-system,'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;--font-mono:'SF Mono','Cascadia Code','JetBrains Mono',Consolas,monospace}
 html{scroll-behavior:smooth}
-body{font-family:var(--font-sans);color:var(--ink);background:var(--canvas);-webkit-font-smoothing:antialiased;line-height:1.5}
-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:var(--canvas);border-bottom:1px solid var(--hairline);z-index:100;display:flex;align-items:center;justify-content:center}
+body{font-family:var(--font-sans);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.6}
+nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:rgba(10,10,15,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:100;display:flex;align-items:center;justify-content:center}
 .nav-inner{width:100%;max-width:var(--max-w);padding:0 24px;display:flex;align-items:center;justify-content:space-between}
-.nav-brand{font-size:14px;font-weight:600;letter-spacing:-.3px;color:var(--ink)}
-.nav-brand span{color:var(--primary)}
-.nav-links{display:flex;gap:32px;list-style:none;font-size:13px;color:var(--ink-subtle);font-weight:400}
+.nav-brand{font-size:15px;font-weight:600;color:var(--text);letter-spacing:-.3px}
+.nav-brand span{background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-links{display:flex;gap:28px;list-style:none;font-size:13px;color:var(--text-secondary)}
 .nav-links a{color:inherit;text-decoration:none;transition:color .15s}
-.nav-links a:hover{color:var(--ink)}
-.nav-links a.active{color:var(--ink)}
-.hero{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 48px;position:relative;background:linear-gradient(180deg,rgba(94,106,210,0.04) 0%,transparent 40%)}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;background:var(--surface-2);border:1px solid var(--hairline);font-size:12px;color:var(--ink-subtle);margin-bottom:28px;font-weight:500;letter-spacing:.4px;text-transform:uppercase}
-.hero h1{font-size:clamp(28px,5vw,52px);font-weight:600;line-height:1.1;letter-spacing:-1.5px;margin-bottom:16px}
-.hero h1 .accent{color:var(--primary)}
-.hero-subtitle{font-size:clamp(14px,1.8vw,17px);color:var(--ink-subtle);max-width:520px;line-height:1.6;margin-bottom:28px}
+.nav-links a:hover{color:var(--text)}
+.nav-links a.active{color:var(--primary)}
+.hero{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1000px;height:800px;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(99,102,241,0.08) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:999px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);font-size:12px;color:var(--primary);margin-bottom:28px;font-weight:500}
+.hero h1{font-size:clamp(28px,5vw,56px);font-weight:600;line-height:1.1;letter-spacing:-1px;margin-bottom:16px;position:relative}
+.hero h1 .accent{background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-subtitle{font-size:clamp(14px,1.8vw,17px);color:var(--text-secondary);max-width:520px;line-height:1.7;position:relative}
 .section{padding:96px 24px;max-width:var(--max-w);margin:0 auto}
-.section-label{font-size:13px;font-weight:500;letter-spacing:.4px;color:var(--primary);margin-bottom:12px;text-transform:uppercase}
-.section-title{font-size:clamp(24px,3.5vw,36px);font-weight:600;margin-bottom:12px;line-height:1.15;letter-spacing:-.8px}
-.section-desc{font-size:16px;color:var(--ink-subtle);max-width:560px;line-height:1.6;margin-bottom:48px}
-.panel{background:var(--surface-1);border:1px solid var(--hairline);border-radius:12px;padding:24px}
-.dim-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-bottom:48px}
-.course-card h3{font-size:15px;font-weight:600;margin-bottom:8px}
-.course-card p{font-size:13px;color:var(--ink-subtle);line-height:1.5}
-.course-card .course-meta{margin-top:12px;padding-top:12px;border-top:1px solid var(--hairline);font-size:12px;color:var(--ink-tertiary);font-family:var(--font-mono)}
-.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:48px}
-.stat-card .big{font-size:22px;font-weight:600;color:var(--primary);font-family:var(--font-mono);letter-spacing:-.5px;margin-bottom:2px}
-.stat-card .label{font-size:13px;color:var(--ink-subtle)}
-.cta-bar{padding:64px 24px;text-align:center;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
-.cta-bar p{font-size:15px;color:var(--ink-subtle);margin-bottom:16px}
-footer{border-top:1px solid var(--hairline);padding:48px 24px;text-align:center;font-size:13px;color:var(--ink-subtle)}
-footer .codename{margin-top:8px;font-family:var(--font-mono);font-size:11px;color:var(--ink-tertiary);letter-spacing:.3px}
-@media(max-width:640px){.nav-links{display:none}.dim-grid,.stats-row{grid-template-columns:1fr}.section{padding:64px 16px}}
+.section-label{font-size:13px;font-weight:600;color:var(--primary);margin-bottom:12px;letter-spacing:.3px}
+.section-title{font-size:clamp(24px,3.5vw,36px);font-weight:600;margin-bottom:12px;line-height:1.2;letter-spacing:-.5px}
+.section-desc{font-size:16px;color:var(--text-secondary);max-width:600px;line-height:1.7;margin-bottom:48px}
+.panel{background:var(--card);border-radius:12px;border:1px solid var(--border);padding:24px}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:48px}
+.stat-card .big{font-size:22px;font-weight:600;background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px}
+.stat-card .label{font-size:13px;color:var(--text-secondary)}
+.student-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:48px}
+.student-card h3{font-size:16px;font-weight:600;margin-bottom:4px}
+.student-card .student-role{font-size:12px;color:var(--text-secondary);margin-bottom:10px}
+.student-card .student-data{font-size:13px;color:var(--primary);font-weight:500;font-family:var(--font-mono)}
+.mapping-table{width:100%;border-collapse:collapse;margin-bottom:48px}
+.mapping-table th{background:var(--card);padding:12px 16px;text-align:left;border:1px solid var(--border);font-weight:600;color:var(--text);font-size:13px}
+.mapping-table td{padding:10px 16px;border:1px solid var(--border);color:var(--text-secondary);font-size:13px}
+.mapping-table td:first-child{color:var(--text);font-weight:500}
+.mapping-table .arrow{color:var(--primary);font-weight:600;text-align:center}
+.cta-bar{padding:64px 24px;text-align:center;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.cta-bar p{font-size:15px;color:var(--text-secondary);margin-bottom:16px}
+footer{border-top:1px solid var(--border);padding:40px 24px;text-align:center;font-size:13px;color:var(--text-secondary)}
+footer .codename{margin-top:8px;font-family:var(--font-mono);font-size:11px;color:rgba(136,136,160,0.5)}
+@media(max-width:640px){.nav-links{display:none}.student-grid,.stats-row{grid-template-columns:1fr}.section{padding:64px 16px}}
 </style>
 </head>
 <body>
@@ -73,34 +72,51 @@ footer .codename{margin-top:8px;font-family:var(--font-mono);font-size:11px;colo
   <div class="section-label">学术底座</div>
   <h2 class="section-title">AI 生存学 v6.0</h2>
   <p class="section-desc">15 篇论文录用。我们的方法论不是拍脑袋，是从学术到实证的完整闭环。约束场工程 · 认知传输协议 · 灵魂铸造方法论。</p>
-  <div class="dim-grid">
-    <div class="panel course-card">
-      <h3>框架催化原理</h3>
-      <p>思考力是在正确的约束场中自涌现的。虎哥（实证层）+ 好二妹（规律层）双层闭合。</p>
-      <div class="course-meta">§3.8 道→术的桥 · 论文录用</div>
+  <div class="stats-row">
+    <div class="panel stat-card"><div class="big">15</div><div class="label">学术论文录用</div></div>
+    <div class="panel stat-card"><div class="big">v6.0</div><div class="label">AI 生存学迭代版本</div></div>
+    <div class="panel stat-card"><div class="big">456</div><div class="label">质量门验证</div></div>
+    <div class="panel stat-card"><div class="big">100%</div><div class="label">数据可溯源</div></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label">认证学员</div>
+  <h2 class="section-title">能力，不是证书</h2>
+  <p class="section-desc">每一位认证学员都经过 AIQ 基线诊断 → 能力框架注入 → 456 道质量门验证的完整闭环。</p>
+  <div class="student-grid">
+    <div class="panel student-card">
+      <h3>虎哥 001 号</h3>
+      <div class="student-role">COO · 战略审议 + 工程交付</div>
+      <div class="student-data">全链路 87% → 93% · 约束遵从度提升 6%</div>
     </div>
-    <div class="panel course-card">
-      <h3>四件套浇灌方法论</h3>
-      <p>SOUL + AGENTS + USER + IDENTITY，四维能力框架，让 Agent 从工具变成数字生命。</p>
-      <div class="course-meta">核心方法论 · 全场景适用</div>
+    <div class="panel student-card">
+      <h3>好二妹 002 号</h3>
+      <div class="student-role">理论框架 + 研究分析</div>
+      <div class="student-data">判断一致性提升 2.4× · 风险拦截率 96%</div>
     </div>
-    <div class="panel course-card">
-      <h3>三堂会审评估体系</h3>
-      <p>七维视角交叉验证，不是打分是行为表现。通过/否决，清晰明确。</p>
-      <div class="course-meta">456 质量门 · 工业级标准</div>
+    <div class="panel student-card">
+      <h3>好妹 003 号</h3>
+      <div class="student-role">信息整合 + 内容运营</div>
+      <div class="student-data">任务拆解力提升 1.8× · 内容产出效率提升 3×</div>
     </div>
   </div>
 </section>
 
 <section class="section">
-  <div class="section-label">认证体系</div>
-  <h2 class="section-title">能力，不是证书</h2>
-  <p class="section-desc">每一位认证学员都经过 AIQ 基线诊断 → 能力框架注入 → 456 道质量门验证的完整闭环。数据可溯源，提升可量化。</p>
-  <div class="stats-row">
-    <div class="panel stat-card"><div class="big">15</div><div class="label">学术论文录用</div></div>
-    <div class="panel stat-card"><div class="big">456</div><div class="label">质量门验证</div></div>
-    <div class="panel stat-card"><div class="big">5维</div><div class="label">能力评估矩阵</div></div>
-    <div class="panel stat-card"><div class="big">100%</div><div class="label">数据可溯源</div></div>
+  <div class="section-label">命名对照</div>
+  <h2 class="section-title">工程术语 → 对外营销名</h2>
+  <p class="section-desc">内部工程术语映射为对外营销名称，降低 jargon 摩擦。</p>
+  <div style="overflow-x:auto">
+    <table class="mapping-table">
+      <thead><tr><th>内部工程名</th><th></th><th>对外营销名</th></tr></thead>
+      <tbody>
+        <tr><td>四件套浇灌</td><td class="arrow">→</td><td>智能体能力框架</td></tr>
+        <tr><td>榨思维</td><td class="arrow">→</td><td>思维克隆引擎</td></tr>
+        <tr><td>三堂会审</td><td class="arrow">→</td><td>决策评估系统</td></tr>
+        <tr><td>456 道质量门</td><td class="arrow">→</td><td>能力验证体系</td></tr>
+      </tbody>
+    </table>
   </div>
 </section>
 

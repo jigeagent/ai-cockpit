@@ -6,252 +6,98 @@
 <title>AI驾驶舱 — 你的智能体操作中心</title>
 <meta name="description" content="让智能体理解用户，理解大模型，提供最佳性价比的心想事成方案。AIQ诊断免费测，企业批量铸造一条龙。">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --nav-h: 56px; --max-w: 1120px;
-  --canvas: #010102;
-  --surface-1: #0f1011; --surface-2: #141516; --surface-3: #18191a;
-  --ink: #f7f8f8; --ink-muted: #d0d6e0; --ink-subtle: #8a8f98; --ink-tertiary: #62666d;
-  --primary: #5e6ad2; --primary-hover: #828fff;
-  --hairline: #23252a; --hairline-strong: #34343a;
-  --gold: #d4a017; --gold-dim: rgba(212,160,23,0.12);
-  --success: #27a644;
-  --font-sans: -apple-system, 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
-  --font-mono: 'SF Mono', 'Cascadia Code', 'JetBrains Mono', Consolas, monospace;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --nav-h:56px;--max-w:1100px;
+  --bg:#0a0a0f;--surface:#12121a;--card:#1a1a28;
+  --text:#f0f0f3;--text-secondary:#8a8a96;
+  --primary:#6366f1;--primary-hover:#818cf8;
+  --g1:#6366f1;--g2:#a855f7;
+  --gold:#f59e0b;--gold-dim:rgba(245,158,11,0.12);
+  --border:#2a2a3a;--border-light:#3a3a4a;
+  --success:#22c55e;--danger:#ef4444;
+  --font-sans:-apple-system,'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;
+  --font-mono:'SF Mono','Cascadia Code','JetBrains Mono',Consolas,monospace;
 }
-html { scroll-behavior: smooth; }
-body {
-  font-family: var(--font-sans); color: var(--ink); background: var(--canvas);
-  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-  line-height: 1.5;
-}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.6}
 
-/* ===== NAV ===== */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h);
-  background: var(--canvas);
-  border-bottom: 1px solid var(--hairline); z-index: 100;
-  display: flex; align-items: center; justify-content: center;
-}
-.nav-inner {
-  width: 100%; max-width: var(--max-w); padding: 0 24px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.nav-brand { font-size: 14px; font-weight: 600; letter-spacing: -0.3px; color: var(--ink); }
-.nav-brand span { color: var(--primary); }
-.nav-links { display: flex; gap: 32px; list-style: none; font-size: 13px; color: var(--ink-subtle); font-weight: 400; }
-.nav-links a { color: inherit; text-decoration: none; transition: color .15s; }
-.nav-links a:hover { color: var(--ink); }
-.nav-links a.active { color: var(--ink); }
+nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:rgba(10,10,15,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:100;display:flex;align-items:center;justify-content:center}
+.nav-inner{width:100%;max-width:var(--max-w);padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{font-size:15px;font-weight:600;color:var(--text);letter-spacing:-.3px}
+.nav-brand span{background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-links{display:flex;gap:28px;list-style:none;font-size:13px;color:var(--text-secondary)}
+.nav-links a{color:inherit;text-decoration:none;transition:color .15s}
+.nav-links a:hover{color:var(--text)}
+.nav-links a.active{color:var(--primary)}
 
-/* ===== HERO ===== */
-.hero {
-  min-height: 85vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  text-align: center; padding: 80px 24px 48px; position: relative;
-  background: linear-gradient(180deg, rgba(94,106,210,0.04) 0%, transparent 40%);
-}
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px;
-  background: var(--surface-2); border: 1px solid var(--hairline);
-  font-size: 12px; color: var(--ink-subtle); margin-bottom: 32px;
-  font-weight: 500; letter-spacing: 0.4px; text-transform: uppercase;
-}
-.hero h1 {
-  font-size: clamp(32px, 5.5vw, 64px); font-weight: 600; line-height: 1.08;
-  letter-spacing: -2px; margin-bottom: 20px;
-}
-.hero h1 .accent { color: var(--primary); }
-.hero h1 .sep { color: var(--ink-tertiary); font-weight: 400; }
-.hero-subtitle {
-  font-size: clamp(14px, 1.8vw, 17px); color: var(--ink-subtle);
-  max-width: 560px; line-height: 1.6; margin-bottom: 16px;
-}
-.hero-subtitle strong { color: var(--ink-muted); font-weight: 500; }
-.hero-stat {
-  font-size: 13px; color: var(--gold); background: var(--gold-dim);
-  padding: 5px 16px; border-radius: 6px; display: inline-block; margin-bottom: 36px;
-  font-weight: 500; font-family: var(--font-mono); letter-spacing: -0.2px;
-}
-.hero-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-.btn-primary {
-  padding: 10px 24px; border-radius: 8px;
-  background: var(--primary); color: #fff;
-  font-size: 14px; font-weight: 500; text-decoration: none;
-  transition: background .15s;
-}
-.btn-primary:hover { background: var(--primary-hover); }
-.btn-secondary {
-  padding: 10px 24px; border-radius: 8px; background: var(--surface-1);
-  border: 1px solid var(--hairline); color: var(--ink);
-  font-size: 14px; font-weight: 500; text-decoration: none; transition: border-color .15s;
-}
-.btn-secondary:hover { border-color: var(--hairline-strong); }
+.hero{min-height:85vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1000px;height:800px;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(99,102,241,0.08) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:999px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);font-size:12px;color:var(--primary);margin-bottom:32px;font-weight:500}
+.hero h1{font-size:clamp(32px,6vw,64px);font-weight:600;line-height:1.1;letter-spacing:-1.5px;margin-bottom:20px;position:relative}
+.hero h1 .accent{background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero h1 .sep{color:var(--text-secondary);font-weight:400}
+.hero-subtitle{font-size:clamp(14px,1.8vw,17px);color:var(--text-secondary);max-width:600px;line-height:1.7;margin-bottom:14px;position:relative}
+.hero-subtitle strong{color:var(--text);font-weight:500}
+.hero-stat{font-size:14px;color:var(--gold);background:var(--gold-dim);padding:6px 18px;border-radius:8px;display:inline-block;margin-bottom:36px;position:relative;font-weight:500}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;position:relative}
+.btn-primary{padding:12px 28px;border-radius:10px;background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;font-size:15px;font-weight:500;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(99,102,241,0.3)}
+.btn-secondary{padding:12px 28px;border-radius:10px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:15px;font-weight:500;text-decoration:none;transition:border-color .15s}
+.btn-secondary:hover{border-color:var(--primary)}
 
-/* ===== TRUST BAR ===== */
-.trust-bar {
-  padding: 24px 24px 0; text-align: center;
-  border-top: 1px solid var(--hairline);
-}
-.trust-bar .label {
-  font-size: 11px; color: var(--ink-tertiary); text-transform: uppercase;
-  letter-spacing: 1.5px; margin-bottom: 14px; font-weight: 500;
-}
-.trust-grid { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; max-width: var(--max-w); margin: 0 auto; }
-.trust-item {
-  display: flex; align-items: center; gap: 8px; padding: 8px 14px;
-  background: var(--surface-1); border-radius: 6px; border: 1px solid var(--hairline);
-  font-size: 13px; color: var(--ink-subtle);
-}
-.trust-item .num { color: var(--primary); font-weight: 600; font-size: 15px; font-family: var(--font-mono); letter-spacing: -0.5px; }
+.trust-bar{padding:32px 24px;text-align:center;border-top:1px solid var(--border)}
+.trust-bar .label{font-size:11px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;font-weight:500}
+.trust-grid{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;max-width:var(--max-w);margin:0 auto}
+.trust-item{display:flex;align-items:center;gap:8px;padding:10px 16px;background:var(--card);border-radius:10px;border:1px solid var(--border);font-size:13px;color:var(--text-secondary)}
+.trust-item .num{color:var(--primary);font-weight:600;font-size:16px}
 
-/* ===== SECTION ===== */
-.section { padding: 96px 24px; max-width: var(--max-w); margin: 0 auto; }
-.section-label {
-  font-size: 13px; font-weight: 500; letter-spacing: 0.4px;
-  color: var(--primary); margin-bottom: 12px; text-transform: uppercase;
-}
-.section-title {
-  font-size: clamp(24px, 3.5vw, 36px); font-weight: 600;
-  margin-bottom: 12px; line-height: 1.15; letter-spacing: -0.8px;
-}
-.section-desc {
-  font-size: 16px; color: var(--ink-subtle); max-width: 560px;
-  line-height: 1.6; margin-bottom: 48px;
-}
+.section{padding:96px 24px;max-width:var(--max-w);margin:0 auto}
+.section-label{font-size:13px;font-weight:600;color:var(--primary);margin-bottom:12px;letter-spacing:.3px}
+.section-title{font-size:clamp(24px,3.5vw,36px);font-weight:600;margin-bottom:12px;line-height:1.2;letter-spacing:-.5px}
+.section-desc{font-size:16px;color:var(--text-secondary);max-width:600px;line-height:1.7;margin-bottom:48px}
 
-/* ===== PANEL (surface-1 card) ===== */
-.panel {
-  background: var(--surface-1); border: 1px solid var(--hairline);
-  border-radius: 12px; padding: 24px;
-}
-.panel-featured { background: var(--surface-2); border-color: var(--hairline-strong); }
+.panel{background:var(--card);border-radius:12px;border:1px solid var(--border);padding:24px}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:56px}
+.stat-card .big{font-size:22px;font-weight:600;background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px}
+.stat-card .label{font-size:13px;color:var(--text-secondary)}
 
-/* ===== STATS ROW ===== */
-.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 48px; }
-.stat-card .big {
-  font-size: 22px; font-weight: 600; color: var(--primary);
-  font-family: var(--font-mono); letter-spacing: -0.5px; margin-bottom: 2px;
-}
-.stat-card .label { font-size: 13px; color: var(--ink-subtle); }
+.cases-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:48px}
+.case-card{background:var(--card);border-radius:12px;border:1px solid var(--border);padding:24px;transition:border-color .15s}
+.case-card:hover{border-color:var(--primary)}
+.case-tag{display:inline-block;padding:2px 10px;border-radius:6px;font-size:12px;font-weight:600;margin-bottom:10px}
+.case-tag.pass{background:rgba(34,197,94,0.15);color:var(--success)}
+.case-tag.veto{background:rgba(239,68,68,0.15);color:var(--danger)}
+.case-card h3{font-size:15px;font-weight:600;margin-bottom:6px}
+.case-card p{font-size:13px;color:var(--text-secondary);line-height:1.6}
+.case-data{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:13px;color:var(--primary);font-weight:500}
 
-/* ===== CASES GRID ===== */
-.cases-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
-.case-card .case-tag {
-  display: inline-block; padding: 2px 8px; border-radius: 999px;
-  font-size: 11px; font-weight: 500; margin-bottom: 10px; letter-spacing: 0.3px; text-transform: uppercase;
-}
-.case-tag.pass { background: rgba(39,166,68,0.12); color: var(--success); }
-.case-tag.veto { background: rgba(220,38,38,0.1); color: #ef4444; }
-.case-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; letter-spacing: -0.2px; }
-.case-card p { font-size: 13px; color: var(--ink-subtle); line-height: 1.55; }
-.case-data {
-  margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--hairline);
-  font-size: 13px; color: var(--primary); font-weight: 500; font-family: var(--font-mono);
-}
+.model-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px}
+.model-tag{padding:4px 12px;border-radius:6px;background:var(--surface);border:1px solid var(--border);font-size:12px;color:var(--text-secondary)}
 
-/* ===== MODEL TAGS ===== */
-.model-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 40px; }
-.model-tag {
-  padding: 4px 12px; border-radius: 6px; background: var(--surface-1);
-  border: 1px solid var(--hairline); font-size: 12px; color: var(--ink-subtle);
-  font-family: var(--font-mono);
-}
+.cards-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.model-card{background:var(--card);border-radius:12px;border:1px solid var(--border);padding:24px;transition:border-color .15s}
+.model-card:hover{border-color:var(--primary)}
+.model-card h3{font-size:16px;font-weight:600;margin-bottom:4px}
+.model-card .subtitle{font-size:13px;color:var(--text-secondary);margin-bottom:10px}
+.model-card .tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.model-card .tag{padding:2px 8px;border-radius:4px;font-size:11px;background:rgba(99,102,241,0.1);color:var(--primary)}
+.model-card .rating{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;margin-bottom:12px;font-size:12px}
+.model-card .rating .dim{color:var(--text-secondary)}
+.model-card .rating .score{text-align:right}
+.model-card .advice{font-size:13px;padding:10px;border-radius:8px;background:rgba(99,102,241,0.06);border:1px solid rgba(99,102,241,0.1)}
 
-/* ===== CARDS ROW ===== */
-.cards-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
-.model-card .subtitle { font-size: 13px; color: var(--ink-subtle); margin-bottom: 10px; }
-.model-card .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
-.model-card .tag {
-  padding: 2px 8px; border-radius: 4px; font-size: 11px;
-  background: rgba(94,106,210,0.1); color: var(--primary); font-weight: 500;
-}
-.model-card .rating { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; margin-bottom: 12px; font-size: 12px; }
-.model-card .rating .dim { color: var(--ink-subtle); }
-.model-card .rating .score { text-align: right; }
-.model-card .advice {
-  font-size: 13px; padding: 10px; border-radius: 8px;
-  background: rgba(94,106,210,0.06); border: 1px solid rgba(94,106,210,0.1);
-  line-height: 1.5; color: var(--ink-muted);
-}
+.cta-bar{padding:64px 24px;text-align:center;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.cta-bar p{font-size:15px;color:var(--text-secondary);margin-bottom:16px}
 
-/* ===== MATRIX TABLE ===== */
-.matrix-table { width: 100%; border-collapse: collapse; margin-bottom: 48px; font-size: 13px; }
-.matrix-table th {
-  background: var(--surface-1); padding: 10px 14px; text-align: center;
-  border: 1px solid var(--hairline); font-weight: 500; color: var(--ink); font-size: 12px;
-}
-.matrix-table td {
-  padding: 8px 14px; border: 1px solid var(--hairline);
-  color: var(--ink-subtle); text-align: center; font-size: 12px;
-}
-.matrix-table td:first-child { text-align: left; color: var(--ink); font-weight: 500; }
-.matrix-table .cell-best { color: var(--success); font-weight: 600; }
-.matrix-table .cell-good { color: var(--primary); }
+footer{border-top:1px solid var(--border);padding:40px 24px;text-align:center;font-size:13px;color:var(--text-secondary)}
+footer .codename{margin-top:8px;font-family:var(--font-mono);font-size:11px;color:rgba(136,136,160,0.5)}
 
-/* ===== DIMENSION CARDS ===== */
-.dim-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-bottom: 48px; }
-.dim-card { padding: 20px; }
-.dim-card .icon { font-size: 20px; margin-bottom: 8px; }
-.dim-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 6px; letter-spacing: -0.2px; }
-.dim-card p { font-size: 13px; color: var(--ink-subtle); line-height: 1.5; }
-
-/* ===== AGENT CARDS ===== */
-.agent-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
-.agent-card .agent-type {
-  font-size: 11px; color: var(--ink-tertiary); text-transform: uppercase;
-  letter-spacing: 0.5px; margin-bottom: 8px;
-}
-.agent-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
-.agent-card .agent-desc { font-size: 13px; color: var(--ink-subtle); line-height: 1.5; margin-bottom: 12px; }
-.agent-card .agent-meta {
-  display: flex; gap: 12px; font-size: 12px; color: var(--ink-tertiary);
-  padding-top: 12px; border-top: 1px solid var(--hairline);
-}
-.agent-card .agent-meta span { font-family: var(--font-mono); }
-
-/* ===== CTA BAR ===== */
-.cta-bar {
-  padding: 64px 24px; text-align: center;
-  border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline);
-}
-.cta-bar p { font-size: 15px; color: var(--ink-subtle); margin-bottom: 16px; }
-
-/* ===== SKILL CARDS ===== */
-.skill-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
-.skill-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
-.skill-card p { font-size: 13px; color: var(--ink-subtle); line-height: 1.5; margin-bottom: 12px; }
-.skill-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-.skill-tag {
-  padding: 2px 8px; border-radius: 4px; font-size: 11px;
-  background: rgba(39,166,68,0.1); color: var(--success); font-weight: 500;
-}
-
-/* ===== STEP CARDS ===== */
-.steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 48px; }
-.step-card { position: relative; padding: 20px; }
-.step-card .step-num {
-  font-size: 11px; font-weight: 600; color: var(--primary);
-  font-family: var(--font-mono); margin-bottom: 8px; letter-spacing: 0.3px;
-}
-.step-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
-.step-card p { font-size: 13px; color: var(--ink-subtle); line-height: 1.5; }
-
-/* ===== FOOTER ===== */
-footer {
-  border-top: 1px solid var(--hairline); padding: 48px 24px; text-align: center;
-  font-size: 13px; color: var(--ink-subtle);
-}
-footer .codename {
-  margin-top: 8px; font-family: var(--font-mono); font-size: 11px;
-  color: var(--ink-tertiary); letter-spacing: 0.3px;
-}
-
-@media (max-width: 640px) {
-  .nav-links { display: none; }
-  .hero-actions { flex-direction: column; align-items: center; }
-  .cases-grid, .cards-row, .agent-grid, .skill-grid, .dim-grid, .steps-grid { grid-template-columns: 1fr; }
-  .stats-row { grid-template-columns: 1fr 1fr; }
-  .section { padding: 64px 16px; }
+@media(max-width:640px){
+  .nav-links{display:none}
+  .hero-actions{flex-direction:column;align-items:center}
+  .cases-grid,.cards-row,.stats-row{grid-template-columns:1fr}
+  .section{padding:64px 16px}
 }
 </style>
 </head>
@@ -259,7 +105,7 @@ footer .codename {
 
 <nav>
   <div class="nav-inner">
-    <a href="index.html" style="text-decoration:none;"><div class="nav-brand">AI<span>.</span>驾驶舱</div></a>
+    <a href="index.html" style="text-decoration:none"><div class="nav-brand">AI<span>.</span>驾驶舱</div></a>
     <ul class="nav-links">
       <li><a href="models.html">选型</a></li>
       <li><a href="agents.html">广场</a></li>
@@ -271,13 +117,13 @@ footer .codename {
 </nav>
 
 <section class="hero">
-  <div class="hero-badge">智能体操作中心</div>
+  <div class="hero-badge"> 你的智能体操作中心</div>
   <h1>理解用户 <span class="sep">×</span> 理解大模型 <span class="sep">→</span> <span class="accent">心想事成</span></h1>
   <p class="hero-subtitle">
     市面上教你怎么用工具，我们帮你把<strong>智能体造出来</strong>。<br>
     <strong>80%</strong> 的企业 Agent 项目卡在试点→生产的跨越。我们有工业级质量门帮你跨过。
   </p>
-  <div class="hero-stat">⚡ Case 004 电子灸 → 判断力从 15.1% 跃升至 48.7%，提升 3 倍</div>
+  <div class="hero-stat">⚡ Case 004 电子灸 — 判断力从 15.1% 跃升至 48.7%，提升 3 倍</div>
   <div class="hero-actions">
     <a href="#" class="btn-primary">免费 AIQ 诊断，5 分钟出报告</a>
     <a href="workshop.html" class="btn-secondary">企业批量铸造 →</a>
@@ -285,71 +131,78 @@ footer .codename {
 </section>
 
 <div class="trust-bar">
-  <div class="label">为什么是我们</div>
+  <div class="label">行业数据 · 真实可查</div>
   <div class="trust-grid">
-    <div class="trust-item"><span class="num">456</span> 工业级质量门</div>
-    <div class="trust-item"><span class="num">93%</span> 跨越失败率 → 我们解决它</div>
-    <div class="trust-item"><span class="num">4件套</span> 智能体能力框架</div>
+    <div class="trust-item"><span class="num">93%</span> Agent 项目卡在生产跨越</div>
+    <div class="trust-item"><span class="num">456</span> 条工业级质量门</div>
+    <div class="trust-item"><span class="num">5</span> 个实证案例</div>
+    <div class="trust-item"><span class="num">15</span> 篇学术论文录用</div>
   </div>
 </div>
 
 <section class="section">
   <div class="section-label">核心数据</div>
-  <h2 class="section-title">企业 Agent 落地的真实图景</h2>
+  <h2 class="section-title">从真实项目看智能体如何被铸造</h2>
   <p class="section-desc">不是概念验证，是生产级质量。每一个铸造的智能体都经过 456 道质量门。</p>
   <div class="stats-row">
-    <div class="panel stat-card"><div class="big">93%</div><div class="label">企业 Agent 项目从试点到生产的跨越失败率</div></div>
-    <div class="panel stat-card"><div class="big">456</div><div class="label">工业级质量门，覆盖诊断→铸造→验证全链路</div></div>
-    <div class="panel stat-card"><div class="big">3×</div><div class="label">Case 004 判断力从 15.1% 提升至 48.7%</div></div>
-    <div class="panel stat-card"><div class="big">5维</div><div class="label">能力评估矩阵，放弃学术基准，对标真实场景</div></div>
+    <div class="panel stat-card"><div class="big">15.1% → 48.7%</div><div class="label">判断力跃升 3 倍 · Case 004 电子灸</div></div>
+    <div class="panel stat-card"><div class="big">87% → 93%</div><div class="label">全链路提升 · 虎哥 001 号</div></div>
+    <div class="panel stat-card"><div class="big">80.8%</div><div class="label">SWE-bench 最高 · Claude Opus</div></div>
+    <div class="panel stat-card"><div class="big">$0.435/M</div><div class="label">极致性价比 · DeepSeek V4</div></div>
   </div>
 </section>
 
 <section class="section">
   <div class="section-label">铸造案例</div>
-  <h2 class="section-title">真实场景，真实数据</h2>
+  <h2 class="section-title">从 5 个真实项目看智能体如何被铸造</h2>
   <p class="section-desc">每一个案例都经过三堂会审——不是分数，是行为表现。</p>
   <div class="cases-grid">
-    <div class="panel case-card">
+    <div class="case-card">
       <span class="case-tag pass">通过</span>
-      <h3>Case 001 · 智能客服铸造</h3>
-      <p>某电商平台客服 Agent，从工具脚本升级为完整智能体，约束遵从度 87%。</p>
-      <div class="case-data">约束遵从度 87% · 工具调用成功率 92%</div>
+      <h3>Case 001 · 虎哥 001 号</h3>
+      <p>全链路提升从 87% 到 93%，覆盖诊断、铸造、验证三个环节。</p>
+      <div class="case-data">全链路 87% → 93% · 约束遵从度提升 6%</div>
     </div>
-    <div class="panel case-card">
+    <div class="case-card">
       <span class="case-tag pass">通过</span>
-      <h3>Case 002 · 研报分析 Agent</h3>
+      <h3>Case 002 · 好二妹 002 号</h3>
       <p>三堂会审否决案例——反向验证评估系统的风险识别能力。</p>
       <div class="case-data">判断一致性提升 2.4× · 风险拦截率 96%</div>
     </div>
-    <div class="panel case-card veto">
+    <div class="case-card">
       <span class="case-tag veto">否决</span>
       <h3>Case 002 · 三堂会审否决</h3>
       <p>表面完美，但七维视角交叉验证发现深层逻辑断裂——否决。</p>
       <div class="case-data">否决原因：逻辑一致性不足 · 七维评分 3/7</div>
     </div>
-    <div class="panel case-card">
+    <div class="case-card">
       <span class="case-tag pass">通过</span>
-      <h3>Case 004 · 电子灸智能体</h3>
+      <h3>Case 004 · 电子灸</h3>
       <p>医疗场景 Agent，判断力从 15.1% 基线跃升至 48.7%，提升 3 倍。</p>
       <div class="case-data">判断力 15.1% → 48.7% · 任务拆解力提升 2.1×</div>
+    </div>
+    <div class="case-card">
+      <span class="case-tag pass">通过</span>
+      <h3>Case 005 · 智能客服</h3>
+      <p>某电商平台客服 Agent，从工具脚本升级为完整智能体。</p>
+      <div class="case-data">约束遵从度 87% · 工具调用成功率 92%</div>
     </div>
   </div>
 </section>
 
 <section class="section">
-  <div class="section-label">模型选型</div>
-  <h2 class="section-title">不是告诉你哪个分数高，是告诉你哪个适合你</h2>
-  <p class="section-desc">五大主流模型，五类场景标签，直接对号入座。</p>
+  <div class="section-label">模型速览</div>
+  <h2 class="section-title">不是告诉你哪个分数高，是告诉你哪个适合你的场景</h2>
+  <p class="section-desc">每个模型都有它的擅长面，选对模型比追求高分更重要。</p>
   <div class="model-tags">
-    <span class="model-tag">推理优先</span>
-    <span class="model-tag">多模态优先</span>
-    <span class="model-tag">性价比优先</span>
-    <span class="model-tag">代码优先</span>
-    <span class="model-tag">国内可用</span>
+    <span class="model-tag"> 推理优先</span>
+    <span class="model-tag">👁️ 多模态优先</span>
+    <span class="model-tag">💰 性价比优先</span>
+    <span class="model-tag">💻 代码优先</span>
+    <span class="model-tag">🇳 国内可用</span>
   </div>
   <div class="cards-row">
-    <div class="panel model-card">
+    <div class="model-card">
       <h3>Claude Sonnet 4.6</h3>
       <div class="subtitle">最懂约束 · 铸造首选</div>
       <div class="tags"><span class="tag">推理</span><span class="tag">SOP 严守</span><span class="tag">MCP 生态</span></div>
@@ -362,20 +215,7 @@ footer .codename {
       </div>
       <div class="advice">适合需要严格遵循 SOP 的铸造场景、MCP 生态成熟，约束遵从度业界最高。</div>
     </div>
-    <div class="panel model-card">
-      <h3>GPT-5.4 Codex</h3>
-      <div class="subtitle">全能标杆 · 终端执行</div>
-      <div class="tags"><span class="tag">代码</span><span class="tag">SWE-bench 最高</span><span class="tag">生态最大</span></div>
-      <div class="rating">
-        <span class="dim">推理深度</span><span class="score">★★★★★</span>
-        <span class="dim">约束遵从</span><span class="score">★★★★</span>
-        <span class="dim">多模态</span><span class="score">★★★★</span>
-        <span class="dim">代码能力</span><span class="score">★★★★★</span>
-        <span class="dim">性价比</span><span class="score">★★★</span>
-      </div>
-      <div class="advice">代码开发首选，生态系统最完善，终端执行能力强，适合端到端落地。</div>
-    </div>
-    <div class="panel model-card">
+    <div class="model-card">
       <h3>DeepSeek V4</h3>
       <div class="subtitle">性价比之王 · 中文最优</div>
       <div class="tags"><span class="tag">性价比</span><span class="tag">中文最优</span><span class="tag">开源第一</span></div>
@@ -388,34 +228,21 @@ footer .codename {
       </div>
       <div class="advice">成本仅 GPT 1/10，中文理解力最优，开源可自部署，大批量部署首选。</div>
     </div>
-    <div class="panel model-card">
-      <h3>Gemini 2.0</h3>
-      <div class="subtitle">多模态王者 · 谷歌生态</div>
-      <div class="tags"><span class="tag">多模态</span><span class="tag">视频理解</span><span class="tag">谷歌生态</span></div>
+    <div class="model-card">
+      <h3>GPT-5.4 Codex</h3>
+      <div class="subtitle">全能标杆 · 终端执行</div>
+      <div class="tags"><span class="tag">代码</span><span class="tag">SWE-bench 最高</span><span class="tag">生态最大</span></div>
       <div class="rating">
-        <span class="dim">推理深度</span><span class="score">★★★★</span>
-        <span class="dim">约束遵从</span><span class="score">★★★</span>
-        <span class="dim">多模态</span><span class="score">★★★★★</span>
-        <span class="dim">代码能力</span><span class="score">★★★</span>
-        <span class="dim">性价比</span><span class="score">★★★★</span>
-      </div>
-      <div class="advice">多模态交互场景首选，视频理解领先，与谷歌应用生态无缝整合。</div>
-    </div>
-    <div class="panel model-card">
-      <h3>GLM-5</h3>
-      <div class="subtitle">国内合规 · 企业首选</div>
-      <div class="tags"><span class="tag">国内可用</span><span class="tag">企业合规</span><span class="tag">数据安全</span></div>
-      <div class="rating">
-        <span class="dim">推理深度</span><span class="score">★★★★</span>
+        <span class="dim">推理深度</span><span class="score">★★★★★</span>
         <span class="dim">约束遵从</span><span class="score">★★★★</span>
         <span class="dim">多模态</span><span class="score">★★★★</span>
-        <span class="dim">代码能力</span><span class="score">★★★</span>
-        <span class="dim">性价比</span><span class="score">★★★★</span>
+        <span class="dim">代码能力</span><span class="score">★★★★★</span>
+        <span class="dim">性价比</span><span class="score">★★★</span>
       </div>
-      <div class="advice">企业合规场景首选，国内部署无忧，多模态能力均衡，数据安全有保障。</div>
+      <div class="advice">代码开发首选，生态系统最完善，终端执行能力强，适合端到端落地。</div>
     </div>
   </div>
-  <div style="margin-top: 24px;"><a href="models.html" class="btn-secondary">查看全部场景适配矩阵 →</a></div>
+  <div style="margin-top:24px"><a href="models.html" class="btn-secondary">查看全部模型对比 →</a></div>
 </section>
 
 <div class="cta-bar">

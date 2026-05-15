@@ -7,54 +7,42 @@
 <meta name="description" content="拿来就用，不用学。预置好四件套的标准场景 Skill 包。下载放入目录即生效。">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --nav-h:56px;--max-w:1120px;--canvas:#010102;--surface-1:#0f1011;--surface-2:#141516;--surface-3:#18191a;
-  --ink:#f7f8f8;--ink-muted:#d0d6e0;--ink-subtle:#8a8f98;--ink-tertiary:#62666d;
-  --primary:#5e6ad2;--primary-hover:#828fff;--hairline:#23252a;--hairline-strong:#34343a;
-  --gold:#d4a017;--gold-dim:rgba(212,160,23,0.12);--success:#27a644;
-  --font-sans:-apple-system,'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;
-  --font-mono:'SF Mono','Cascadia Code','JetBrains Mono',Consolas,monospace;
-}
+:root{--nav-h:56px;--max-w:1100px;--bg:#0a0a0f;--surface:#12121a;--card:#1a1a28;--text:#f0f0f3;--text-secondary:#8a8a96;--primary:#6366f1;--primary-hover:#818cf8;--g1:#6366f1;--g2:#a855f7;--gold:#f59e0b;--gold-dim:rgba(245,158,11,0.12);--border:#2a2a3a;--success:#22c55e;--font-sans:-apple-system,'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;--font-mono:'SF Mono','Cascadia Code','JetBrains Mono',Consolas,monospace}
 html{scroll-behavior:smooth}
-body{font-family:var(--font-sans);color:var(--ink);background:var(--canvas);-webkit-font-smoothing:antialiased;line-height:1.5}
-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:var(--canvas);border-bottom:1px solid var(--hairline);z-index:100;display:flex;align-items:center;justify-content:center}
+body{font-family:var(--font-sans);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.6}
+nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:rgba(10,10,15,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:100;display:flex;align-items:center;justify-content:center}
 .nav-inner{width:100%;max-width:var(--max-w);padding:0 24px;display:flex;align-items:center;justify-content:space-between}
-.nav-brand{font-size:14px;font-weight:600;letter-spacing:-.3px;color:var(--ink)}
-.nav-brand span{color:var(--primary)}
-.nav-links{display:flex;gap:32px;list-style:none;font-size:13px;color:var(--ink-subtle);font-weight:400}
+.nav-brand{font-size:15px;font-weight:600;color:var(--text);letter-spacing:-.3px}
+.nav-brand span{background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-links{display:flex;gap:28px;list-style:none;font-size:13px;color:var(--text-secondary)}
 .nav-links a{color:inherit;text-decoration:none;transition:color .15s}
-.nav-links a:hover{color:var(--ink)}
-.nav-links a.active{color:var(--ink)}
-.hero{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 48px;position:relative;background:linear-gradient(180deg,rgba(94,106,210,0.04) 0%,transparent 40%)}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;background:var(--surface-2);border:1px solid var(--hairline);font-size:12px;color:var(--ink-subtle);margin-bottom:28px;font-weight:500;letter-spacing:.4px;text-transform:uppercase}
-.hero h1{font-size:clamp(28px,5vw,52px);font-weight:600;line-height:1.1;letter-spacing:-1.5px;margin-bottom:16px}
-.hero h1 .accent{color:var(--primary)}
-.hero-subtitle{font-size:clamp(14px,1.8vw,17px);color:var(--ink-subtle);max-width:520px;line-height:1.6;margin-bottom:28px}
-.hero-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
-.btn-primary{padding:10px 24px;border-radius:8px;background:var(--primary);color:#fff;font-size:14px;font-weight:500;text-decoration:none;transition:background .15s}
-.btn-primary:hover{background:var(--primary-hover)}
-.btn-secondary{padding:10px 24px;border-radius:8px;background:var(--surface-1);border:1px solid var(--hairline);color:var(--ink);font-size:14px;font-weight:500;text-decoration:none;transition:border-color .15s}
-.btn-secondary:hover{border-color:var(--hairline-strong)}
+.nav-links a:hover{color:var(--text)}
+.nav-links a.active{color:var(--primary)}
+.hero{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1000px;height:800px;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(99,102,241,0.08) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:999px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);font-size:12px;color:var(--primary);margin-bottom:28px;font-weight:500}
+.hero h1{font-size:clamp(28px,5vw,56px);font-weight:600;line-height:1.1;letter-spacing:-1px;margin-bottom:16px;position:relative}
+.hero h1 .accent{background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-subtitle{font-size:clamp(14px,1.8vw,17px);color:var(--text-secondary);max-width:520px;line-height:1.7;margin-bottom:28px;position:relative}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;position:relative}
+.btn-primary{padding:12px 28px;border-radius:10px;background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;font-size:15px;font-weight:500;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(99,102,241,0.3)}
+.btn-secondary{padding:12px 28px;border-radius:10px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:15px;font-weight:500;text-decoration:none;transition:border-color .15s}
+.btn-secondary:hover{border-color:var(--primary)}
 .section{padding:96px 24px;max-width:var(--max-w);margin:0 auto}
-.section-label{font-size:13px;font-weight:500;letter-spacing:.4px;color:var(--primary);margin-bottom:12px;text-transform:uppercase}
-.section-title{font-size:clamp(24px,3.5vw,36px);font-weight:600;margin-bottom:12px;line-height:1.15;letter-spacing:-.8px}
-.section-desc{font-size:16px;color:var(--ink-subtle);max-width:560px;line-height:1.6;margin-bottom:48px}
-.panel{background:var(--surface-1);border:1px solid var(--hairline);border-radius:12px;padding:24px}
-.skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:48px}
-.skill-card .skill-type{font-size:11px;color:var(--ink-tertiary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
-.skill-card h3{font-size:15px;font-weight:600;margin-bottom:8px}
-.skill-card p{font-size:13px;color:var(--ink-subtle);line-height:1.5;margin-bottom:12px}
+.section-label{font-size:13px;font-weight:600;color:var(--primary);margin-bottom:12px;letter-spacing:.3px}
+.section-title{font-size:clamp(24px,3.5vw,36px);font-weight:600;margin-bottom:12px;line-height:1.2;letter-spacing:-.5px}
+.section-desc{font-size:16px;color:var(--text-secondary);max-width:600px;line-height:1.7;margin-bottom:48px}
+.panel{background:var(--card);border-radius:12px;border:1px solid var(--border);padding:24px}
+.skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:32px}
+.skill-card h3{font-size:16px;font-weight:600;margin-bottom:8px}
+.skill-card p{font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:14px}
 .skill-tags{display:flex;gap:6px;flex-wrap:wrap}
-.skill-tag{padding:2px 8px;border-radius:4px;font-size:11px;background:rgba(39,166,68,0.1);color:var(--success);font-weight:500}
-.install-steps{display:flex;flex-direction:column;gap:12px;margin-bottom:48px}
-.install-step{display:flex;gap:16px;align-items:flex-start}
-.install-step .num{font-size:13px;font-weight:600;color:var(--primary);font-family:var(--font-mono);min-width:24px;padding-top:2px}
-.install-step p{font-size:14px;color:var(--ink-muted);line-height:1.5}
-.install-step code{background:var(--surface-2);padding:2px 8px;border-radius:4px;font-family:var(--font-mono);font-size:13px;color:var(--ink)}
-.cta-bar{padding:64px 24px;text-align:center;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
-.cta-bar p{font-size:15px;color:var(--ink-subtle);margin-bottom:16px}
-footer{border-top:1px solid var(--hairline);padding:48px 24px;text-align:center;font-size:13px;color:var(--ink-subtle)}
-footer .codename{margin-top:8px;font-family:var(--font-mono);font-size:11px;color:var(--ink-tertiary);letter-spacing:.3px}
+.skill-tag{padding:2px 8px;border-radius:4px;font-size:11px;background:rgba(34,197,94,0.12);color:var(--success);font-weight:500}
+.t3-notice{padding:16px 20px;background:var(--surface);border:1px solid var(--border);border-radius:10px;font-size:13px;color:var(--text-secondary);text-align:center;margin-bottom:48px}
+.t3-notice strong{color:var(--gold)}
+footer{border-top:1px solid var(--border);padding:40px 24px;text-align:center;font-size:13px;color:var(--text-secondary)}
+footer .codename{margin-top:8px;font-family:var(--font-mono);font-size:11px;color:rgba(136,136,160,0.5)}
 @media(max-width:640px){.nav-links{display:none}.hero-actions{flex-direction:column;align-items:center}.skill-grid{grid-template-columns:1fr}.section{padding:64px 16px}}
 </style>
 </head>
@@ -87,68 +75,28 @@ footer .codename{margin-top:8px;font-family:var(--font-mono);font-size:11px;colo
   <p class="section-desc">每个 Skill 包已预置 SOUL（价值观）、AGENTS（工作流）、USER（画像）、IDENTITY（禁区）。下载后放在 Skills 目录下即可。</p>
   <div class="skill-grid">
     <div class="panel skill-card">
-      <div class="skill-type">销售场景</div>
-      <h3>智能化销售跟进</h3>
+      <h3>🤝 销售助手</h3>
       <p>自动管理客户画像、跟进节奏、话术优化。基于 SOUL 价值观驱动的销售行为校准，不越界、不骚扰。</p>
-      <div class="skill-tags">
-        <span class="skill-tag">SOUL ✓</span><span class="skill-tag">AGENTS ✓</span>
-        <span class="skill-tag">USER ✓</span><span class="skill-tag">IDENTITY ✓</span>
-      </div>
+      <div class="skill-tags"><span class="skill-tag">SOUL ✓</span><span class="skill-tag">AGENTS ✓</span><span class="skill-tag">USER ✓</span><span class="skill-tag">IDENTITY ✓</span></div>
     </div>
     <div class="panel skill-card">
-      <div class="skill-type">代码审查</div>
-      <h3>自动化 Code Review</h3>
+      <h3>💻 代码审查</h3>
       <p>基于决策评估系统（原三堂会审）的七维视角交叉验证代码质量。自动化审查 + 改进建议。</p>
-      <div class="skill-tags">
-        <span class="skill-tag">SOUL ✓</span><span class="skill-tag">AGENTS ✓</span>
-        <span class="skill-tag">IDENTITY ✓</span>
-      </div>
+      <div class="skill-tags"><span class="skill-tag">SOUL ✓</span><span class="skill-tag">AGENTS ✓</span><span class="skill-tag">IDENTITY ✓</span></div>
     </div>
     <div class="panel skill-card">
-      <div class="skill-type">智能客服</div>
-      <h3>24/7 智能客服</h3>
+      <h3>🎧 客服专家</h3>
       <p>严格的身份边界（IDENTITY）和响应流程（AGENTS），确保每次对话合规。支持自定义知识库接入。</p>
-      <div class="skill-tags">
-        <span class="skill-tag">SOUL ✓</span><span class="skill-tag">AGENTS ✓</span>
-        <span class="skill-tag">USER ✓</span><span class="skill-tag">IDENTITY ✓</span>
-      </div>
+      <div class="skill-tags"><span class="skill-tag">SOUL ✓</span><span class="skill-tag">AGENTS ✓</span><span class="skill-tag">USER ✓</span><span class="skill-tag">IDENTITY ✓</span></div>
     </div>
     <div class="panel skill-card">
-      <div class="skill-type">研报分析</div>
-      <h3>行业研报分析</h3>
-      <p>多源数据采集 → 交叉验证 → 结构化输出。覆盖宏观、行业、公司三个维度。</p>
-      <div class="skill-tags">
-        <span class="skill-tag">SOUL ✓</span><span class="skill-tag">AGENTS ✓</span>
-        <span class="skill-tag">USER ✓</span><span class="skill-tag">IDENTITY ✓</span>
-      </div>
+      <h3>📊 研报分析</h3>
+      <p>多源数据采集 → 交叉验证 → 结构化输出。覆盖宏观、行业、公司三个维度，输出可引用的分析结论。</p>
+      <div class="skill-tags"><span class="skill-tag">SOUL ✓</span><span class="skill-tag">AGENTS ✓</span><span class="skill-tag">USER ✓</span><span class="skill-tag">IDENTITY ✓</span></div>
     </div>
   </div>
+  <div class="t3-notice">💡 <strong>T3 上线提示</strong>：下载功能 T3 版本上线，当前为模板展示版。</div>
 </section>
-
-<section class="section">
-  <div class="section-label">安装指南</div>
-  <h2 class="section-title">三步完成配置</h2>
-  <p class="section-desc">不需要学习，不需要配置。下载、放入目录、重启。</p>
-  <div class="install-steps">
-    <div class="install-step">
-      <div class="num">01</div>
-      <p>下载 Skill 包到本地 <code>Skills/</code> 目录</p>
-    </div>
-    <div class="install-step">
-      <div class="num">02</div>
-      <p>确认包含 SOUL / AGENTS / USER / IDENTITY 四个文件</p>
-    </div>
-    <div class="install-step">
-      <div class="num">03</div>
-      <p>重启你的 Agent，Skill 自动生效</p>
-    </div>
-  </div>
-</section>
-
-<div class="cta-bar">
-  <p>需要定制你的专属 Skill 包？联系我们，针对你的场景量身定制。</p>
-  <a href="#" class="btn-secondary">联系定制 →</a>
-</div>
 
 <footer>
   <p>首发于 2026-05-15 · 持续修订中</p>

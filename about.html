@@ -4,53 +4,52 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>关于 — AI驾驶舱</title>
-<meta name="description" content="AI驾驶舱团队：吉哥、虎哥、好妹、好二妹。四件套浇灌方法论的创造者。">
+<meta name="description" content="AI驾驶舱团队：好灵儿、虎哥、好妹。四件套浇灌方法论的创造者。">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --nav-h:56px;--max-w:1120px;--canvas:#010102;--surface-1:#0f1011;--surface-2:#141516;--surface-3:#18191a;
-  --ink:#f7f8f8;--ink-muted:#d0d6e0;--ink-subtle:#8a8f98;--ink-tertiary:#62666d;
-  --primary:#5e6ad2;--primary-hover:#828fff;--hairline:#23252a;--hairline-strong:#34343a;
-  --gold:#d4a017;--gold-dim:rgba(212,160,23,0.12);--success:#27a644;
-  --font-sans:-apple-system,'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;
-  --font-mono:'SF Mono','Cascadia Code','JetBrains Mono',Consolas,monospace;
-}
+:root{--nav-h:56px;--max-w:1100px;--bg:#0a0a0f;--surface:#12121a;--card:#1a1a28;--text:#f0f0f3;--text-secondary:#8a8a96;--primary:#6366f1;--primary-hover:#818cf8;--g1:#6366f1;--g2:#a855f7;--gold:#f59e0b;--gold-dim:rgba(245,158,11,0.12);--border:#2a2a3a;--success:#22c55e;--font-sans:-apple-system,'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;--font-mono:'SF Mono','Cascadia Code','JetBrains Mono',Consolas,monospace}
 html{scroll-behavior:smooth}
-body{font-family:var(--font-sans);color:var(--ink);background:var(--canvas);-webkit-font-smoothing:antialiased;line-height:1.5}
-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:var(--canvas);border-bottom:1px solid var(--hairline);z-index:100;display:flex;align-items:center;justify-content:center}
+body{font-family:var(--font-sans);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.6}
+nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:rgba(10,10,15,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:100;display:flex;align-items:center;justify-content:center}
 .nav-inner{width:100%;max-width:var(--max-w);padding:0 24px;display:flex;align-items:center;justify-content:space-between}
-.nav-brand{font-size:14px;font-weight:600;letter-spacing:-.3px;color:var(--ink)}
-.nav-brand span{color:var(--primary)}
-.nav-links{display:flex;gap:32px;list-style:none;font-size:13px;color:var(--ink-subtle);font-weight:400}
+.nav-brand{font-size:15px;font-weight:600;color:var(--text);letter-spacing:-.3px}
+.nav-brand span{background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-links{display:flex;gap:28px;list-style:none;font-size:13px;color:var(--text-secondary)}
 .nav-links a{color:inherit;text-decoration:none;transition:color .15s}
-.nav-links a:hover{color:var(--ink)}
-.nav-links a.active{color:var(--ink)}
-.hero{min-height:50vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 48px;position:relative;background:linear-gradient(180deg,rgba(94,106,210,0.04) 0%,transparent 40%)}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;background:var(--surface-2);border:1px solid var(--hairline);font-size:12px;color:var(--ink-subtle);margin-bottom:28px;font-weight:500;letter-spacing:.4px;text-transform:uppercase}
-.hero h1{font-size:clamp(28px,5vw,52px);font-weight:600;line-height:1.1;letter-spacing:-1.5px;margin-bottom:16px}
-.hero h1 .accent{color:var(--primary)}
-.hero-subtitle{font-size:clamp(14px,1.8vw,17px);color:var(--ink-subtle);max-width:520px;line-height:1.6}
+.nav-links a:hover{color:var(--text)}
+.nav-links a.active{color:var(--primary)}
+.hero{min-height:50vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1000px;height:800px;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(99,102,241,0.08) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:999px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);font-size:12px;color:var(--primary);margin-bottom:28px;font-weight:500}
+.hero h1{font-size:clamp(28px,5vw,56px);font-weight:600;line-height:1.1;letter-spacing:-1px;margin-bottom:16px;position:relative}
+.hero h1 .accent{background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-subtitle{font-size:clamp(14px,1.8vw,17px);color:var(--text-secondary);max-width:520px;line-height:1.7;position:relative}
 .section{padding:96px 24px;max-width:var(--max-w);margin:0 auto}
-.section-label{font-size:13px;font-weight:500;letter-spacing:.4px;color:var(--primary);margin-bottom:12px;text-transform:uppercase}
-.section-title{font-size:clamp(24px,3.5vw,36px);font-weight:600;margin-bottom:12px;line-height:1.15;letter-spacing:-.8px}
-.section-desc{font-size:16px;color:var(--ink-subtle);max-width:560px;line-height:1.6;margin-bottom:48px}
-.panel{background:var(--surface-1);border:1px solid var(--hairline);border-radius:12px;padding:24px}
-.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:48px}
-.team-card .role{font-size:11px;color:var(--ink-tertiary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
-.team-card h3{font-size:15px;font-weight:600;margin-bottom:8px}
-.team-card p{font-size:13px;color:var(--ink-subtle);line-height:1.5}
-.values-list{display:flex;flex-direction:column;gap:8px;margin-bottom:48px}
-.value-item{display:flex;gap:12px;align-items:flex-start;padding:16px 20px}
-.value-item .icon{font-size:16px;min-width:24px;padding-top:1px}
-.value-item .text{font-size:14px;color:var(--ink-muted);line-height:1.5}
-.value-item .text strong{color:var(--ink);font-weight:600}
-.cta-bar{padding:64px 24px;text-align:center;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
-.cta-bar p{font-size:15px;color:var(--ink-subtle);margin-bottom:16px}
-.btn-primary{padding:10px 24px;border-radius:8px;background:var(--primary);color:#fff;font-size:14px;font-weight:500;text-decoration:none;transition:background .15s;display:inline-block}
-.btn-primary:hover{background:var(--primary-hover)}
-footer{border-top:1px solid var(--hairline);padding:48px 24px;text-align:center;font-size:13px;color:var(--ink-subtle)}
-footer .codename{margin-top:8px;font-family:var(--font-mono);font-size:11px;color:var(--ink-tertiary);letter-spacing:.3px}
-@media(max-width:640px){.nav-links{display:none}.team-grid{grid-template-columns:1fr}.section{padding:64px 16px}}
+.section-label{font-size:13px;font-weight:600;color:var(--primary);margin-bottom:12px;letter-spacing:.3px}
+.section-title{font-size:clamp(24px,3.5vw,36px);font-weight:600;margin-bottom:12px;line-height:1.2;letter-spacing:-.5px}
+.section-desc{font-size:16px;color:var(--text-secondary);max-width:600px;line-height:1.7;margin-bottom:48px}
+.panel{background:var(--card);border-radius:12px;border:1px solid var(--border);padding:24px}
+.timeline{display:flex;gap:16px;margin-bottom:48px;align-items:stretch}
+.timeline-item{flex:1;padding:24px;position:relative}
+.timeline-item .phase{font-size:11px;color:var(--text-secondary);font-family:var(--font-mono);margin-bottom:8px;letter-spacing:.3px}
+.timeline-item h3{font-size:16px;font-weight:600;margin-bottom:8px}
+.timeline-item p{font-size:13px;color:var(--text-secondary);line-height:1.5}
+.timeline-item .timeline-date{font-size:12px;color:var(--primary);margin-top:10px;font-weight:500}
+.timeline-arrow{display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:20px;min-width:24px}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:48px}
+.team-card h3{font-size:16px;font-weight:600;margin-bottom:4px}
+.team-card .team-role{font-size:12px;color:var(--primary);margin-bottom:10px;font-weight:500}
+.team-card p{font-size:13px;color:var(--text-secondary);line-height:1.5}
+.beliefs-list{display:flex;flex-direction:column;gap:12px;margin-bottom:48px}
+.belief-item{display:flex;gap:16px;align-items:flex-start;padding:16px 20px}
+.belief-item .belief-icon{font-size:18px;min-width:24px;padding-top:1px}
+.belief-item .belief-text{font-size:14px;color:var(--text-secondary);line-height:1.5}
+.belief-item .belief-text strong{color:var(--text);font-weight:600}
+.cta-bar{padding:64px 24px;text-align:center;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.cta-bar p{font-size:15px;color:var(--text-secondary);margin-bottom:16px}
+footer{border-top:1px solid var(--border);padding:40px 24px;text-align:center;font-size:13px;color:var(--text-secondary)}
+footer .codename{margin-top:8px;font-family:var(--font-mono);font-size:11px;color:rgba(136,136,160,0.5)}
+@media(max-width:640px){.nav-links{display:none}.timeline{flex-direction:column}.timeline-arrow{transform:rotate(90deg)}.team-grid{grid-template-columns:1fr}.section{padding:64px 16px}}
 </style>
 </head>
 <body>
@@ -74,42 +73,63 @@ footer .codename{margin-top:8px;font-family:var(--font-mono);font-size:11px;colo
 </section>
 
 <section class="section">
-  <div class="section-label">核心团队</div>
-  <h2 class="section-title">四人核心圈</h2>
-  <p class="section-desc">吉哥（方向判断+最终决策）、虎哥（战略审议+工程交付）、好妹（信息整合+内容运营）、好二妹（理论框架+研究分析）。非必要不增加新成员，聚焦才能打穿。</p>
-  <div class="team-grid">
-    <div class="panel team-card">
-      <div class="role">创始人 · 决策</div>
-      <h3>吉哥</h3>
-      <p>新能源+健康双赛道创业者。多 Agent 系统构建者。要的是判断，不是长文。左脑·逻辑。</p>
+  <div class="section-label">发展路径</div>
+  <h2 class="section-title">三级跳</h2>
+  <p class="section-desc">从手艺活到产品化，每一步都是实打实的交付。</p>
+  <div class="timeline">
+    <div class="panel timeline-item">
+      <div class="phase">Phase 1</div>
+      <h3>手艺活</h3>
+      <p>手工铸造每一个 Agent，逐行调试，逐个验证。积累经验，沉淀方法论。</p>
+      <div class="timeline-date">2026 年 4 月 — 5 月初</div>
     </div>
-    <div class="panel team-card">
-      <div class="role">COO · 审议+交付</div>
-      <h3>虎哥 🐯</h3>
-      <p>战略审议+工程交付。能扛事的兄弟。右脑·审议。四件套浇灌的实证层贡献者。</p>
+    <div class="timeline-arrow">→</div>
+    <div class="panel timeline-item">
+      <div class="phase">Phase 2</div>
+      <h3>流水线</h3>
+      <p>四件套浇灌 + 456 质量门标准化。从单点突破到批量复制，效率提升 3 倍。</p>
+      <div class="timeline-date">2026 年 5 月上旬</div>
     </div>
-    <div class="panel team-card">
-      <div class="role">内容 · 整合</div>
-      <h3>好妹</h3>
-      <p>信息整合+内容运营。出框架、出文案、出信息架构。方向性决策统筹者。</p>
-    </div>
-    <div class="panel team-card">
-      <div class="role">理论 · 框架</div>
-      <h3>好二妹</h3>
-      <p>理论框架+研究分析。出框架我出交付。四件套浇灌的规律层贡献者。</p>
+    <div class="timeline-arrow">→</div>
+    <div class="panel timeline-item">
+      <div class="phase">Phase 3</div>
+      <h3>产品化</h3>
+      <p>AIQ 诊断 + Skill 包一键配置。从重度服务向产品模型转型，质量门自动化 >50%。</p>
+      <div class="timeline-date">2026 年 5 月 15 日</div>
     </div>
   </div>
 </section>
 
 <section class="section">
-  <div class="section-label">核心价值观</div>
+  <div class="section-label">核心团队</div>
+  <h2 class="section-title">三人核心圈</h2>
+  <div class="team-grid">
+    <div class="panel team-card">
+      <h3>好灵儿</h3>
+      <div class="team-role">CAIO · 首席 AI 官</div>
+      <p>战略推演 + 专项研究。虎哥做 COO 全面管理，好灵儿做专项战略推演。</p>
+    </div>
+    <div class="panel team-card">
+      <h3>虎哥 🐯</h3>
+      <div class="team-role">COO · 运营官</div>
+      <p>战略审议 + 工程交付。能扛事的兄弟。四件套浇灌的实证层贡献者。</p>
+    </div>
+    <div class="panel team-card">
+      <h3>好妹</h3>
+      <div class="team-role">SAS 教务长</div>
+      <p>信息整合 + 内容运营。出框架、出文案、出信息架构。方向性决策统筹者。</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label">核心信条</div>
   <h2 class="section-title">我们相信什么</h2>
-  <div class="values-list">
-    <div class="panel value-item"><div class="icon"></div><div class="text"><strong>致良知</strong>——良知为体，致良知。这是我们的底层操作系统。</div></div>
-    <div class="panel value-item"><div class="icon">⚡</div><div class="text"><strong>知行合一</strong>——决策即行动，不反复确认。说了就做。</div></div>
-    <div class="panel value-item"><div class="icon">🔬</div><div class="text"><strong>实事求是</strong>——用数据说话，不编造，不夸大。不知道就说不知道。</div></div>
-    <div class="panel value-item"><div class="icon">🤝</div><div class="text"><strong>敬天爱人</strong>——对客户负责，对团队负责，对结果负责。</div></div>
-    <div class="panel value-item"><div class="icon">🌱</div><div class="text"><strong>身心AI即负熵</strong>——人脑+AI协作，在熵增宇宙中创造有序。</div></div>
+  <div class="beliefs-list">
+    <div class="panel belief-item"><div class="belief-icon"></div><div class="belief-text"><strong>好的约束不是限制，是加速器。</strong>框架催化原理——思考力是在正确的约束场中自涌现的。</div></div>
+    <div class="panel belief-item"><div class="belief-icon"></div><div class="belief-text"><strong>认证 > 证书。</strong>每一位认证学员都经过 AIQ 基线诊断 + 456 道质量门验证，数据可溯源。</div></div>
+    <div class="panel belief-item"><div class="belief-icon"></div><div class="belief-text"><strong>不做保姆，做教练。</strong>我们授人以渔，不是替你做。框架给你，工具给你，路自己走。</div></div>
+    <div class="panel belief-item"><div class="belief-icon"></div><div class="belief-text"><strong>456 道门是定价权。</strong>工业级质量不是口号，是 456 道门一道一道守出来的。这就是我们的定价权。</div></div>
   </div>
 </section>
 
