@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智能体铸造工坊 — AI驾驶舱</title>
+<meta name="description" content="智能体铸造工坊：能力框架、思维克隆引擎、决策评估系统、能力验证体系。从诊断到铸造到验证的一站式平台。">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --nav-h: 64px; --max-w: 1100px;
+  --clr-bg: #0a0a0f; --clr-surface: #12121a; --clr-card: #1a1a28;
+  --clr-text: #e8e8ef; --clr-text-secondary: #8888a0;
+  --clr-accent: #6366f1; --clr-accent-glow: rgba(99,102,241,0.3);
+  --clr-gold: #f59e0b; --clr-gold-dim: rgba(245,158,11,0.15);
+  --clr-border: #2a2a3a;
+  --clr-g1: #6366f1; --clr-g2: #a855f7; --clr-g3: #ec4899;
+  --font-sans: -apple-system,'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-sans); color: var(--clr-text); background: var(--clr-bg); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+
+nav {
+  position:fixed; top:0; left:0; right:0; height:var(--nav-h);
+  background:rgba(10,10,15,0.85); backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--clr-border); z-index:100;
+  display:flex; align-items:center; justify-content:center;
+}
+.nav-inner {
+  width:100%; max-width:var(--max-w); padding:0 24px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.nav-brand {
+  font-size:18px; font-weight:700;
+  background:linear-gradient(135deg,var(--clr-g1),var(--clr-g2));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.nav-links { display:flex; gap:28px; list-style:none; font-size:14px; color:var(--clr-text-secondary); }
+.nav-links a { color:inherit; text-decoration:none; transition:color 0.2s; }
+.nav-links a:hover { color:var(--clr-text); }
+.nav-links a.active { color:var(--clr-accent); font-weight:600; }
+
+.hero {
+  min-height:60vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:120px 24px 80px; position:relative; overflow:hidden;
+}
+.hero::before {
+  content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
+  background:radial-gradient(ellipse at 50% 40%,rgba(99,102,241,0.08) 0%,transparent 60%),
+    radial-gradient(ellipse at 60% 60%,rgba(168,85,247,0.06) 0%,transparent 50%);
+  pointer-events:none;
+}
+.hero-badge {
+  display:inline-flex; align-items:center; gap:8px; padding:6px 16px; border-radius:100px;
+  background:rgba(99,102,241,0.1); border:1px solid rgba(99,102,241,0.2);
+  font-size:13px; color:var(--clr-accent); margin-bottom:24px; position:relative;
+}
+.hero h1 {
+  font-size:clamp(32px,5vw,56px); font-weight:800; line-height:1.15;
+  margin-bottom:16px; position:relative;
+}
+.hero h1 .gradient {
+  background:linear-gradient(135deg,var(--clr-g1),var(--clr-g2),var(--clr-g3));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.hero-subtitle {
+  font-size:clamp(15px,2vw,20px); color:var(--clr-text-secondary);
+  max-width:600px; line-height:1.7; margin-bottom:32px; position:relative;
+}
+.btn-primary {
+  padding:14px 36px; border-radius:12px;
+  background:linear-gradient(135deg,var(--clr-g1),var(--clr-g2));
+  color:#fff; font-size:16px; font-weight:600; text-decoration:none;
+  transition:transform .2s,box-shadow .2s; box-shadow:0 0 30px var(--clr-accent-glow);
+  display:inline-block;
+}
+.btn-primary:hover { transform:translateY(-2px); box-shadow:0 0 50px var(--clr-accent-glow); }
+.btn-secondary {
+  padding:14px 36px; border-radius:12px; background:var(--clr-card);
+  border:1px solid var(--clr-border); color:var(--clr-text);
+  font-size:16px; font-weight:500; text-decoration:none; transition:border-color .2s;
+  display:inline-block;
+}
+.btn-secondary:hover { border-color:var(--clr-accent); }
+
+.section { padding:100px 24px; max-width:var(--max-w); margin:0 auto; }
+.section-label { font-size:13px; text-transform:uppercase; letter-spacing:2px; color:var(--clr-accent); margin-bottom:12px; font-weight:600; }
+.section-title { font-size:clamp(28px,4vw,42px); font-weight:700; margin-bottom:16px; line-height:1.3; }
+.section-desc { font-size:17px; color:var(--clr-text-secondary); max-width:640px; line-height:1.7; margin-bottom:48px; }
+
+.cards-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; margin-bottom:60px; }
+.module-card { background:var(--clr-card); border-radius:14px; padding:28px; border:1px solid var(--clr-border); transition:border-color .3s; }
+.module-card:hover { border-color:var(--clr-accent); }
+.module-card .icon { font-size:28px; margin-bottom:8px; }
+.module-card h3 { font-size:17px; margin-bottom:8px; }
+.module-card p { font-size:14px; color:var(--clr-text-secondary); line-height:1.7; }
+.module-card .expand { margin-top:12px; font-size:13px; color:var(--clr-accent); padding:8px 12px; background:rgba(99,102,241,0.06); border-radius:8px; }
+
+.cases-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; }
+.case-card { background:var(--clr-card); border-radius:14px; padding:28px; border:1px solid var(--clr-border); transition:border-color .3s; }
+.case-card:hover { border-color:var(--clr-accent); }
+.case-card.veto { border-color:rgba(239,68,68,0.3); background:rgba(239,68,68,0.04); }
+.case-card.veto:hover { border-color:#ef4444; }
+.case-tag { display:inline-block; padding:3px 10px; border-radius:6px; font-size:12px; font-weight:600; margin-bottom:12px; }
+.case-tag.pass { background:rgba(34,197,94,0.15); color:#22c55e; }
+.case-tag.veto { background:rgba(239,68,68,0.15); color:#ef4444; }
+.case-card h3 { font-size:17px; margin-bottom:8px; }
+.case-card p { font-size:14px; color:var(--clr-text-secondary); line-height:1.6; }
+.case-data { margin-top:16px; padding-top:16px; border-top:1px solid var(--clr-border); font-size:14px; color:var(--clr-accent); font-weight:500; }
+
+.data-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; margin-bottom:48px; }
+.data-card { background:var(--clr-card); border-radius:12px; padding:24px; text-align:center; border:1px solid var(--clr-border); }
+.data-card .big { font-size:32px; font-weight:800; background:linear-gradient(135deg,var(--clr-g1),var(--clr-g2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.data-card .label { font-size:13px; color:var(--clr-text-secondary); margin-top:6px; }
+
+.cta-bar { padding:48px 24px; text-align:center; border-top:1px solid var(--clr-border); border-bottom:1px solid var(--clr-border); }
+.cta-bar p { font-size:16px; color:var(--clr-text-secondary); margin-bottom:20px; }
+
+footer { border-top:1px solid var(--clr-border); padding:32px 24px; text-align:center; font-size:13px; color:var(--clr-text-secondary); }
+footer .codename { margin-top:8px; font-size:12px; color:rgba(136,136,160,0.5); }
+
+@media (max-width:640px) { .nav-links { display:none; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" style="text-decoration:none;"><div class="nav-brand">AI 驾驶舱</div></a>
+    <ul class="nav-links">
+      <li><a href="models.html">选型</a></li>
+      <li><a href="agents.html">广场</a></li>
+      <li><a href="workshop.html" class="active">工坊</a></li>
+      <li><a href="academy.html">商学院</a></li>
+      <li><a href="skills.html">配置</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">🔧 智能体铸造工坊</div>
+  <h1>从诊断到铸造到验证<br><span class="gradient">一站式智能体生产线</span></h1>
+  <p class="hero-subtitle">四大模块闭环运作，工业级质量门确保每个 Agent 达到生产标准。</p>
+</section>
+
+<section class="section">
+  <div class="section-label">四大模块</div>
+  <h2 class="section-title">铸造工坊的核心里程碑</h2>
+  <p class="section-desc">从诊断到铸造到验证，每一步都有对应模块支撑。</p>
+  <div class="cards-row">
+    <div class="module-card">
+      <div class="icon">📐</div>
+      <h3>智能体能力框架</h3>
+      <p>定义 Agent 的行为边界、角色身份、价值观准则和禁区列表。铸造质量的基石。</p>
+      <div class="expand">包含：角色定义 → 行为规范 → 价值对齐 → 禁止区域</div>
+    </div>
+    <div class="module-card">
+      <div class="icon">🧠</div>
+      <h3>思维克隆引擎</h3>
+      <p>将高质量人类的思考模式注入智能体，让 Agent 学会"怎么想而不是只知道答案"。</p>
+      <div class="expand">支持：思维链提取 → 推理范式建模 → 多角度思考注入</div>
+    </div>
+    <div class="module-card">
+      <div class="icon">⚖️</div>
+      <h3>决策评估系统</h3>
+      <p>在 Agent 输出前进行风险预判和合规检查，确保每个决策都在安全边界内。</p>
+      <div class="expand">覆盖：风险评估 → 合规检查 → 冲突检测 → 否决机制</div>
+    </div>
+    <div class="module-card">
+      <div class="icon">✅</div>
+      <h3>能力验证体系</h3>
+      <p>456 条工业级质量门，从角色理解到判断一致性逐项检验，数据可溯源。</p>
+      <div class="expand">维度：角色理解力 · 约束遵从度 · 任务拆解力 · 判断一致性</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label">行业数据</div>
+  <h2 class="section-title">真实数据 · 可溯源</h2>
+  <p class="section-desc">来自 5 个实证案例和持续迭代的测试结果。</p>
+  <div class="data-row">
+    <div class="data-card"><div class="big">93%</div><div class="label">Agent 项目卡在生产跨越</div></div>
+    <div class="data-card"><div class="big">456</div><div class="label">条工业级质量门</div></div>
+    <div class="data-card"><div class="big">5</div><div class="label">个实证案例已闭环</div></div>
+    <div class="data-card"><div class="big">15</div><div class="label">篇学术论文录用</div></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label">实证案例</div>
+  <h2 class="section-title">从 5 个真实项目看智能体如何被铸造</h2>
+  <p class="section-desc">每个案例都经历了 AIQ 诊断 → 能力框架注入 → 质量门验证的完整闭环。</p>
+  <div class="cases-grid">
+    <div class="case-card"><span class="case-tag pass">✅ 通过</span><h3>Case 001 · 频谱护目镜</h3><p>首浇灌验证，跑通智能体能力框架最小闭环。</p><div class="case-data">Conditional Go ✅</div></div>
+    <div class="case-card veto"><span class="case-tag veto">❌ 否决</span><h3>Case 002 · SP3 侦察服</h3><p>决策评估系统介入，识别安全数据缺失风险。否决本身就是方法论的证明。</p><div class="case-data" style="color:#ef4444;">否决暂缓 · 识别风险比盲目推进更重要</div></div>
+    <div class="case-card"><span class="case-tag pass">✅ 通过</span><h3>Case 003 · 发热墙板</h3><p>智能体能力框架全链路验证，从价值观到边界禁区逐层铸造。</p><div class="case-data">基线 87% → 铸造 93%</div></div>
+    <div class="case-card"><span class="case-tag pass">✅ 通过</span><h3>Case 004 · 电子灸</h3><p>先 B 端医疗试点后 C 端众筹，以 A 养 B 的智能化路径。</p><div class="case-data">判断力 15.1% → 48.7%，提升 3 倍</div></div>
+    <div class="case-card"><span class="case-tag pass">✅ 通过</span><h3>Case 005 · 飞机除冰</h3><p>跨域角色验证，证明浇灌方法论具备行业迁移能力。</p><div class="case-data">已闭环 · 跨行业可迁移</div></div>
+  </div>
+</section>
+
+<div class="cta-bar">
+  <p>企业级智能体铸造，从诊断到交付一条龙服务</p>
+  <a href="#" class="btn-primary">企业批量铸造 →</a>
+</div>
+
+<footer>
+  <p>首发于 2026-05-15 · 持续修订中</p>
+  <p class="codename">内部代号：四件套浇灌 · 456 质量门 · 榨思维 · 三堂会审</p>
+</footer>
+
+</body>
+</html>
