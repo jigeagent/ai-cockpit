@@ -3,84 +3,113 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>智能体铸造工坊 — AI驾驶舱</title>
+<title>铸造工坊 — AI驾驶舱</title>
 <meta name="description" content="从诊断到铸造到验证，一站式智能体生产线。四大模块闭环运作，工业级质量门确保每个 Agent 达到生产标准。">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--nav-h:56px;--max-w:1100px;--bg:#0a0a0f;--surface:#12121a;--card:#1a1a28;--text:#f0f0f3;--text-secondary:#8a8a96;--primary:#6366f1;--primary-hover:#818cf8;--g1:#6366f1;--g2:#a855f7;--gold:#f59e0b;--gold-dim:rgba(245,158,11,0.12);--border:#2a2a3a;--success:#22c55e;--font-sans:-apple-system,'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;--font-mono:'SF Mono','Cascadia Code','JetBrains Mono',Consolas,monospace}
+:root{
+  --bg:#0d1117;--surface:#161b22;--card:#1c2128;
+  --text:#e6edf3;--text-secondary:#8b949e;
+  --border:#30363d;--border-light:#484f58;
+  --brand:#5E6AD2;--brand-hover:#7b84e0;--brand-dim:rgba(94,106,210,0.1);--brand-border:rgba(94,106,210,0.25);
+  --gold:#f59e0b;--success:#3fb950;--danger:#f85149;
+  --radius:10px;--max-w:1100px;--nav-h:56px;--transition:0.15s ease;
+}
 html{scroll-behavior:smooth}
-body{font-family:var(--font-sans);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.6}
-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:rgba(10,10,15,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:100;display:flex;align-items:center;justify-content:center}
+body{font-family:-apple-system,'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:15px;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+
+.nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:rgba(13,17,23,0.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:1000;display:flex;align-items:center;justify-content:center}
 .nav-inner{width:100%;max-width:var(--max-w);padding:0 24px;display:flex;align-items:center;justify-content:space-between}
-.nav-brand{font-size:15px;font-weight:600;color:var(--text);letter-spacing:-.3px}
-.nav-brand span{background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.nav-links{display:flex;gap:28px;list-style:none;font-size:13px;color:var(--text-secondary)}
-.nav-links a{color:inherit;text-decoration:none;transition:color .15s}
+.nav-brand{font-size:17px;font-weight:600;letter-spacing:-.3px}
+.nav-links{display:flex;gap:24px;list-style:none}
+.nav-links a{font-size:14px;font-weight:500;color:var(--text-secondary);transition:color var(--transition)}
 .nav-links a:hover{color:var(--text)}
-.nav-links a.active{color:var(--primary)}
-.hero{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 24px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1000px;height:800px;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(99,102,241,0.08) 0%,transparent 70%);pointer-events:none}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:999px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);font-size:12px;color:var(--primary);margin-bottom:28px;font-weight:500}
-.hero h1{font-size:clamp(28px,5vw,56px);font-weight:600;line-height:1.1;letter-spacing:-1px;margin-bottom:16px;position:relative}
-.hero h1 .accent{background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-subtitle{font-size:clamp(14px,1.8vw,17px);color:var(--text-secondary);max-width:520px;line-height:1.7;margin-bottom:28px;position:relative}
-.hero-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;position:relative}
-.btn-primary{padding:12px 28px;border-radius:10px;background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;font-size:15px;font-weight:500;text-decoration:none;transition:transform .2s,box-shadow .2s}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(99,102,241,0.3)}
-.btn-secondary{padding:12px 28px;border-radius:10px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:15px;font-weight:500;text-decoration:none;transition:border-color .15s}
-.btn-secondary:hover{border-color:var(--primary)}
+.nav-links a.active{color:var(--brand)}
+.nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:20px;cursor:pointer;padding:4px}
+
+.hero{position:relative;min-height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:calc(var(--nav-h)+48px)24px 72px}
+.hero::before{content:'';position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(94,106,210,0.06)0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-block;padding:5px 14px;border-radius:999px;background:var(--brand-dim);border:1px solid var(--brand-border);font-size:12px;color:var(--brand);margin-bottom:24px;font-weight:500;position:relative}
+.hero h1{font-size:clamp(32px,5vw,56px);font-weight:600;line-height:1.15;letter-spacing:-0.5px;margin-bottom:16px;position:relative}
+.hero h1 .accent{color:var(--brand)}
+.hero-subtitle{font-size:clamp(15px,1.8vw,17px);color:var(--text-secondary);max-width:520px;line-height:1.7;margin-bottom:24px;position:relative}
+
 .section{padding:72px 24px;max-width:var(--max-w);margin:0 auto}
-.section-label{font-size:13px;font-weight:600;color:var(--primary);margin-bottom:12px;letter-spacing:.3px}
-.section-title{font-size:clamp(24px,3.5vw,36px);font-weight:600;margin-bottom:12px;line-height:1.2;letter-spacing:-.5px}
-.section-desc{font-size:16px;color:var(--text-secondary);max-width:600px;line-height:1.7;margin-bottom:48px}
-.panel{background:var(--card);border-radius:12px;border:1px solid var(--border);padding:24px}
+.section-label{font-size:13px;font-weight:600;color:var(--brand);margin-bottom:10px;letter-spacing:.3px}
+.section-title{font-size:clamp(24px,3.5vw,32px);font-weight:600;margin-bottom:10px;line-height:1.2;letter-spacing:-.3px}
+.section-desc{font-size:16px;color:var(--text-secondary);max-width:600px;line-height:1.7;margin-bottom:40px}
+
+.panel{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);padding:24px 20px}
 .modules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:48px}
-.module-card .module-icon{font-size:24px;margin-bottom:10px}
-.module-card h3{font-size:15px;font-weight:600;margin-bottom:8px}
-.module-card p{font-size:13px;color:var(--text-secondary);line-height:1.5;margin-bottom:10px}
+.module-card h3{font-size:16px;font-weight:600;margin-bottom:8px}
+.module-card p{font-size:14px;color:var(--text-secondary);line-height:1.6;margin-bottom:12px}
 .module-card .module-components{display:flex;gap:6px;flex-wrap:wrap}
-.module-card .module-tag{padding:2px 8px;border-radius:4px;font-size:11px;background:rgba(99,102,241,0.1);color:var(--primary)}
+.module-card .module-tag{padding:3px 10px;border-radius:6px;font-size:12px;background:var(--brand-dim);color:var(--brand);font-weight:500}
+
 .cases-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:48px}
-.case-card{background:var(--card);border-radius:12px;border:1px solid var(--border);padding:24px}
-.case-tag{display:inline-block;padding:2px 10px;border-radius:6px;font-size:12px;font-weight:600;margin-bottom:10px}
-.case-tag.pass{background:rgba(34,197,94,0.15);color:var(--success)}
-.case-tag.veto{background:rgba(239,68,68,0.15);color:#ef4444}
-.case-card h3{font-size:15px;font-weight:600;margin-bottom:6px}
-.case-card p{font-size:13px;color:var(--text-secondary);line-height:1.6}
-.case-data{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:13px;color:var(--primary);font-weight:500}
-.pain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:48px}
-.pain-item{padding:16px 20px}
-.pain-item .pain-num{font-size:11px;color:var(--text-secondary);font-family:var(--font-mono);margin-bottom:6px}
-.pain-item h4{font-size:14px;font-weight:600;margin-bottom:6px}
+.case-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px 20px;transition:border-color var(--transition),box-shadow var(--transition)}
+.case-card:hover{border-color:var(--brand-border);box-shadow:0 4px 16px rgba(0,0,0,0.3)}
+.case-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:500;margin-bottom:10px}
+.case-tag.pass{background:rgba(63,185,80,0.12);color:var(--success)}
+.case-tag.veto{background:rgba(248,81,73,0.12);color:var(--danger)}
+.case-card h3{font-size:16px;font-weight:600;margin-bottom:6px}
+.case-card p{font-size:14px;color:var(--text-secondary);line-height:1.6}
+.case-data{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:13px;color:var(--brand);font-weight:500}
+
+.pain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:48px}
+.pain-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.pain-item .pain-num{font-size:12px;color:var(--text-secondary);font-family:'SF Mono','Cascadia Code','JetBrains Mono',Consolas,monospace;margin-bottom:8px}
+.pain-item h4{font-size:15px;font-weight:600;margin-bottom:6px}
 .pain-item p{font-size:13px;color:var(--text-secondary);line-height:1.5}
+
 .cta-bar{padding:64px 24px;text-align:center;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
 .cta-bar p{font-size:15px;color:var(--text-secondary);margin-bottom:16px}
-footer{border-top:1px solid var(--border);padding:40px 24px;text-align:center;font-size:13px;color:var(--text-secondary)}
-footer .codename{margin-top:8px;font-family:var(--font-mono);font-size:11px;color:rgba(136,136,160,0.5)}
-@media(max-width:640px){.nav-links{display:none}.hero-actions{flex-direction:column;align-items:center}.modules-grid,.cases-grid,.pain-grid{grid-template-columns:1fr}.section{padding:64px 16px}}
+.btn{display:inline-block;padding:12px 24px;border-radius:var(--radius);font-size:15px;font-weight:500;transition:all var(--transition);cursor:pointer;border:none}
+.btn:hover{filter:brightness(1.1)}
+.btn-primary{background:var(--brand);color:#fff}
+.btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{border-color:var(--brand-border)}
+
+.footer{border-top:1px solid var(--border);text-align:center;padding:36px 24px;color:var(--text-secondary);font-size:13px}
+.footer a{color:var(--brand)}
+
+@media(max-width:640px){
+  .nav-links{display:none}
+  .nav-links.open{display:flex;flex-direction:column;position:absolute;top:var(--nav-h);left:0;right:0;background:rgba(13,17,23,0.96);backdrop-filter:blur(16px);padding:16px 24px;gap:14px;border-bottom:1px solid var(--border)}
+  .nav-toggle{display:block}
+  .hero{min-height:60vh;padding-top:calc(var(--nav-h)+32px)}
+  .modules-grid,.cases-grid,.pain-grid{grid-template-columns:1fr}
+  .section{padding:64px 16px}
+}
 </style>
 </head>
 <body>
-<nav>
+
+<nav class="nav">
   <div class="nav-inner">
-    <a href="index.html" style="text-decoration:none"><div class="nav-brand">AI<span>.</span>驾驶舱</div></a>
+    <a href="index.html" style="text-decoration:none"><div class="nav-brand">AI驾驶舱</div></a>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="菜单">&#9776;</button>
     <ul class="nav-links">
-      <li><a href="models.html">选型</a></li>
-      <li><a href="agents.html">广场</a></li>
+      
+      <li><a href="agents.html">智能体</a></li>
       <li><a href="workshop.html" class="active">工坊</a></li>
       <li><a href="academy.html">商学院</a></li>
-      <li><a href="skills.html">配置</a></li>
+      <li><a href="skills.html">技能</a></li>
+      <li><a href="about.html">关于</a></li>
     </ul>
   </div>
 </nav>
 
 <section class="hero">
-  <div class="hero-badge">智能体铸造工坊</div>
-  <h1>从诊断到铸造到验证<br><span class="accent">一站式智能体生产线</span></h1>
-  <p class="hero-subtitle">四大模块闭环运作，工业级质量门确保每个 Agent 达到生产标准。</p>
-  <div class="hero-actions">
-    <a href="#" class="btn-primary">开始 AIQ 诊断</a>
-    <a href="#" class="btn-secondary">企业批量铸造 →</a>
+  <div>
+    <div class="hero-badge">铸造工坊</div>
+    <h1>从诊断到铸造到验证<br><span class="accent">一站式智能体生产线</span></h1>
+    <p class="hero-subtitle">四大模块闭环运作，工业级质量门确保每个 Agent 达到生产标准。</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px;position:relative">
+      <a href="#" class="btn btn-primary" style="display:inline-block;padding:12px 24px;border-radius:var(--radius);font-size:15px;font-weight:500;transition:all var(--transition);cursor:pointer;border:none;background:var(--brand);color:#fff;text-decoration:none">开始 AIQ 诊断</a>
+      <a href="#" class="btn btn-secondary" style="display:inline-block;padding:12px 24px;border-radius:var(--radius);font-size:15px;font-weight:500;transition:all var(--transition);cursor:pointer;border:none;background:transparent;color:var(--text);border:1px solid var(--border);text-decoration:none">企业批量铸造 →</a>
+    </div>
   </div>
 </section>
 
@@ -90,66 +119,62 @@ footer .codename{margin-top:8px;font-family:var(--font-mono);font-size:11px;colo
   <p class="section-desc">从诊断到铸造到验证，每一步都有对应模块支撑。</p>
   <div class="modules-grid">
     <div class="panel module-card">
-      <div class="module-icon">🧠</div>
       <h3>智能体能力框架</h3>
-      <p>原「四件套浇灌」。SOUL（价值观）+ AGENTS（工作流）+ USER（画像）+ IDENTITY（禁区），四维能力框架让 Agent 长出判断力。</p>
+      <p>SOUL（价值观）+ AGENTS（工作流）+ USER（画像）+ IDENTITY（禁区），四维能力框架让 Agent 长出判断力。</p>
       <div class="module-components"><span class="module-tag">SOUL</span><span class="module-tag">AGENTS</span><span class="module-tag">USER</span><span class="module-tag">IDENTITY</span></div>
     </div>
     <div class="panel module-card">
-      <div class="module-icon">💡</div>
       <h3>思维克隆引擎</h3>
-      <p>原「榨思维」。将人类专家的判断模式提取为可复用的思维链，注入 Agent 使其具备类人判断力。</p>
+      <p>将人类专家的判断模式提取为可复用的思维链，注入 Agent 使其具备类人判断力。</p>
       <div class="module-components"><span class="module-tag">思维提取</span><span class="module-tag">模式克隆</span><span class="module-tag">判断注入</span></div>
     </div>
     <div class="panel module-card">
-      <div class="module-icon">⚖️</div>
       <h3>决策评估系统</h3>
-      <p>原「三堂会审」。七维视角交叉验证，不是打分是行为表现。通过/否决，清晰明确。</p>
+      <p>七维视角交叉验证，不是打分是行为表现。通过/否决，清晰明确。</p>
       <div class="module-components"><span class="module-tag">七维验证</span><span class="module-tag">交叉评估</span><span class="module-tag">通过/否决</span></div>
     </div>
     <div class="panel module-card">
-      <div class="module-icon">🔒</div>
       <h3>能力验证体系</h3>
-      <p>原「456 道质量门」。覆盖诊断→铸造→验证全链路，工业级标准确保每个 Agent 达到生产级质量。</p>
+      <p>覆盖诊断→铸造→验证全链路，工业级标准确保每个 Agent 达到生产级质量。</p>
       <div class="module-components"><span class="module-tag">456 道门</span><span class="module-tag">全链路</span><span class="module-tag">生产级</span></div>
     </div>
   </div>
 </section>
 
-<section class="section">
+<section class="section" style="padding-top:0;">
   <div class="section-label">铸造案例</div>
   <h2 class="section-title">5 个真实项目，5 条铸造路径</h2>
   <p class="section-desc">每一个案例都经过完整的四大模块闭环。</p>
   <div class="cases-grid">
     <div class="case-card"><span class="case-tag pass">通过</span><h3>Case 001 · 虎哥 001 号</h3><p>全链路提升从 87% 到 93%，覆盖诊断、铸造、验证三个环节。</p><div class="case-data">全链路 87% → 93% · 约束遵从度提升 6%</div></div>
-    <div class="case-card"><span class="case-tag pass">通过</span><h3>Case 002 · 好二妹 002 号</h3><p>三堂会审否决案例——反向验证评估系统的风险识别能力。</p><div class="case-data">判断一致性提升 2.4× · 风险拦截率 96%</div></div>
-    <div class="case-card"><span class="case-tag veto">否决</span><h3>Case 002 · 三堂会审否决</h3><p>表面完美，但七维视角交叉验证发现深层逻辑断裂——否决。</p><div class="case-data">否决原因：逻辑一致性不足 · 七维评分 3/7</div></div>
+    <div class="case-card"><span class="case-tag pass">通过</span><h3>Case 002 · 好二妹 002 号</h3><p>判断一致性提升，风险拦截体系验证通过。</p><div class="case-data">判断一致性提升 2.4× · 风险拦截率 96%</div></div>
+    <div class="case-card"><span class="case-tag veto">否决</span><h3>Case 003 · 三堂会审否决</h3><p>表面完美，但七维视角交叉验证发现深层逻辑断裂——否决。</p><div class="case-data">否决原因：逻辑一致性不足 · 七维评分 3/7</div></div>
     <div class="case-card"><span class="case-tag pass">通过</span><h3>Case 004 · 电子灸</h3><p>医疗场景 Agent，判断力从 15.1% 基线跃升至 48.7%，提升 3 倍。</p><div class="case-data">判断力 15.1% → 48.7% · 任务拆解力提升 2.1×</div></div>
     <div class="case-card"><span class="case-tag pass">通过</span><h3>Case 005 · 智能客服</h3><p>某电商平台客服 Agent，从工具脚本升级为完整智能体。</p><div class="case-data">约束遵从度 87% · 工具调用成功率 92%</div></div>
   </div>
 </section>
 
-<section class="section">
+<section class="section" style="padding-top:0;">
   <div class="section-label">行业洞察</div>
   <h2 class="section-title">93% 的企业 Agent 项目卡在试点→生产</h2>
   <p class="section-desc">市场数据和五大痛点，以及我们的解法映射。</p>
   <div class="pain-grid">
-    <div class="panel pain-item"><div class="pain-num">P01</div><h4>模型选型失误</h4><p>选了不适合场景的模型，导致后续全链路效率低下。</p></div>
-    <div class="panel pain-item"><div class="pain-num">P02</div><h4>约束设计缺失</h4><p>没有明确的 SOP 和红线，Agent 行为不可控。</p></div>
-    <div class="panel pain-item"><div class="pain-num">P03</div><h4>验证标准模糊</h4><p>用跑分代替行为验证，生产环境频频出错。</p></div>
-    <div class="panel pain-item"><div class="pain-num">P04</div><h4>数据孤岛</h4><p>Agent 无法访问关键业务数据，决策质量受限。</p></div>
-    <div class="panel pain-item"><div class="pain-num">P05</div><h4>迭代周期过长</h4><p>从诊断到上线周期以月计，错失市场窗口。</p></div>
+    <div class="pain-item"><div class="pain-num">P01</div><h4>模型选型失误</h4><p>选了不适合场景的模型，导致后续全链路效率低下。</p></div>
+    <div class="pain-item"><div class="pain-num">P02</div><h4>约束设计缺失</h4><p>没有明确的 SOP 和红线，Agent 行为不可控。</p></div>
+    <div class="pain-item"><div class="pain-num">P03</div><h4>验证标准模糊</h4><p>用跑分代替行为验证，生产环境频频出错。</p></div>
+    <div class="pain-item"><div class="pain-num">P04</div><h4>数据孤岛</h4><p>Agent 无法访问关键业务数据，决策质量受限。</p></div>
+    <div class="pain-item"><div class="pain-num">P05</div><h4>迭代周期过长</h4><p>从诊断到上线周期以月计，错失市场窗口。</p></div>
   </div>
 </section>
 
 <div class="cta-bar">
   <p>你的 Agent 离生产级还有多远？先做 AIQ 诊断，测出基线，再定铸造方案。</p>
-  <a href="#" class="btn-primary">免费 AIQ 诊断，5 分钟出报告</a>
+  <a href="#" class="btn btn-primary">免费 AIQ 诊断，5 分钟出报告</a>
 </div>
 
-<footer>
-  <p>首发于 2026-05-15 · 持续修订中</p>
-  <p class="codename">内部代号：四件套浇灌 · 456 质量门 · 榨思维 · 三堂会审</p>
+<footer class="footer">
+  <p>首发于 2026-05-15 · 持续修订中 · <a href="index.html">AI驾驶舱</a></p>
 </footer>
+
 </body>
 </html>

@@ -243,6 +243,7 @@ section.alt{background:oklch(8% 0.003 250)}
 .model-card:nth-child(1) .model-avatar{background:linear-gradient(135deg,#6C5CE7,#a29bfe);color:#fff}
 .model-card:nth-child(2) .model-avatar{background:linear-gradient(135deg,#00b894,#55efc4);color:#fff}
 .model-card:nth-child(3) .model-avatar{background:linear-gradient(135deg,#0984e3,#74b9ff);color:#fff}
+.model-card.highlight{border-color:var(--accent-dim);box-shadow:0 0 40px var(--accent-glow)}
 .model-card .model-name{font-size:1.25rem;font-weight:600;margin-bottom:.15rem}
 .model-card .model-tagline{font-size:.85rem;color:var(--accent);margin-bottom:.75rem;font-family:var(--font-mono)}
 .model-card .model-desc{font-size:.85rem;color:var(--fg-secondary);line-height:1.5;margin-bottom:1rem}
@@ -423,6 +424,7 @@ footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem;margin-top:0}
       <li><a href="#cases">案例</a></li>
       <li><a href="#skills">技能</a></li>
       <li><a href="#gallery">排行</a></li>
+      <li><a href="#scoring">评分</a></li>
       <li><a href="#workshop">工作坊</a></li>
     </ul>
   </div>
@@ -676,8 +678,8 @@ footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem;margin-top:0}
   </div>
 </section>
 
-<!-- Model Comparison -->
-<section id="models">
+<!-- Model Scoring -->
+<section id="scoring">
   <div class="container">
     <div class="section-label">— 模型能力</div>
     <div class="section-header">
@@ -696,7 +698,7 @@ footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem;margin-top:0}
           <span class="model-chip">MCP 生态成熟</span>
         </div>
       </div>
-      <div class="model-card animate-in d2">
+      <div class="model-card highlight animate-in d2">
         <div class="model-avatar">DS</div>
         <div class="model-name">DeepSeek V4</div>
         <div class="model-tagline">性价比之王</div>
@@ -787,10 +789,7 @@ footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem;margin-top:0}
       <div class="footer-col">
         <h4>模型</h4>
         <ul>
-          <li><a href="./models.html">能力评分</a></li>
           <li><a href="./agents.html">排行榜</a></li>
-          <li><a href="./models.html">基准测试</a></li>
-          <li><a href="./models.html">API 文档</a></li>
         </ul>
       </div>
       <div class="footer-col">

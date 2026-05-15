@@ -4,75 +4,104 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>智能体广场 — AI驾驶舱</title>
-<meta name="description" content="所有主流Agent的对比画像。角色理解力、约束遵从度、任务拆解力、判断一致性四大维度。">
+<meta name="description" content="所有主流 Agent 的对比画像。角色理解力、约束遵从度、任务拆解力、判断一致性四大维度。">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--nav-h:56px;--max-w:1100px;--bg:#0a0a0f;--surface:#12121a;--card:#1a1a28;--text:#f0f0f3;--text-secondary:#8a8a96;--primary:#6366f1;--primary-hover:#818cf8;--g1:#6366f1;--g2:#a855f7;--gold:#f59e0b;--gold-dim:rgba(245,158,11,0.12);--border:#2a2a3a;--success:#22c55e;--font-sans:-apple-system,'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;--font-mono:'SF Mono','Cascadia Code','JetBrains Mono',Consolas,monospace}
+:root{
+  --bg:#0d1117;--surface:#161b22;--card:#1c2128;
+  --text:#e6edf3;--text-secondary:#8b949e;
+  --border:#30363d;--border-light:#484f58;
+  --brand:#5E6AD2;--brand-hover:#7b84e0;--brand-dim:rgba(94,106,210,0.1);--brand-border:rgba(94,106,210,0.25);
+  --gold:#f59e0b;--success:#3fb950;--danger:#f85149;
+  --radius:10px;--max-w:1100px;--nav-h:56px;--transition:0.15s ease;
+}
 html{scroll-behavior:smooth}
-body{font-family:var(--font-sans);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.6}
-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:rgba(10,10,15,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:100;display:flex;align-items:center;justify-content:center}
+body{font-family:-apple-system,'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:15px;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+
+.nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:rgba(13,17,23,0.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:1000;display:flex;align-items:center;justify-content:center}
 .nav-inner{width:100%;max-width:var(--max-w);padding:0 24px;display:flex;align-items:center;justify-content:space-between}
-.nav-brand{font-size:15px;font-weight:600;color:var(--text);letter-spacing:-.3px}
-.nav-brand span{background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.nav-links{display:flex;gap:28px;list-style:none;font-size:13px;color:var(--text-secondary)}
-.nav-links a{color:inherit;text-decoration:none;transition:color .15s}
+.nav-brand{font-size:17px;font-weight:600;letter-spacing:-.3px}
+.nav-links{display:flex;gap:24px;list-style:none}
+.nav-links a{font-size:14px;font-weight:500;color:var(--text-secondary);transition:color var(--transition)}
 .nav-links a:hover{color:var(--text)}
-.nav-links a.active{color:var(--primary)}
-.hero{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 24px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1000px;height:800px;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(99,102,241,0.08) 0%,transparent 70%);pointer-events:none}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:999px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);font-size:12px;color:var(--primary);margin-bottom:28px;font-weight:500}
-.hero h1{font-size:clamp(28px,5vw,56px);font-weight:600;line-height:1.1;letter-spacing:-1px;margin-bottom:16px;position:relative}
-.hero h1 .accent{background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-subtitle{font-size:clamp(14px,1.8vw,17px);color:var(--text-secondary);max-width:520px;line-height:1.7;margin-bottom:28px;position:relative}
-.hero-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;position:relative}
-.btn-primary{padding:12px 28px;border-radius:10px;background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;font-size:15px;font-weight:500;text-decoration:none;transition:transform .2s,box-shadow .2s}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(99,102,241,0.3)}
-.btn-secondary{padding:12px 28px;border-radius:10px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:15px;font-weight:500;text-decoration:none;transition:border-color .15s}
-.btn-secondary:hover{border-color:var(--primary)}
+.nav-links a.active{color:var(--brand)}
+.nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:20px;cursor:pointer;padding:4px}
+
+.hero{position:relative;min-height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:calc(var(--nav-h)+48px)24px 72px}
+.hero::before{content:'';position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(94,106,210,0.06)0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-block;padding:5px 14px;border-radius:999px;background:var(--brand-dim);border:1px solid var(--brand-border);font-size:12px;color:var(--brand);margin-bottom:24px;font-weight:500;position:relative}
+.hero h1{font-size:clamp(32px,5vw,56px);font-weight:600;line-height:1.15;letter-spacing:-0.5px;margin-bottom:16px;position:relative}
+.hero h1 .accent{color:var(--brand)}
+.hero-subtitle{font-size:clamp(15px,1.8vw,17px);color:var(--text-secondary);max-width:520px;line-height:1.7;margin-bottom:24px;position:relative}
+
 .section{padding:72px 24px;max-width:var(--max-w);margin:0 auto}
-.section-label{font-size:13px;font-weight:600;color:var(--primary);margin-bottom:12px;letter-spacing:.3px}
-.section-title{font-size:clamp(24px,3.5vw,36px);font-weight:600;margin-bottom:12px;line-height:1.2;letter-spacing:-.5px}
-.section-desc{font-size:16px;color:var(--text-secondary);max-width:600px;line-height:1.7;margin-bottom:48px}
-.panel{background:var(--card);border-radius:12px;border:1px solid var(--border);padding:24px}
+.section-label{font-size:13px;font-weight:600;color:var(--brand);margin-bottom:10px;letter-spacing:.3px}
+.section-title{font-size:clamp(24px,3.5vw,32px);font-weight:600;margin-bottom:10px;line-height:1.2;letter-spacing:-.3px}
+.section-desc{font-size:16px;color:var(--text-secondary);max-width:600px;line-height:1.7;margin-bottom:40px}
+
+.panel{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);padding:24px 20px}
 .dim-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:48px}
-.dim-card .icon{font-size:24px;margin-bottom:10px}
-.dim-card h3{font-size:15px;font-weight:600;margin-bottom:6px}
-.dim-card p{font-size:13px;color:var(--text-secondary);line-height:1.5}
+.dim-card h3{font-size:16px;font-weight:600;margin-bottom:6px}
+.dim-card p{font-size:14px;color:var(--text-secondary);line-height:1.6}
+
 .agent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:48px}
-.agent-card h3{font-size:16px;font-weight:600;margin-bottom:6px}
-.agent-card .agent-desc{font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:12px}
+.agent-card h3{font-size:17px;font-weight:600;margin-bottom:4px}
+.agent-card .agent-desc{font-size:14px;color:var(--text-secondary);line-height:1.6;margin-bottom:12px}
 .agent-card .agent-steps{font-size:13px;color:var(--text-secondary);margin-bottom:12px;padding-left:18px;line-height:1.8}
+.agent-card .agent-steps code{font-family:'SF Mono','Cascadia Code','JetBrains Mono',Consolas,monospace;background:var(--card);padding:1px 6px;border-radius:4px;font-size:12px}
 .agent-card .agent-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
-.agent-card .agent-tag{padding:2px 8px;border-radius:4px;font-size:11px;background:rgba(99,102,241,0.1);color:var(--primary)}
+.agent-card .agent-tag{padding:3px 10px;border-radius:6px;font-size:12px;background:var(--brand-dim);color:var(--brand);font-weight:500}
 .agent-card .agent-meta{display:flex;gap:12px;font-size:12px;color:var(--text-secondary);padding-top:12px;border-top:1px solid var(--border)}
-.agent-card .agent-meta span{font-family:var(--font-mono)}
+
+.our-agent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:48px}
+.our-agent-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px 20px;transition:border-color var(--transition),box-shadow var(--transition)}
+.our-agent-card:hover{border-color:var(--brand-border);box-shadow:0 4px 16px rgba(0,0,0,0.3)}
+.our-agent-card h3{font-size:17px;font-weight:600;margin-bottom:4px}
+.our-agent-card .role{font-size:13px;color:var(--brand);font-weight:500;margin-bottom:10px}
+.our-agent-card .data{font-size:13px;color:var(--text-secondary);line-height:1.5}
+
 .cta-bar{padding:64px 24px;text-align:center;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
 .cta-bar p{font-size:15px;color:var(--text-secondary);margin-bottom:16px}
-footer{border-top:1px solid var(--border);padding:40px 24px;text-align:center;font-size:13px;color:var(--text-secondary)}
-footer .codename{margin-top:8px;font-family:var(--font-mono);font-size:11px;color:rgba(136,136,160,0.5)}
-@media(max-width:640px){.nav-links{display:none}.hero-actions{flex-direction:column;align-items:center}.agent-grid,.dim-grid{grid-template-columns:1fr}.section{padding:64px 16px}}
+.btn{display:inline-block;padding:12px 24px;border-radius:var(--radius);font-size:15px;font-weight:500;transition:all var(--transition);cursor:pointer;border:none}
+.btn:hover{filter:brightness(1.1)}
+.btn-primary{background:var(--brand);color:#fff}
+
+.footer{border-top:1px solid var(--border);text-align:center;padding:36px 24px;color:var(--text-secondary);font-size:13px}
+.footer a{color:var(--brand)}
+
+@media(max-width:640px){
+  .nav-links{display:none}
+  .nav-links.open{display:flex;flex-direction:column;position:absolute;top:var(--nav-h);left:0;right:0;background:rgba(13,17,23,0.96);backdrop-filter:blur(16px);padding:16px 24px;gap:14px;border-bottom:1px solid var(--border)}
+  .nav-toggle{display:block}
+  .hero{min-height:60vh;padding-top:calc(var(--nav-h)+32px)}
+  .agent-grid,.dim-grid,.our-agent-grid{grid-template-columns:1fr}
+  .section{padding:64px 16px}
+}
 </style>
 </head>
 <body>
-<nav>
+
+<nav class="nav">
   <div class="nav-inner">
-    <a href="index.html" style="text-decoration:none"><div class="nav-brand">AI<span>.</span>驾驶舱</div></a>
+    <a href="index.html" style="text-decoration:none"><div class="nav-brand">AI驾驶舱</div></a>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="菜单">&#9776;</button>
     <ul class="nav-links">
-      <li><a href="models.html">选型</a></li>
-      <li><a href="agents.html" class="active">广场</a></li>
+      
+      <li><a href="agents.html" class="active">智能体</a></li>
       <li><a href="workshop.html">工坊</a></li>
       <li><a href="academy.html">商学院</a></li>
-      <li><a href="skills.html">配置</a></li>
+      <li><a href="skills.html">技能</a></li>
+      <li><a href="about.html">关于</a></li>
     </ul>
   </div>
 </nav>
 
 <section class="hero">
-  <div class="hero-badge">智能体广场</div>
-  <h1>所有主流Agent的<span class="accent">对比画像</span></h1>
-  <p class="hero-subtitle">不是大而全的对比榜单，用四个维度看懂每个智能体的真实能力。</p>
-  <div class="hero-actions">
-    <a href="#" class="btn-primary">用 AIQ 诊断测测你的 Agent 基线 →</a>
+  <div>
+    <div class="hero-badge">智能体广场</div>
+    <h1>所有主流 Agent 的<span class="accent">对比画像</span></h1>
+    <p class="hero-subtitle">不是大而全的对比榜单，用四个维度看懂每个智能体的真实能力。</p>
   </div>
 </section>
 
@@ -81,10 +110,10 @@ footer .codename{margin-top:8px;font-family:var(--font-mono);font-size:11px;colo
   <h2 class="section-title">从四个维度读懂智能体</h2>
   <p class="section-desc">不是比跑分，是比真实场景下的行为表现。</p>
   <div class="dim-grid">
-    <div class="panel dim-card"><div class="icon">🎯</div><h3>角色理解力</h3><p>能否准确理解并代入预设角色，不越界、不串台。</p></div>
-    <div class="panel dim-card"><div class="icon">⚖️</div><h3>约束遵从度</h3><p>对 SOP、红线、格式要求的严格执行程度。</p></div>
-    <div class="panel dim-card"><div class="icon">🧩</div><h3>任务拆解力</h3><p>将复杂任务分解为可执行步骤的能力。</p></div>
-    <div class="panel dim-card"><div class="icon">📊</div><h3>判断一致性</h3><p>同类场景下判断结果的稳定性和可重复性。</p></div>
+    <div class="panel dim-card"><h3>角色理解力</h3><p>能否准确理解并代入预设角色，不越界、不串台。</p></div>
+    <div class="panel dim-card"><h3>约束遵从度</h3><p>对 SOP、红线、格式要求的严格执行程度。</p></div>
+    <div class="panel dim-card"><h3>任务拆解力</h3><p>将复杂任务分解为可执行步骤的能力。</p></div>
+    <div class="panel dim-card"><h3>判断一致性</h3><p>同类场景下判断结果的稳定性和可重复性。</p></div>
   </div>
 </section>
 
@@ -132,14 +161,42 @@ footer .codename{margin-top:8px;font-family:var(--font-mono);font-size:11px;colo
   </div>
 </section>
 
+<section class="section" style="padding-top:0;">
+  <div class="section-label">我们的 Agent</div>
+  <h2 class="section-title">团队自研 Agent</h2>
+  <p class="section-desc">经过完整 AIQ 诊断 + 质量门验证的认证 Agent，真实可用。</p>
+  <div class="our-agent-grid">
+    <div class="our-agent-card">
+      <h3>虎哥 001 号</h3>
+      <div class="role">COO · 战略审议 + 工程交付</div>
+      <div class="data">全链路 93% · 约束遵从度 96%</div>
+    </div>
+    <div class="our-agent-card">
+      <h3>好妹 003 号</h3>
+      <div class="role">信息整合 + 内容运营</div>
+      <div class="data">任务拆解力 1.8× · 内容产出效率 3×</div>
+    </div>
+    <div class="our-agent-card">
+      <h3>好二妹 002 号</h3>
+      <div class="role">理论框架 + 研究分析</div>
+      <div class="data">判断一致性 2.4× · 风险拦截率 96%</div>
+    </div>
+    <div class="our-agent-card">
+      <h3>好灵儿</h3>
+      <div class="role">专项战略推演</div>
+      <div class="data">七维评分 6/7 · 决策深度业界领先</div>
+    </div>
+  </div>
+</section>
+
 <div class="cta-bar">
   <p>想测测你的 Agent 基线？AIQ 诊断 5 分钟出报告，对标四大维度。</p>
-  <a href="#" class="btn-primary">用 AIQ 诊断测测你的 Agent 基线 →</a>
+  <a href="#" class="btn btn-primary">用 AIQ 诊断测测你的 Agent 基线 →</a>
 </div>
 
-<footer>
-  <p>首发于 2026-05-15 · 持续修订中</p>
-  <p class="codename">内部代号：四件套浇灌 · 456 质量门 · 榨思维 · 三堂会审</p>
+<footer class="footer">
+  <p>首发于 2026-05-15 · 持续修订中 · <a href="index.html">AI驾驶舱</a></p>
 </footer>
+
 </body>
 </html>
