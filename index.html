@@ -243,7 +243,6 @@ section.alt{background:oklch(8% 0.003 250)}
 .model-card:nth-child(1) .model-avatar{background:linear-gradient(135deg,#6C5CE7,#a29bfe);color:#fff}
 .model-card:nth-child(2) .model-avatar{background:linear-gradient(135deg,#00b894,#55efc4);color:#fff}
 .model-card:nth-child(3) .model-avatar{background:linear-gradient(135deg,#0984e3,#74b9ff);color:#fff}
-.model-card.highlight{border-color:var(--accent-dim);box-shadow:0 0 40px var(--accent-glow)}
 .model-card .model-name{font-size:1.25rem;font-weight:600;margin-bottom:.15rem}
 .model-card .model-tagline{font-size:.85rem;color:var(--accent);margin-bottom:.75rem;font-family:var(--font-mono)}
 .model-card .model-desc{font-size:.85rem;color:var(--fg-secondary);line-height:1.5;margin-bottom:1rem}
@@ -418,7 +417,7 @@ footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem;margin-top:0}
 <!-- Nav -->
 <nav>
   <div class="container">
-    <a href="index.html" class="logo"><span>◈</span> AI Cockpit</a>
+    <a href="#" class="logo"><span>◈</span> AI Cockpit</a>
     <ul class="nav-links">
       <li><a href="agents.html">智能体</a></li>
       <li><a href="workshop.html">工坊</a></li>
@@ -441,9 +440,9 @@ footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem;margin-top:0}
       <a href="#" class="btn btn-secondary">企业批量铸造</a>
     </div>
     <div class="hero-stats">
-      <span>已落地 456 道质量门</span>
-      <span>覆盖 5+ 核心场景</span>
-      <span>15 项关键指标实时监控</span>
+      <span>已服务 5 家企业</span>
+      <span>平均通过率提升 3.2×</span>
+      <span>覆盖 12 个行业</span>
     </div>
   </div>
 </section>
@@ -677,8 +676,8 @@ footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem;margin-top:0}
   </div>
 </section>
 
-<!-- Model Scoring -->
-<section id="scoring">
+<!-- Model Comparison -->
+<section id="models">
   <div class="container">
     <div class="section-label">— 模型能力</div>
     <div class="section-header">
@@ -692,20 +691,20 @@ footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem;margin-top:0}
         <div class="model-tagline">最懂约束的模型</div>
         <div class="model-desc">在需求对齐和合规审查门中表现突出，擅长理解复杂约束条件并严格遵循。</div>
         <div class="model-chips">
-          <span class="model-chip">约束遵从 S+</span>
-          <span class="model-chip">任务拆解 S</span>
-          <span class="model-chip">MCP 生态成熟</span>
+          <span class="model-chip">约束遵循 96%</span>
+          <span class="model-chip">推理深度 94%</span>
+          <span class="model-chip">安全对齐 97%</span>
         </div>
       </div>
-      <div class="model-card highlight animate-in d2">
+      <div class="model-card animate-in d2">
         <div class="model-avatar">DS</div>
         <div class="model-name">DeepSeek V4</div>
         <div class="model-tagline">性价比之王</div>
         <div class="model-desc">在代码生成和测试覆盖门中表现优异，以极低的推理成本实现接近顶配的效果。</div>
         <div class="model-chips">
-          <span class="model-chip">性价比之王</span>
-          <span class="model-chip">代码生成 S</span>
-          <span class="model-chip">成本仅 GPT 1/10</span>
+          <span class="model-chip">代码质量 91%</span>
+          <span class="model-chip">测试覆盖 88%</span>
+          <span class="model-chip">成本效率 98%</span>
         </div>
       </div>
       <div class="model-card animate-in d3">
@@ -714,9 +713,9 @@ footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem;margin-top:0}
         <div class="model-tagline">全能标杆</div>
         <div class="model-desc">在所有质量门类别中表现均衡，特别是跨领域泛化和少数样本场景中的稳定性。</div>
         <div class="model-chips">
-          <span class="model-chip">全能标杆</span>
-          <span class="model-chip">终端执行 S+</span>
-          <span class="model-chip">SWE-bench 94.6%</span>
+          <span class="model-chip">泛化能力 93%</span>
+          <span class="model-chip">多语言 92%</span>
+          <span class="model-chip">稳定性 90%</span>
         </div>
       </div>
     </div>
@@ -788,35 +787,38 @@ footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem;margin-top:0}
       <div class="footer-col">
         <h4>模型</h4>
         <ul>
-          <li><a href="./agents.html">排行榜</a></li>
+          <li><a href="#models">能力评分</a></li>
+          <li><a href="#gallery">排行榜</a></li>
+          <li><a href="#">基准测试</a></li>
+          <li><a href="#">API 文档</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>技能</h4>
         <ul>
-          <li><a href="./skills.html">技能库</a></li>
-          <li><a href="./skills.html">Sales Assistant</a></li>
-          <li><a href="./skills.html">Code Review</a></li>
-          <li><a href="./skills.html">Customer Service</a></li>
-          <li><a href="./skills.html">Report Analysis</a></li>
+          <li><a href="#skills">技能库</a></li>
+          <li><a href="#">Sales Assistant</a></li>
+          <li><a href="#">Code Review</a></li>
+          <li><a href="#">Customer Service</a></li>
+          <li><a href="#">Report Analysis</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>工作坊</h4>
         <ul>
-          <li><a href="./workshop.html">铸造流水线</a></li>
-          <li><a href="./workshop.html">案例库</a></li>
-          <li><a href="./workshop.html">最佳实践</a></li>
-          <li><a href="./workshop.html">模板</a></li>
+          <li><a href="#workshop">铸造流水线</a></li>
+          <li><a href="#">案例库</a></li>
+          <li><a href="#">最佳实践</a></li>
+          <li><a href="#">模板</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>学院</h4>
         <ul>
-          <li><a href="./academy.html">文档中心</a></li>
-          <li><a href="./academy.html">视频教程</a></li>
-          <li><a href="./academy.html">学术论文</a></li>
-          <li><a href="./academy.html">社区</a></li>
+          <li><a href="#">文档中心</a></li>
+          <li><a href="#">视频教程</a></li>
+          <li><a href="#">学术论文</a></li>
+          <li><a href="#">社区</a></li>
         </ul>
       </div>
     </div>

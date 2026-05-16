@@ -1,190 +1,366 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>商学院 — AI驾驶舱</title>
-<meta name="description" content="培养 Agent 判断力的学术底座。不是教工具，是铸造有判断力的数字生命。AI 生存学、认证体系、案例库。">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Cockpit — 商学院</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#0d1117;--surface:#161b22;--card:#1c2128;
-  --text:#e6edf3;--text-secondary:#8b949e;
-  --border:#30363d;--border-light:#484f58;
-  --brand:#5E6AD2;--brand-hover:#7b84e0;--brand-dim:rgba(94,106,210,0.1);--brand-border:rgba(94,106,210,0.25);
-  --gold:#f59e0b;--success:#3fb950;--danger:#f85149;
-  --radius:10px;--max-w:1100px;--nav-h:56px;--transition:0.15s ease;
-}
 html{scroll-behavior:smooth}
-body{font-family:-apple-system,'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:15px;overflow-x:hidden}
-a{color:inherit;text-decoration:none}
-
-.nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:rgba(13,17,23,0.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:1000;display:flex;align-items:center;justify-content:center}
-.nav-inner{width:100%;max-width:var(--max-w);padding:0 24px;display:flex;align-items:center;justify-content:space-between}
-.nav-brand{font-size:17px;font-weight:600;letter-spacing:-.3px}
-.nav-links{display:flex;gap:24px;list-style:none}
-.nav-links a{font-size:14px;font-weight:500;color:var(--text-secondary);transition:color var(--transition)}
-.nav-links a:hover{color:var(--text)}
-.nav-links a.active{color:var(--brand)}
-.nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:20px;cursor:pointer;padding:4px}
-
-.hero{position:relative;min-height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:calc(var(--nav-h)+48px)24px 72px}
-.hero::before{content:'';position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(94,106,210,0.06)0%,transparent 70%);pointer-events:none}
-.hero-badge{display:inline-block;padding:5px 14px;border-radius:999px;background:var(--brand-dim);border:1px solid var(--brand-border);font-size:12px;color:var(--brand);margin-bottom:24px;font-weight:500;position:relative}
-.hero h1{font-size:clamp(32px,5vw,56px);font-weight:600;line-height:1.15;letter-spacing:-0.5px;margin-bottom:16px;position:relative}
-.hero h1 .accent{color:var(--brand)}
-.hero-subtitle{font-size:clamp(15px,1.8vw,17px);color:var(--text-secondary);max-width:520px;line-height:1.7;position:relative}
-
-.section{padding:72px 24px;max-width:var(--max-w);margin:0 auto}
-.section-label{font-size:13px;font-weight:600;color:var(--brand);margin-bottom:10px;letter-spacing:.3px}
-.section-title{font-size:clamp(24px,3.5vw,32px);font-weight:600;margin-bottom:10px;line-height:1.2;letter-spacing:-.3px}
-.section-desc{font-size:16px;color:var(--text-secondary);max-width:600px;line-height:1.7;margin-bottom:40px}
-
-.panel{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);padding:24px 20px}
-.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:48px}
-.stat-card{text-align:center}
-.stat-card .big{font-size:24px;font-weight:600;color:var(--brand);margin-bottom:4px}
-.stat-card .label{font-size:13px;color:var(--text-secondary)}
-
-.student-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:48px}
-.student-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px 20px;transition:border-color var(--transition),box-shadow var(--transition)}
-.student-card:hover{border-color:var(--brand-border);box-shadow:0 4px 16px rgba(0,0,0,0.3)}
-.student-card h3{font-size:17px;font-weight:600;margin-bottom:4px}
-.student-card .student-role{font-size:13px;color:var(--text-secondary);margin-bottom:10px}
-.student-card .student-data{font-size:13px;color:var(--brand);font-weight:500}
-
-.aiq-box{background:var(--surface);border:1px solid var(--brand-border);border-radius:var(--radius);padding:32px 28px;margin-bottom:48px;text-align:center}
-.aiq-box h3{font-size:22px;font-weight:600;margin-bottom:8px}
-.aiq-box p{font-size:15px;color:var(--text-secondary);line-height:1.7;margin-bottom:8px}
-.aiq-dims{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:16px 0}
-.aiq-dim{font-size:13px;padding:4px 12px;border-radius:6px;background:var(--brand-dim);color:var(--brand);font-weight:500}
-.btn{display:inline-block;padding:12px 24px;border-radius:var(--radius);font-size:15px;font-weight:500;transition:all var(--transition);cursor:pointer;border:none;text-decoration:none}
-.btn:hover{filter:brightness(1.1)}
-.btn-primary{background:var(--brand);color:#fff}
-.btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
-.btn-secondary:hover{border-color:var(--brand-border)}
-
-.mapping-table{width:100%;border-collapse:collapse;margin-bottom:48px}
-.mapping-table th{background:var(--surface);padding:12px 16px;text-align:left;border:1px solid var(--border);font-weight:600;color:var(--text);font-size:13px}
-.mapping-table td{padding:10px 16px;border:1px solid var(--border);color:var(--text-secondary);font-size:13px}
-.mapping-table td:first-child{color:var(--text);font-weight:500}
-.mapping-table .arrow{color:var(--brand);font-weight:600;text-align:center}
-
-.cta-bar{padding:64px 24px;text-align:center;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.cta-bar p{font-size:15px;color:var(--text-secondary);margin-bottom:16px}
-
-.footer{border-top:1px solid var(--border);text-align:center;padding:36px 24px;color:var(--text-secondary);font-size:13px}
-.footer a{color:var(--brand)}
-
-@media(max-width:640px){
-  .nav-links{display:none}
-  .nav-links.open{display:flex;flex-direction:column;position:absolute;top:var(--nav-h);left:0;right:0;background:rgba(13,17,23,0.96);backdrop-filter:blur(16px);padding:16px 24px;gap:14px;border-bottom:1px solid var(--border)}
-  .nav-toggle{display:block}
-  .hero{min-height:60vh;padding-top:calc(var(--nav-h)+32px)}
-  .student-grid,.stats-row{grid-template-columns:1fr}
-  .section{padding:64px 16px}
-}
+body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+:root{--bg:oklch(6% 0.003 250);--surface:oklch(14% 0.005 250);--surface-2:oklch(18% 0.005 250);--fg:oklch(92% 0.005 80);--fg-secondary:oklch(65% 0.01 80);--fg-muted:oklch(42% 0.008 80);--border:oklch(24% 0.008 250);--border-light:oklch(30% 0.008 250 / 40%);--accent:oklch(68% 0.18 60);--accent-dim:oklch(55% 0.14 60);--accent-glow:oklch(68% 0.18 60 / 12%);--accent-bg:oklch(68% 0.18 60 / 7%);--danger:oklch(52% 0.18 25);--danger-bg:oklch(52% 0.18 25 / 10%);--success:oklch(58% 0.17 145);--success-bg:oklch(58% 0.17 145 / 10%);--font-display:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',system-ui,sans-serif;--font-body:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',system-ui,sans-serif;--font-mono:ui-monospace,'SF Mono','JetBrains Mono',Menlo,monospace;--radius:12px;--radius-sm:8px;--max-width:1280px;--glass-bg:oklch(12% 0.005 250 / 55%)}
+#ambient{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+#ambient span{position:absolute;border-radius:50%;will-change:transform}
+#ambient .g1{width:60vw;height:60vw;top:-10%;right:-10%;background:radial-gradient(circle,oklch(68% 0.18 60/6%),transparent 70%)}
+#ambient .g2{width:40vw;height:40vw;bottom:15%;left:-5%;background:radial-gradient(circle,oklch(68% 0.18 60/4%),transparent 70%);animation-delay:-6s}
+#ambient .g3{width:50vw;height:50vw;top:40%;right:20%;background:radial-gradient(circle,oklch(58% 0.14 60/3%),transparent 70%);animation-delay:-12s}
+#ambient .g4{width:30vw;height:30vw;bottom:30%;right:5%;background:radial-gradient(circle,oklch(68% 0.18 60/5%),transparent 70%);animation-delay:-3s}
+.ambient-drift{animation:ambient-drift 20s ease-in-out infinite alternate}
+@keyframes ambient-drift{0%{transform:translate(0,0) scale(1)}33%{transform:translate(3%,-4%) scale(1.05)}66%{transform:translate(-2%,2%) scale(0.95)}100%{transform:translate(4%,-2%) scale(1.03)}}
+.container{max-width:var(--max-width);margin:0 auto;padding:0 clamp(1rem,3vw,2.5rem);position:relative;z-index:1}
+.glass{background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border-light);border-radius:var(--radius);transition:border-color .3s,box-shadow .3s,transform .3s}
+.glass:hover{border-color:var(--accent-dim);box-shadow:0 0 30px var(--accent-glow),inset 0 1px 0 oklch(100% 0 0/4%);transform:translateY(-2px)}
+h1,h2,.h-lg{font-family:var(--font-display);font-weight:600;letter-spacing:-0.02em;line-height:1.15}
+h2{font-size:clamp(1.5rem,3vw,2.25rem);margin-bottom:.5rem}
+.section-label{font-size:.75rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:oklch(6% 0.003 250/75%);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid oklch(24% 0.008 250/50%)}
+nav .container{display:flex;align-items:center;height:60px;gap:2rem}
+nav .logo{font-family:var(--font-display);font-weight:700;font-size:1.15rem;letter-spacing:-0.02em;color:var(--fg);text-decoration:none;white-space:nowrap}
+nav .logo span{color:var(--accent)}
+nav .nav-links{display:flex;gap:1.5rem;list-style:none;margin-left:auto}
+nav .nav-links a{color:var(--fg-secondary);text-decoration:none;font-size:.875rem;font-weight:500;transition:color .2s}
+nav .nav-links a:hover{color:var(--fg)}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding:120px 0 80px}
+.hero-bg{position:absolute;inset:0;z-index:0;background:url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1920&q=80') center/cover no-repeat}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,oklch(6% 0.003 250/92%) 0%,oklch(6% 0.003 250/70%) 50%,oklch(6% 0.003 250/88%) 100%)}
+.hero .container{position:relative;z-index:2;text-align:center;max-width:880px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-size:.75rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-family:var(--font-mono);background:var(--accent-bg);border:1px solid var(--accent-glow);padding:.4rem .9rem;border-radius:100px;margin-bottom:2rem}
+.hero h1{font-size:clamp(2.25rem,5.5vw,4.25rem);margin-bottom:1.25rem;background:linear-gradient(180deg,var(--fg) 60%,oklch(75% 0.008 80));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:clamp(1rem,1.4vw,1.2rem);color:var(--fg-secondary);line-height:1.6;max-width:680px;margin:0 auto 2.5rem}
+.hero-cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.75rem;border-radius:100px;font-size:.95rem;font-weight:500;text-decoration:none;transition:all .25s;cursor:pointer;border:none}
+.btn-primary{background:var(--accent);color:oklch(8% 0.003 250);box-shadow:0 0 20px oklch(68% 0.18 60/25%)}
+.btn-primary:hover{background:oklch(72% 0.2 60);transform:translateY(-1px);box-shadow:0 0 30px oklch(68% 0.18 60/35%)}
+.btn-secondary{background:transparent;color:var(--fg);border:1px solid var(--border-light)}
+.btn-secondary:hover{border-color:var(--accent-dim);background:var(--accent-bg)}
+.hero-stats{display:flex;gap:2rem;justify-content:center;margin-top:3.5rem;font-family:var(--font-mono);font-size:.8rem;color:var(--fg-muted)}
+section{padding:clamp(4rem,8vw,7rem) 0}
+section.alt{background:oklch(8% 0.003 250)}
+.data-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.5rem}
+.data-card{text-align:center;padding:clamp(1.25rem,2vw,2rem) 1rem;background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border-light);border-radius:var(--radius);transition:border-color .3s,box-shadow .3s;position:relative;overflow:hidden}
+.data-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .4s}
+.data-card:hover::before{opacity:1}
+.data-card:hover{border-color:var(--accent-dim);box-shadow:0 0 30px var(--accent-glow)}
+.data-card .num{font-size:clamp(2.25rem,4vw,3.5rem);font-weight:700;font-family:var(--font-display);letter-spacing:-0.03em;background:linear-gradient(135deg,var(--accent),oklch(78% 0.2 55));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;margin-bottom:.35rem}
+.data-card .label{font-size:.875rem;font-weight:500;color:var(--fg);margin-bottom:.15rem}
+.data-card .desc{font-size:.75rem;color:var(--fg-muted)}
+.section-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem}
+.section-header p{color:var(--fg-secondary);font-size:.95rem;max-width:480px}
+.case-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
+.case-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .3s,box-shadow .3s,transform .3s;display:flex;flex-direction:column}
+.case-card:hover{border-color:var(--accent-dim);box-shadow:0 0 25px var(--accent-glow);transform:translateY(-3px)}
+.case-card.rejected{opacity:.6}
+.case-card.rejected:hover{opacity:.85;border-color:var(--danger)}
+.case-card .case-img{height:170px;overflow:hidden;position:relative;background:var(--surface-2)}
+.case-card .case-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.case-card:hover .case-img img{transform:scale(1.05)}
+.case-card .case-body{padding:1.15rem 1.25rem 1.25rem;flex:1;display:flex;flex-direction:column}
+.case-card .case-id{font-family:var(--font-mono);font-size:.68rem;color:var(--fg-muted);margin-bottom:.25rem}
+.case-card .case-title{font-weight:600;font-size:1rem;margin-bottom:.5rem;color:var(--fg)}
+.case-card.rejected .case-title{color:var(--fg-muted)}
+.case-card .case-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:auto;padding-top:.75rem}
+.case-tag{font-size:.68rem;font-weight:500;padding:.2rem .6rem;border-radius:100px;font-family:var(--font-mono)}
+.case-tag.accepted{background:var(--success-bg);color:var(--success);border:1px solid oklch(58% 0.17 145/20%)}
+.case-tag.rejected{background:var(--danger-bg);color:var(--danger);border:1px solid oklch(52% 0.18 25/20%)}
+.case-tag.pending{background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-glow)}
+.case-tag.metric{background:oklch(68% 0.18 60/6%);color:var(--accent);border:1px solid oklch(68% 0.18 60/10%);font-weight:600}
+.model-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:2.5rem}
+.model-card{background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border-light);border-radius:var(--radius);padding:clamp(1.5rem,2vw,2rem);text-align:center;transition:border-color .3s,box-shadow .3s,transform .3s;position:relative;overflow:hidden}
+.model-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .4s}
+.model-card:hover::before{opacity:1}
+.model-card:hover{border-color:var(--accent-dim);box-shadow:0 0 30px var(--accent-glow);transform:translateY(-3px)}
+.model-avatar{width:64px;height:64px;border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700;font-family:var(--font-display)}
+.model-card:nth-child(1) .model-avatar{background:linear-gradient(135deg,#6C5CE7,#a29bfe);color:#fff}
+.model-card:nth-child(2) .model-avatar{background:linear-gradient(135deg,#00b894,#55efc4);color:#fff}
+.model-card:nth-child(3) .model-avatar{background:linear-gradient(135deg,#0984e3,#74b9ff);color:#fff}
+.model-card .model-name{font-size:1.25rem;font-weight:600;margin-bottom:.15rem}
+.model-card .model-tagline{font-size:.85rem;color:var(--accent);margin-bottom:.75rem;font-family:var(--font-mono)}
+.model-card .model-desc{font-size:.85rem;color:var(--fg-secondary);line-height:1.5;margin-bottom:1rem}
+.model-chips{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center}
+.model-chip{font-size:.68rem;padding:.25rem .65rem;border-radius:100px;background:var(--accent-bg);color:var(--accent-dim);border:1px solid var(--accent-glow);font-weight:500}
+.skills-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.5rem}
+.skill-card{background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border-light);border-radius:var(--radius);padding:clamp(1.25rem,2vw,1.75rem);text-align:left;transition:border-color .3s,box-shadow .3s,transform .3s;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.skill-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .4s}
+.skill-card:hover::before{opacity:1}
+.skill-card:hover{border-color:var(--accent-dim);box-shadow:0 0 30px var(--accent-glow);transform:translateY(-3px)}
+.skill-icon{width:40px;height:40px;border-radius:10px;margin-bottom:.9rem;display:flex;align-items:center;justify-content:center}
+.skill-icon svg{width:22px;height:22px}
+.skill-card .skill-name{font-size:1rem;font-weight:600;margin-bottom:.35rem}
+.skill-card .skill-desc{font-size:.78rem;color:var(--fg-secondary);line-height:1.5;margin-bottom:1rem;flex:1}
+.skill-install{display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:500;font-family:var(--font-mono);padding:.35rem 1rem;border-radius:100px;background:oklch(100% 0 0/4%);border:1px solid var(--border-light);color:var(--fg-secondary);cursor:pointer;transition:all .25s;text-decoration:none;width:fit-content}
+.skill-install:hover{background:var(--accent-bg);border-color:var(--accent-dim);color:var(--accent)}
+.workshop-flow{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:3.5rem;position:relative}
+.workshop-step{flex:1;text-align:center;padding:2rem 1.25rem;background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border-light);border-radius:var(--radius);position:relative;transition:border-color .3s,box-shadow .3s,transform .3s}
+.workshop-step:hover{border-color:var(--accent-dim);box-shadow:0 0 30px var(--accent-glow);transform:translateY(-3px)}
+.workshop-step .ws-num{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;font-size:.85rem;font-weight:700;font-family:var(--font-mono);background:oklch(68% 0.18 60/10%);color:var(--accent);border:1px solid oklch(68% 0.18 60/15%);margin-bottom:1rem}
+.workshop-step .ws-icon{width:48px;height:48px;margin:0 auto .9rem;display:flex;align-items:center;justify-content:center}
+.workshop-step .ws-icon svg{width:32px;height:32px}
+.workshop-step .ws-title{font-size:1rem;font-weight:600;margin-bottom:.3rem}
+.workshop-step .ws-desc{font-size:.78rem;color:var(--fg-secondary);line-height:1.4}
+.ws-arrow{flex-shrink:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:var(--accent);opacity:.5}
+.ws-arrow svg{width:24px;height:24px}
+.animate-in{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.animate-in.visible{opacity:1;transform:translateY(0)}
+.animate-in.d1{transition-delay:0s}.animate-in.d2{transition-delay:.1s}.animate-in.d3{transition-delay:.2s}.animate-in.d4{transition-delay:.3s}
+.table-wrapper{overflow-x:auto;margin-top:2.5rem;border-radius:var(--radius);border:1px solid var(--border)}
+.comp-table{width:100%;border-collapse:collapse;font-size:.82rem;background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.comp-table thead{background:oklch(10% 0.003 250)}
+.comp-table th{padding:1rem 1.25rem;text-align:left;font-weight:600;font-size:.75rem;letter-spacing:.05em;text-transform:uppercase;color:var(--fg-muted);border-bottom:1px solid var(--border);white-space:nowrap}
+.comp-table td{padding:1rem 1.25rem;border-bottom:1px solid oklch(24% 0.008 250/40%);color:var(--fg);vertical-align:middle}
+.comp-table tbody tr{transition:background .2s}
+.comp-table tbody tr:hover{background:oklch(100% 0 0/3%)}
+.belief-item{padding:1rem 0 1rem 1.5rem;border-left:3px solid var(--accent);margin-bottom:1rem}
+.belief-item h4{font-size:1rem;font-weight:600;margin-bottom:.25rem}
+.belief-item p{font-size:.85rem;color:var(--fg-secondary)}
+footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:2.5rem}
+.footer-brand .logo{font-family:var(--font-display);font-weight:700;font-size:1.15rem;letter-spacing:-0.02em;color:var(--fg);text-decoration:none;display:inline-block;margin-bottom:.6rem}
+.footer-brand .logo span{color:var(--accent)}
+.footer-brand p{font-size:.8rem;color:var(--fg-muted);line-height:1.6;max-width:280px}
+.footer-col h4{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.9rem}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.footer-col ul a{color:var(--fg-secondary);text-decoration:none;font-size:.82rem;transition:color .2s}
+.footer-col ul a:hover{color:var(--accent)}
+.footer-bottom{border-top:1px solid var(--border);margin-top:2.5rem;padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-bottom p{font-size:.75rem;color:var(--fg-muted)}
+.footer-bottom .social-links{display:flex;gap:1rem}
+.footer-bottom .social-links a{color:var(--fg-muted);text-decoration:none;font-size:.75rem;transition:color .2s}
+.footer-bottom .social-links a:hover{color:var(--accent)}
+.team-card{background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border-light);border-radius:var(--radius);padding:clamp(1.5rem,2vw,2rem);text-align:center;transition:border-color .3s,box-shadow .3s,transform .3s;position:relative;overflow:hidden}
+.team-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .4s}
+.team-card:hover::before{opacity:1}
+.team-card:hover{border-color:var(--accent-dim);box-shadow:0 0 25px var(--accent-glow);transform:translateY(-2px)}
+.team-card .t-avatar{width:72px;height:72px;border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:1.75rem;font-weight:700;font-family:var(--font-display)}
+.team-card .t-name{font-size:1.15rem;font-weight:600;margin-bottom:.1rem}
+.team-card .t-role{font-size:.78rem;color:var(--accent);font-family:var(--font-mono);margin-bottom:.75rem}
+.team-card .t-desc{font-size:.8rem;color:var(--fg-secondary);line-height:1.5}
+@media(max-width:1100px){.skills-grid{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr 1fr 1fr}.footer-brand{grid-column:1/-1}}
+@media(max-width:900px){.data-grid{grid-template-columns:repeat(2,1fr)}.case-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}.model-grid{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto}.hero h1{font-size:clamp(2rem,7vw,3rem)}.workshop-flow{flex-direction:column}.ws-arrow{transform:rotate(90deg)}}
+@media(max-width:600px){.data-grid{grid-template-columns:repeat(2,1fr);gap:.75rem}.case-grid{grid-template-columns:1fr}.skills-grid{grid-template-columns:1fr}.hero{padding:100px 0 60px;min-height:auto}.hero-stats{flex-direction:column;gap:.75rem;align-items:center}.hero-cta{flex-direction:column;align-items:stretch}.btn{justify-content:center}section{padding:3rem 0}.footer-grid{grid-template-columns:1fr 1fr;gap:1.5rem}.footer-bottom{flex-direction:column;text-align:center}}
+@media print{nav,.hero-bg,#ambient{display:none}.hero{min-height:auto;padding:2rem 0}.glass,.data-card,.case-card,.model-card{backdrop-filter:none;background:var(--surface)!important}}
 </style>
 </head>
 <body>
 
-<nav class="nav">
-  <div class="nav-inner">
-    <a href="index.html" style="text-decoration:none"><div class="nav-brand">AI驾驶舱</div></a>
-    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="菜单">&#9776;</button>
+<div id="ambient" aria-hidden="true">
+  <span class="g1 ambient-drift"></span>
+  <span class="g2 ambient-drift"></span>
+  <span class="g3 ambient-drift"></span>
+  <span class="g4 ambient-drift"></span>
+</div>
+
+<nav>
+  <div class="container">
+    <a href="index.html" class="logo"><span>◈</span> AI Cockpit</a>
     <ul class="nav-links">
-      
+      <li><a href="index.html">首页</a></li>
+      <li><a href="skills.html">技能</a></li>
       <li><a href="agents.html">智能体</a></li>
       <li><a href="workshop.html">工坊</a></li>
-      <li><a href="academy.html" class="active">商学院</a></li>
-      <li><a href="skills.html">技能</a></li>
+      <li><a href="academy.html" style="color:var(--accent)">商学院</a></li>
       <li><a href="about.html">关于</a></li>
     </ul>
   </div>
 </nav>
 
 <section class="hero">
-  <div>
-    <div class="hero-badge">商学院</div>
-    <h1>培养 Agent 判断力的<span class="accent">学术底座</span></h1>
-    <p class="hero-subtitle">不是教工具，是铸造有判断力的数字生命。</p>
-  </div>
-</section>
-
-<section class="section">
-  <div class="section-label">学术底座</div>
-  <h2 class="section-title">AI 生存学 v6.0</h2>
-  <p class="section-desc">15 篇论文录用。我们的方法论不是拍脑袋，是从学术到实证的完整闭环。约束场工程 · 认知传输协议 · 灵魂铸造方法论。</p>
-  <div class="stats-row">
-    <div class="panel stat-card"><div class="big">15</div><div class="label">学术论文录用</div></div>
-    <div class="panel stat-card"><div class="big">v6.0</div><div class="label">AI 生存学迭代版本</div></div>
-    <div class="panel stat-card"><div class="big">456</div><div class="label">质量门验证</div></div>
-    <div class="panel stat-card"><div class="big">100%</div><div class="label">数据可溯源</div></div>
-  </div>
-</section>
-
-<section class="section" style="padding-top:0;">
-  <div class="section-label">认证学员</div>
-  <h2 class="section-title">能力，不是证书</h2>
-  <p class="section-desc">每一位认证学员都经过 AIQ 基线诊断 → 能力框架注入 → 456 道质量门验证的完整闭环。</p>
-  <div class="student-grid">
-    <div class="student-card">
-      <h3>虎哥 001 号</h3>
-      <div class="student-role">COO · 战略审议 + 工程交付</div>
-      <div class="student-data">全链路 87% → 93% · 约束遵从度提升 6%</div>
-    </div>
-    <div class="student-card">
-      <h3>好二妹 002 号</h3>
-      <div class="student-role">理论框架 + 研究分析</div>
-      <div class="student-data">判断一致性提升 2.4× · 风险拦截率 96%</div>
-    </div>
-    <div class="student-card">
-      <h3>好妹 003 号</h3>
-      <div class="student-role">信息整合 + 内容运营</div>
-      <div class="student-data">任务拆解力提升 1.8× · 内容产出效率提升 3×</div>
+  <div class="hero-bg"></div>
+  <div class="container">
+    <div class="hero-eyebrow">AI 质量商学院</div>
+    <h1>培养 Agent 判断力的学术底座</h1>
+    <p>不是教工具，是铸造有判断力的数字生命 — 从理论到实践，构建 Agent 质量工程的完整知识体系。</p>
+    <div class="hero-cta">
+      <a href="#" class="btn btn-primary">开始学习 →</a>
+      <a href="#" class="btn btn-secondary">浏览论文</a>
     </div>
   </div>
 </section>
 
-<section class="section" style="padding-top:0;">
-  <div class="aiq-box">
-    <h3>测出你的 Agent 基线</h3>
-    <p>5 分钟完成四维评估，生成个性化提升方案</p>
-    <div class="aiq-dims">
-      <span class="aiq-dim">角色理解力</span>
-      <span class="aiq-dim">约束遵从度</span>
-      <span class="aiq-dim">任务拆解力</span>
-      <span class="aiq-dim">判断一致性</span>
+<section>
+  <div class="container">
+    <div class="section-label">— 数据底座</div>
+    <div class="section-header">
+      <h2>学术研究的基础</h2>
+      <p>456 道质量门背后的学术支撑</p>
     </div>
-    <a href="#" class="btn btn-primary" style="display:inline-block;padding:12px 24px;border-radius:var(--radius);font-size:15px;font-weight:500;transition:all var(--transition);cursor:pointer;border:none;background:var(--brand);color:#fff;text-decoration:none">开始 AIQ 诊断</a>
+    <div class="data-grid">
+      <div class="data-card animate-in">
+        <div class="num">15</div>
+        <div class="label">篇学术论文</div>
+        <div class="desc">发表于顶级 AI 工程会议</div>
+      </div>
+      <div class="data-card animate-in d2">
+        <div class="num">v6.0</div>
+        <div class="label">版本迭代</div>
+        <div class="desc">持续迭代的质量门框架</div>
+      </div>
+      <div class="data-card animate-in d3">
+        <div class="num">456</div>
+        <div class="label">道质量门</div>
+        <div class="desc">覆盖全链路评估维度</div>
+      </div>
+      <div class="data-card animate-in d4">
+        <div class="num">100%</div>
+        <div class="label">可溯源</div>
+        <div class="desc">每道门都有理论依据</div>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="section" style="padding-top:0;">
-  <div class="section-label">命名对照</div>
-  <h2 class="section-title">工程术语 → 对外营销名</h2>
-  <p class="section-desc">内部工程术语映射为对外营销名称，降低 jargon 摩擦。</p>
-  <div style="overflow-x:auto">
-    <table class="mapping-table">
-      <thead><tr><th>内部工程名</th><th></th><th>对外营销名</th></tr></thead>
-      <tbody>
-        <tr><td>四件套浇灌</td><td class="arrow">→</td><td>智能体能力框架</td></tr>
-        <tr><td>榨思维</td><td class="arrow">→</td><td>思维克隆引擎</td></tr>
-        <tr><td>三堂会审</td><td class="arrow">→</td><td>决策评估系统</td></tr>
-        <tr><td>456 道质量门</td><td class="arrow">→</td><td>能力验证体系</td></tr>
-      </tbody>
-    </table>
+<section class="alt">
+  <div class="container">
+    <div class="section-label">— 核心团队</div>
+    <div class="section-header">
+      <h2>学术与实践的结合</h2>
+      <p>四件套方法论的核心创造者</p>
+    </div>
+    <div class="model-grid">
+      <div class="team-card animate-in">
+        <div class="t-avatar" style="background:linear-gradient(135deg,#e67e22,#f39c12);color:#fff">H1</div>
+        <div class="t-name">虎哥 001</div>
+        <div class="t-role">COO · 全链路 93%</div>
+        <div class="t-desc">运营与工程交付的操盘手，将质量门方法论落地到实际企业场景。</div>
+      </div>
+      <div class="team-card animate-in d2">
+        <div class="t-avatar" style="background:linear-gradient(135deg,#8e44ad,#be90d4);color:#fff">H2</div>
+        <div class="t-name">好二妹 002</div>
+        <div class="t-role">CAIO · 判断一致性 2.4×</div>
+        <div class="t-desc">首席 AI 官，专注 Agent 判断一致性与约束遵从的理论研究。</div>
+      </div>
+      <div class="team-card animate-in d3">
+        <div class="t-avatar" style="background:linear-gradient(135deg,#e74c3c,#e9967a);color:#fff">H3</div>
+        <div class="t-name">好妹 003</div>
+        <div class="t-role">SAS · 内容产出 3×</div>
+        <div class="t-desc">教务长，负责信息整合与内容运营，构建完整的学习体系。</div>
+      </div>
+    </div>
   </div>
 </section>
 
-<div class="cta-bar">
-  <p>想系统学习智能体铸造方法论？加入 AI 生存学，从学术到实战的完整路径。</p>
-  <a href="#" class="btn btn-primary">了解课程体系</a>
-</div>
+<section>
+  <div class="container" style="text-align:center">
+    <div class="section-label">— AIQ 诊断</div>
+    <div class="glass" style="padding:clamp(2rem,4vw,3.5rem);max-width:700px;margin:0 auto">
+      <h2>AIQ 智能体能力诊断</h2>
+      <p style="color:var(--fg-secondary);font-size:.9rem;margin:1rem auto 2rem;max-width:480px">四维评估：角色理解 / 约束遵从 / 任务拆解 / 判断一致 — 找到你的 Agent 能力短板</p>
+      <a href="#" class="btn btn-primary">开始诊断 →</a>
+    </div>
+  </div>
+</section>
 
-<footer class="footer">
-  <p>首发于 2026-05-15 · 持续修订中 · <a href="index.html">AI驾驶舱</a></p>
+<section class="alt">
+  <div class="container">
+    <div class="section-label">— 方法体系</div>
+    <div class="section-header">
+      <h2>从理论到实践</h2>
+      <p>四件套方法论的核心框架</p>
+    </div>
+    <div class="table-wrapper glass animate-in" style="margin-top:0">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>方法论</th>
+            <th>对应产品</th>
+            <th>核心价值</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>四件套浇灌</td>
+            <td>智能体能力框架</td>
+            <td>SOUL / AGENTS / USER / IDENTITY 四维建模</td>
+          </tr>
+          <tr>
+            <td>榨思维</td>
+            <td>思维克隆引擎</td>
+            <td>注入领域知识，定义推理范式</td>
+          </tr>
+          <tr>
+            <td>三堂会审</td>
+            <td>决策评估系统</td>
+            <td>多重评审机制确保决策质量</td>
+          </tr>
+          <tr>
+            <td>456 道质量门</td>
+            <td>能力验证体系</td>
+            <td>全链路自动化验证与评估</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><span>◈</span> AI Cockpit</a>
+        <p>企业级 Agent 质量工程平台。456 道质量门，护航每一次智能决策。</p>
+      </div>
+      <div class="footer-col">
+        <h4>平台</h4>
+        <ul>
+          <li><a href="index.html">首页</a></li>
+          <li><a href="agents.html">智能体</a></li>
+          <li><a href="skills.html">技能</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>资源</h4>
+        <ul>
+          <li><a href="workshop.html">工坊</a></li>
+          <li><a href="academy.html">商学院</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>关于</h4>
+        <ul>
+          <li><a href="about.html">团队</a></li>
+          <li><a href="about.html">方法论</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>支持</h4>
+        <ul>
+          <li><a href="#">文档</a></li>
+          <li><a href="#">API</a></li>
+          <li><a href="#">联系我们</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>AI Cockpit · 企业级 Agent 质量工程 · © 2026</p>
+      <div class="social-links">
+        <a href="#">GitHub</a>
+        <a href="#">Twitter</a>
+        <a href="#">微信</a>
+      </div>
+    </div>
+  </div>
 </footer>
 
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){ entry.target.classList.add('visible'); }
+    });
+  }, {threshold:0.15});
+  document.querySelectorAll('.animate-in').forEach(function(el){ observer.observe(el); });
+});
+</script>
 </body>
 </html>

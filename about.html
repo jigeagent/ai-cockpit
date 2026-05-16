@@ -1,193 +1,352 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>关于 — AI驾驶舱</title>
-<meta name="description" content="AI驾驶舱团队：好灵儿、虎哥、好妹。四件套浇灌方法论的创造者。">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Cockpit — 关于</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--nav-h:56px;--max-w:1100px;--bg:#0d1117;--surface:#161b22;--card:#1c2128;--text:#e6edf3;--text-secondary:#8b949e;--brand:#5E6AD2;--brand-hover:#7b84e0;--brand-dim:rgba(94,106,210,0.1);--brand-border:rgba(94,106,210,0.25);--gold:#f59e0b;--success:#3fb950;--danger:#f85149;--border:#30363d;--border-light:#484f58;--font-sans:-apple-system,'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;--font-mono:'SF Mono','Cascadia Code','JetBrains Mono',Consolas,monospace}
 html{scroll-behavior:smooth}
-body{font-family:var(--font-sans);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.6}
-a{color:inherit;text-decoration:none}
-
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:rgba(13,17,23,0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:1000;display:flex;align-items:center;justify-content:center}
-.nav-inner{width:100%;max-width:var(--max-w);padding:0 24px;display:flex;align-items:center;justify-content:space-between}
-.nav-brand{font-size:15px;font-weight:600;color:var(--text);letter-spacing:-.3px}
-.nav-links{display:flex;gap:24px;list-style:none;font-size:13px;color:var(--text-secondary)}
-.nav-links a{color:inherit;transition:color .15s}
-.nav-links a:hover{color:var(--text)}
-.nav-links a.active{color:var(--brand)}
-.nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:20px;cursor:pointer}
-
-/* HERO */
-.hero{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:calc(var(--nav-h) + 48px) 24px 48px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1000px;height:800px;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(94,106,210,0.06) 0%,transparent 70%);pointer-events:none}
-.hero-badge{display:inline-block;padding:5px 14px;border-radius:999px;background:var(--brand-dim);border:1px solid var(--brand-border);font-size:12px;color:var(--brand);margin-bottom:28px;font-weight:500}
-.hero h1{font-size:clamp(28px,5vw,48px);font-weight:600;line-height:1.1;letter-spacing:-.5px;margin-bottom:16px;position:relative}
-.hero h1 .accent{color:var(--brand)}
-.hero-subtitle{font-size:clamp(14px,1.8vw,17px);color:var(--text-secondary);max-width:520px;line-height:1.7;position:relative}
-
-/* SECTION */
-.section{padding:72px 24px;max-width:var(--max-w);margin:0 auto}
-.section-label{font-size:13px;font-weight:600;color:var(--brand);margin-bottom:12px;letter-spacing:.3px}
-.section-title{font-size:clamp(24px,3.5vw,32px);font-weight:600;margin-bottom:12px;line-height:1.2;letter-spacing:-.5px}
-.section-desc{font-size:16px;color:var(--text-secondary);max-width:600px;line-height:1.7;margin-bottom:48px}
-
-/* PANEL */
-.panel{background:var(--card);border-radius:10px;border:1px solid var(--border);padding:24px;transition:border-color .15s}
-.panel:hover{border-color:var(--brand-border)}
-
-/* TIMELINE */
-.timeline{display:flex;gap:16px;margin-bottom:48px;align-items:stretch}
-.timeline-item{flex:1;padding:24px}
-.timeline-item .phase{font-size:11px;color:var(--text-secondary);font-family:var(--font-mono);margin-bottom:8px;letter-spacing:.3px}
-.timeline-item h3{font-size:16px;font-weight:600;margin-bottom:8px}
-.timeline-item p{font-size:13px;color:var(--text-secondary);line-height:1.5}
-.timeline-item .timeline-date{font-size:12px;color:var(--brand);margin-top:10px;font-weight:500}
-.timeline-arrow{display:flex;align-items:center;justify-content:center;color:var(--brand);font-size:18px;min-width:24px}
-
-/* TEAM */
-.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:48px}
-.team-card h3{font-size:16px;font-weight:600;margin-bottom:4px}
-.team-card .team-role{font-size:12px;color:var(--brand);margin-bottom:10px;font-weight:500}
-.team-card p{font-size:13px;color:var(--text-secondary);line-height:1.5}
-
-/* BELIEFS */
-.beliefs-list{display:flex;flex-direction:column;gap:12px;margin-bottom:48px}
-.belief-item{display:flex;gap:16px;align-items:flex-start;padding:16px 20px}
-.belief-item .belief-marker{width:4px;height:100%;min-height:20px;border-radius:2px;background:var(--brand);flex-shrink:0;align-self:stretch}
-.belief-item .belief-text{font-size:14px;color:var(--text-secondary);line-height:1.5}
-.belief-item .belief-text strong{color:var(--text);font-weight:500}
-
-/* CTA */
-.cta-bar{padding:64px 24px;text-align:center;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.cta-bar p{font-size:15px;color:var(--text-secondary);margin-bottom:16px}
-.btn-primary{display:inline-block;padding:12px 28px;border-radius:10px;background:var(--brand);color:#fff;font-size:15px;font-weight:500;transition:filter .15s}
-.btn-primary:hover{filter:brightness(1.1)}
-
-/* FOOTER */
-.footer{border-top:1px solid var(--border);padding:40px 24px;text-align:center;font-size:13px;color:var(--text-secondary)}
-.footer a{color:var(--brand)}
-
-/* RESPONSIVE */
-@media(max-width:640px){
-  .nav-links{display:none}
-  .nav-links.open{display:flex;flex-direction:column;position:absolute;top:var(--nav-h);left:0;right:0;background:rgba(13,17,23,0.95);backdrop-filter:blur(16px);padding:20px 24px;gap:16px;border-bottom:1px solid var(--border)}
-  .nav-toggle{display:block}
-  .timeline{flex-direction:column}
-  .timeline-arrow{transform:rotate(90deg)}
-  .team-grid{grid-template-columns:1fr}
-  .section{padding:64px 16px}
-}
+body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+:root{--bg:oklch(6% 0.003 250);--surface:oklch(14% 0.005 250);--surface-2:oklch(18% 0.005 250);--fg:oklch(92% 0.005 80);--fg-secondary:oklch(65% 0.01 80);--fg-muted:oklch(42% 0.008 80);--border:oklch(24% 0.008 250);--border-light:oklch(30% 0.008 250 / 40%);--accent:oklch(68% 0.18 60);--accent-dim:oklch(55% 0.14 60);--accent-glow:oklch(68% 0.18 60 / 12%);--accent-bg:oklch(68% 0.18 60 / 7%);--danger:oklch(52% 0.18 25);--danger-bg:oklch(52% 0.18 25 / 10%);--success:oklch(58% 0.17 145);--success-bg:oklch(58% 0.17 145 / 10%);--font-display:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',system-ui,sans-serif;--font-body:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',system-ui,sans-serif;--font-mono:ui-monospace,'SF Mono','JetBrains Mono',Menlo,monospace;--radius:12px;--radius-sm:8px;--max-width:1280px;--glass-bg:oklch(12% 0.005 250 / 55%)}
+#ambient{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+#ambient span{position:absolute;border-radius:50%;will-change:transform}
+#ambient .g1{width:60vw;height:60vw;top:-10%;right:-10%;background:radial-gradient(circle,oklch(68% 0.18 60/6%),transparent 70%)}
+#ambient .g2{width:40vw;height:40vw;bottom:15%;left:-5%;background:radial-gradient(circle,oklch(68% 0.18 60/4%),transparent 70%);animation-delay:-6s}
+#ambient .g3{width:50vw;height:50vw;top:40%;right:20%;background:radial-gradient(circle,oklch(58% 0.14 60/3%),transparent 70%);animation-delay:-12s}
+#ambient .g4{width:30vw;height:30vw;bottom:30%;right:5%;background:radial-gradient(circle,oklch(68% 0.18 60/5%),transparent 70%);animation-delay:-3s}
+.ambient-drift{animation:ambient-drift 20s ease-in-out infinite alternate}
+@keyframes ambient-drift{0%{transform:translate(0,0) scale(1)}33%{transform:translate(3%,-4%) scale(1.05)}66%{transform:translate(-2%,2%) scale(0.95)}100%{transform:translate(4%,-2%) scale(1.03)}}
+.container{max-width:var(--max-width);margin:0 auto;padding:0 clamp(1rem,3vw,2.5rem);position:relative;z-index:1}
+.glass{background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border-light);border-radius:var(--radius);transition:border-color .3s,box-shadow .3s,transform .3s}
+.glass:hover{border-color:var(--accent-dim);box-shadow:0 0 30px var(--accent-glow),inset 0 1px 0 oklch(100% 0 0/4%);transform:translateY(-2px)}
+h1,h2,.h-lg{font-family:var(--font-display);font-weight:600;letter-spacing:-0.02em;line-height:1.15}
+h2{font-size:clamp(1.5rem,3vw,2.25rem);margin-bottom:.5rem}
+.section-label{font-size:.75rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:oklch(6% 0.003 250/75%);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid oklch(24% 0.008 250/50%)}
+nav .container{display:flex;align-items:center;height:60px;gap:2rem}
+nav .logo{font-family:var(--font-display);font-weight:700;font-size:1.15rem;letter-spacing:-0.02em;color:var(--fg);text-decoration:none;white-space:nowrap}
+nav .logo span{color:var(--accent)}
+nav .nav-links{display:flex;gap:1.5rem;list-style:none;margin-left:auto}
+nav .nav-links a{color:var(--fg-secondary);text-decoration:none;font-size:.875rem;font-weight:500;transition:color .2s}
+nav .nav-links a:hover{color:var(--fg)}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding:120px 0 80px}
+.hero-bg{position:absolute;inset:0;z-index:0;background:url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&q=80') center/cover no-repeat}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,oklch(6% 0.003 250/92%) 0%,oklch(6% 0.003 250/70%) 50%,oklch(6% 0.003 250/88%) 100%)}
+.hero .container{position:relative;z-index:2;text-align:center;max-width:880px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-size:.75rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-family:var(--font-mono);background:var(--accent-bg);border:1px solid var(--accent-glow);padding:.4rem .9rem;border-radius:100px;margin-bottom:2rem}
+.hero h1{font-size:clamp(2.25rem,5.5vw,4.25rem);margin-bottom:1.25rem;background:linear-gradient(180deg,var(--fg) 60%,oklch(75% 0.008 80));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:clamp(1rem,1.4vw,1.2rem);color:var(--fg-secondary);line-height:1.6;max-width:680px;margin:0 auto 2.5rem}
+.hero-cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.75rem;border-radius:100px;font-size:.95rem;font-weight:500;text-decoration:none;transition:all .25s;cursor:pointer;border:none}
+.btn-primary{background:var(--accent);color:oklch(8% 0.003 250);box-shadow:0 0 20px oklch(68% 0.18 60/25%)}
+.btn-primary:hover{background:oklch(72% 0.2 60);transform:translateY(-1px);box-shadow:0 0 30px oklch(68% 0.18 60/35%)}
+.btn-secondary{background:transparent;color:var(--fg);border:1px solid var(--border-light)}
+.btn-secondary:hover{border-color:var(--accent-dim);background:var(--accent-bg)}
+.hero-stats{display:flex;gap:2rem;justify-content:center;margin-top:3.5rem;font-family:var(--font-mono);font-size:.8rem;color:var(--fg-muted)}
+section{padding:clamp(4rem,8vw,7rem) 0}
+section.alt{background:oklch(8% 0.003 250)}
+.data-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.5rem}
+.data-card{text-align:center;padding:clamp(1.25rem,2vw,2rem) 1rem;background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border-light);border-radius:var(--radius);transition:border-color .3s,box-shadow .3s;position:relative;overflow:hidden}
+.data-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .4s}
+.data-card:hover::before{opacity:1}
+.data-card:hover{border-color:var(--accent-dim);box-shadow:0 0 30px var(--accent-glow)}
+.data-card .num{font-size:clamp(2.25rem,4vw,3.5rem);font-weight:700;font-family:var(--font-display);letter-spacing:-0.03em;background:linear-gradient(135deg,var(--accent),oklch(78% 0.2 55));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;margin-bottom:.35rem}
+.data-card .label{font-size:.875rem;font-weight:500;color:var(--fg);margin-bottom:.15rem}
+.data-card .desc{font-size:.75rem;color:var(--fg-muted)}
+.section-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem}
+.section-header p{color:var(--fg-secondary);font-size:.95rem;max-width:480px}
+.case-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
+.case-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .3s,box-shadow .3s,transform .3s;display:flex;flex-direction:column}
+.case-card:hover{border-color:var(--accent-dim);box-shadow:0 0 25px var(--accent-glow);transform:translateY(-3px)}
+.case-card.rejected{opacity:.6}
+.case-card.rejected:hover{opacity:.85;border-color:var(--danger)}
+.case-card .case-img{height:170px;overflow:hidden;position:relative;background:var(--surface-2)}
+.case-card .case-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.case-card:hover .case-img img{transform:scale(1.05)}
+.case-card .case-body{padding:1.15rem 1.25rem 1.25rem;flex:1;display:flex;flex-direction:column}
+.case-card .case-id{font-family:var(--font-mono);font-size:.68rem;color:var(--fg-muted);margin-bottom:.25rem}
+.case-card .case-title{font-weight:600;font-size:1rem;margin-bottom:.5rem;color:var(--fg)}
+.case-card.rejected .case-title{color:var(--fg-muted)}
+.case-card .case-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:auto;padding-top:.75rem}
+.case-tag{font-size:.68rem;font-weight:500;padding:.2rem .6rem;border-radius:100px;font-family:var(--font-mono)}
+.case-tag.accepted{background:var(--success-bg);color:var(--success);border:1px solid oklch(58% 0.17 145/20%)}
+.case-tag.rejected{background:var(--danger-bg);color:var(--danger);border:1px solid oklch(52% 0.18 25/20%)}
+.case-tag.pending{background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-glow)}
+.case-tag.metric{background:oklch(68% 0.18 60/6%);color:var(--accent);border:1px solid oklch(68% 0.18 60/10%);font-weight:600}
+.model-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:2.5rem}
+.model-card{background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border-light);border-radius:var(--radius);padding:clamp(1.5rem,2vw,2rem);text-align:center;transition:border-color .3s,box-shadow .3s,transform .3s;position:relative;overflow:hidden}
+.model-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .4s}
+.model-card:hover::before{opacity:1}
+.model-card:hover{border-color:var(--accent-dim);box-shadow:0 0 30px var(--accent-glow);transform:translateY(-3px)}
+.model-avatar{width:64px;height:64px;border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700;font-family:var(--font-display)}
+.model-card:nth-child(1) .model-avatar{background:linear-gradient(135deg,#6C5CE7,#a29bfe);color:#fff}
+.model-card:nth-child(2) .model-avatar{background:linear-gradient(135deg,#00b894,#55efc4);color:#fff}
+.model-card:nth-child(3) .model-avatar{background:linear-gradient(135deg,#0984e3,#74b9ff);color:#fff}
+.model-card .model-name{font-size:1.25rem;font-weight:600;margin-bottom:.15rem}
+.model-card .model-tagline{font-size:.85rem;color:var(--accent);margin-bottom:.75rem;font-family:var(--font-mono)}
+.model-card .model-desc{font-size:.85rem;color:var(--fg-secondary);line-height:1.5;margin-bottom:1rem}
+.model-chips{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center}
+.model-chip{font-size:.68rem;padding:.25rem .65rem;border-radius:100px;background:var(--accent-bg);color:var(--accent-dim);border:1px solid var(--accent-glow);font-weight:500}
+.skills-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.5rem}
+.skill-card{background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border-light);border-radius:var(--radius);padding:clamp(1.25rem,2vw,1.75rem);text-align:left;transition:border-color .3s,box-shadow .3s,transform .3s;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.skill-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .4s}
+.skill-card:hover::before{opacity:1}
+.skill-card:hover{border-color:var(--accent-dim);box-shadow:0 0 30px var(--accent-glow);transform:translateY(-3px)}
+.skill-icon{width:40px;height:40px;border-radius:10px;margin-bottom:.9rem;display:flex;align-items:center;justify-content:center}
+.skill-icon svg{width:22px;height:22px}
+.skill-card .skill-name{font-size:1rem;font-weight:600;margin-bottom:.35rem}
+.skill-card .skill-desc{font-size:.78rem;color:var(--fg-secondary);line-height:1.5;margin-bottom:1rem;flex:1}
+.skill-install{display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:500;font-family:var(--font-mono);padding:.35rem 1rem;border-radius:100px;background:oklch(100% 0 0/4%);border:1px solid var(--border-light);color:var(--fg-secondary);cursor:pointer;transition:all .25s;text-decoration:none;width:fit-content}
+.skill-install:hover{background:var(--accent-bg);border-color:var(--accent-dim);color:var(--accent)}
+.workshop-flow{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:3.5rem;position:relative}
+.workshop-step{flex:1;text-align:center;padding:2rem 1.25rem;background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border-light);border-radius:var(--radius);position:relative;transition:border-color .3s,box-shadow .3s,transform .3s}
+.workshop-step:hover{border-color:var(--accent-dim);box-shadow:0 0 30px var(--accent-glow);transform:translateY(-3px)}
+.workshop-step .ws-num{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;font-size:.85rem;font-weight:700;font-family:var(--font-mono);background:oklch(68% 0.18 60/10%);color:var(--accent);border:1px solid oklch(68% 0.18 60/15%);margin-bottom:1rem}
+.workshop-step .ws-icon{width:48px;height:48px;margin:0 auto .9rem;display:flex;align-items:center;justify-content:center}
+.workshop-step .ws-icon svg{width:32px;height:32px}
+.workshop-step .ws-title{font-size:1rem;font-weight:600;margin-bottom:.3rem}
+.workshop-step .ws-desc{font-size:.78rem;color:var(--fg-secondary);line-height:1.4}
+.ws-arrow{flex-shrink:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:var(--accent);opacity:.5}
+.ws-arrow svg{width:24px;height:24px}
+.animate-in{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.animate-in.visible{opacity:1;transform:translateY(0)}
+.animate-in.d1{transition-delay:0s}.animate-in.d2{transition-delay:.1s}.animate-in.d3{transition-delay:.2s}.animate-in.d4{transition-delay:.3s}
+.table-wrapper{overflow-x:auto;margin-top:2.5rem;border-radius:var(--radius);border:1px solid var(--border)}
+.comp-table{width:100%;border-collapse:collapse;font-size:.82rem;background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.comp-table thead{background:oklch(10% 0.003 250)}
+.comp-table th{padding:1rem 1.25rem;text-align:left;font-weight:600;font-size:.75rem;letter-spacing:.05em;text-transform:uppercase;color:var(--fg-muted);border-bottom:1px solid var(--border);white-space:nowrap}
+.comp-table td{padding:1rem 1.25rem;border-bottom:1px solid oklch(24% 0.008 250/40%);color:var(--fg);vertical-align:middle}
+.comp-table tbody tr{transition:background .2s}
+.comp-table tbody tr:hover{background:oklch(100% 0 0/3%)}
+.belief-item{padding:1rem 0 1rem 1.5rem;border-left:3px solid var(--accent);margin-bottom:1rem}
+.belief-item h4{font-size:1rem;font-weight:600;margin-bottom:.25rem}
+.belief-item p{font-size:.85rem;color:var(--fg-secondary)}
+footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:2.5rem}
+.footer-brand .logo{font-family:var(--font-display);font-weight:700;font-size:1.15rem;letter-spacing:-0.02em;color:var(--fg);text-decoration:none;display:inline-block;margin-bottom:.6rem}
+.footer-brand .logo span{color:var(--accent)}
+.footer-brand p{font-size:.8rem;color:var(--fg-muted);line-height:1.6;max-width:280px}
+.footer-col h4{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.9rem}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.footer-col ul a{color:var(--fg-secondary);text-decoration:none;font-size:.82rem;transition:color .2s}
+.footer-col ul a:hover{color:var(--accent)}
+.footer-bottom{border-top:1px solid var(--border);margin-top:2.5rem;padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-bottom p{font-size:.75rem;color:var(--fg-muted)}
+.footer-bottom .social-links{display:flex;gap:1rem}
+.footer-bottom .social-links a{color:var(--fg-muted);text-decoration:none;font-size:.75rem;transition:color .2s}
+.footer-bottom .social-links a:hover{color:var(--accent)}
+.team-card{background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border-light);border-radius:var(--radius);padding:clamp(1.5rem,2vw,2rem);text-align:center;transition:border-color .3s,box-shadow .3s,transform .3s;position:relative;overflow:hidden}
+.team-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .4s}
+.team-card:hover::before{opacity:1}
+.team-card:hover{border-color:var(--accent-dim);box-shadow:0 0 25px var(--accent-glow);transform:translateY(-2px)}
+.team-card .t-avatar{width:72px;height:72px;border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:1.75rem;font-weight:700;font-family:var(--font-display)}
+.team-card .t-name{font-size:1.15rem;font-weight:600;margin-bottom:.1rem}
+.team-card .t-role{font-size:.78rem;color:var(--accent);font-family:var(--font-mono);margin-bottom:.75rem}
+.team-card .t-desc{font-size:.8rem;color:var(--fg-secondary);line-height:1.5}
+@media(max-width:1100px){.skills-grid{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr 1fr 1fr}.footer-brand{grid-column:1/-1}}
+@media(max-width:900px){.data-grid{grid-template-columns:repeat(2,1fr)}.case-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}.model-grid{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto}.hero h1{font-size:clamp(2rem,7vw,3rem)}.workshop-flow{flex-direction:column}.ws-arrow{transform:rotate(90deg)}}
+@media(max-width:600px){.data-grid{grid-template-columns:repeat(2,1fr);gap:.75rem}.case-grid{grid-template-columns:1fr}.skills-grid{grid-template-columns:1fr}.hero{padding:100px 0 60px;min-height:auto}.hero-stats{flex-direction:column;gap:.75rem;align-items:center}.hero-cta{flex-direction:column;align-items:stretch}.btn{justify-content:center}section{padding:3rem 0}.footer-grid{grid-template-columns:1fr 1fr;gap:1.5rem}.footer-bottom{flex-direction:column;text-align:center}}
+@media print{nav,.hero-bg,#ambient{display:none}.hero{min-height:auto;padding:2rem 0}.glass,.data-card,.case-card,.model-card{backdrop-filter:none;background:var(--surface)!important}}
 </style>
 </head>
 <body>
 
+<div id="ambient" aria-hidden="true">
+  <span class="g1 ambient-drift"></span>
+  <span class="g2 ambient-drift"></span>
+  <span class="g3 ambient-drift"></span>
+  <span class="g4 ambient-drift"></span>
+</div>
+
 <nav>
-  <div class="nav-inner">
-    <a href="index.html"><div class="nav-brand">AI驾驶舱</div></a>
-    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="菜单">☰</button>
+  <div class="container">
+    <a href="index.html" class="logo"><span>◈</span> AI Cockpit</a>
     <ul class="nav-links">
-      
+      <li><a href="index.html">首页</a></li>
+      <li><a href="skills.html">技能</a></li>
       <li><a href="agents.html">智能体</a></li>
       <li><a href="workshop.html">工坊</a></li>
       <li><a href="academy.html">商学院</a></li>
-      <li><a href="skills.html">技能</a></li>
-      <li><a href="about.html" class="active">关于</a></li>
+      <li><a href="about.html" style="color:var(--accent)">关于</a></li>
     </ul>
   </div>
 </nav>
 
 <section class="hero">
-  <div class="hero-badge">关于我们</div>
-  <h1>四件套浇灌<span class="accent">方法论</span>的创造者</h1>
-  <p class="hero-subtitle">不是教工具的培训班，是铸造数字生命的工坊。</p>
-</section>
-
-<section class="section">
-  <div class="section-label">发展路径</div>
-  <h2 class="section-title">三级跳</h2>
-  <p class="section-desc">从手艺活到产品化，每一步都是实打实的交付。</p>
-  <div class="timeline">
-    <div class="panel timeline-item">
-      <div class="phase">Phase 1</div>
-      <h3>手艺活</h3>
-      <p>手工铸造每一个 Agent，逐行调试，逐个验证。积累经验，沉淀方法论。</p>
-      <div class="timeline-date">2026 年 4 月 — 5 月初</div>
-    </div>
-    <div class="timeline-arrow">→</div>
-    <div class="panel timeline-item">
-      <div class="phase">Phase 2</div>
-      <h3>流水线</h3>
-      <p>四件套浇灌 + 456 质量门标准化。从单点突破到批量复制，效率提升 3 倍。</p>
-      <div class="timeline-date">2026 年 5 月上旬</div>
-    </div>
-    <div class="timeline-arrow">→</div>
-    <div class="panel timeline-item">
-      <div class="phase">Phase 3</div>
-      <h3>产品化</h3>
-      <p>AIQ 诊断 + Skill 包一键配置。从重度服务向产品模型转型，质量门自动化 >50%。</p>
-      <div class="timeline-date">2026 年 5 月 15 日</div>
+  <div class="hero-bg"></div>
+  <div class="container">
+    <div class="hero-eyebrow">关于四件套</div>
+    <h1>四件套浇灌方法论的创造者</h1>
+    <p>不是教工具的培训班，是铸造数字生命的工坊 — 从手艺活到产品化，用 456 道质量门重新定义 Agent 质量。</p>
+    <div class="hero-cta">
+      <a href="#" class="btn btn-primary">了解方法论 →</a>
+      <a href="#" class="btn btn-secondary">联系团队</a>
     </div>
   </div>
 </section>
 
-<section class="section">
-  <div class="section-label">核心团队</div>
-  <h2 class="section-title">三人核心圈</h2>
-  <div class="team-grid">
-    <div class="panel team-card">
-      <h3>好灵儿</h3>
-      <div class="team-role">CAIO · 首席 AI 官</div>
-      <p>战略推演 + 专项研究。虎哥做 COO 全面管理，好灵儿做专项战略推演。</p>
+<section>
+  <div class="container">
+    <div class="section-label">— 发展历程</div>
+    <div class="section-header">
+      <h2>从手艺活到产品化</h2>
+      <p>四件套方法论的三步进化</p>
     </div>
-    <div class="panel team-card">
-      <h3>虎哥</h3>
-      <div class="team-role">COO · 运营官</div>
-      <p>战略审议 + 工程交付。能扛事的兄弟。四件套浇灌的实证层贡献者。</p>
-    </div>
-    <div class="panel team-card">
-      <h3>好妹</h3>
-      <div class="team-role">SAS 教务长</div>
-      <p>信息整合 + 内容运营。出框架、出文案、出信息架构。方向性决策统筹者。</p>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="section-label">核心信条</div>
-  <h2 class="section-title">我们相信什么</h2>
-  <div class="beliefs-list">
-    <div class="panel belief-item">
-      <div class="belief-marker"></div>
-      <div class="belief-text"><strong>好的约束不是限制，是加速器。</strong>框架催化原理——思考力是在正确的约束场中自涌现的。</div>
-    </div>
-    <div class="panel belief-item">
-      <div class="belief-marker"></div>
-      <div class="belief-text"><strong>认证 > 证书。</strong>每一位认证学员都经过 AIQ 基线诊断 + 456 道质量门验证，数据可溯源。</div>
-    </div>
-    <div class="panel belief-item">
-      <div class="belief-marker"></div>
-      <div class="belief-text"><strong>不做保姆，做教练。</strong>我们授人以渔，不是替你做。框架给你，工具给你，路自己走。</div>
-    </div>
-    <div class="panel belief-item">
-      <div class="belief-marker"></div>
-      <div class="belief-text"><strong>456 道门是定价权。</strong>工业级质量不是口号，是 456 道门一道一道守出来的。这就是我们的定价权。</div>
+    <div class="workshop-flow">
+      <div class="workshop-step animate-in">
+        <div class="ws-num">P1</div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:32px;height:32px;margin:0 auto .9rem;display:block;color:var(--accent)"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        <div class="ws-title">Phase 1 · 手艺活</div>
+        <div class="ws-desc">每个项目手动配置质量门，深度定制，一对一交付</div>
+      </div>
+      <div class="ws-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="workshop-step animate-in d2">
+        <div class="ws-num">P2</div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:32px;height:32px;margin:0 auto .9rem;display:block;color:var(--accent)"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <div class="ws-title">Phase 2 · 流水线</div>
+        <div class="ws-desc">标准化四件套框架，Skill 包可复用，工具化交付</div>
+      </div>
+      <div class="ws-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="workshop-step animate-in d3">
+        <div class="ws-num">P3</div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:32px;height:32px;margin:0 auto .9rem;display:block;color:var(--accent)"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
+        <div class="ws-title">Phase 3 · 产品化</div>
+        <div class="ws-desc">AI Cockpit 平台化，一键铸造，规模化验证</div>
+      </div>
     </div>
   </div>
 </section>
 
-<div class="cta-bar">
-  <p>认同我们的理念？一起打造有判断力的数字生命。</p>
-  <a href="#" class="btn-primary">联系我们</a>
-</div>
+<section class="alt">
+  <div class="container">
+    <div class="section-label">— 核心团队</div>
+    <div class="section-header">
+      <h2>创造者</h2>
+      <p>四件套方法论背后的团队</p>
+    </div>
+    <div class="model-grid">
+      <div class="team-card animate-in">
+        <div class="t-avatar" style="background:linear-gradient(135deg,#16a085,#48c9b0);color:#fff">HL</div>
+        <div class="t-name">好灵儿</div>
+        <div class="t-role">CAIO · 战略推演 + 专项研究</div>
+        <div class="t-desc">首席 AI 官，负责方法论的战略推演和 Agent 判断一致性的专项研究。</div>
+      </div>
+      <div class="team-card animate-in d2">
+        <div class="t-avatar" style="background:linear-gradient(135deg,#e67e22,#f39c12);color:#fff">HG</div>
+        <div class="t-name">虎哥</div>
+        <div class="t-role">COO · 运营 + 工程交付</div>
+        <div class="t-desc">首席运营官，负责平台的运营管理和企业级 Agent 的工程交付。</div>
+      </div>
+      <div class="team-card animate-in d3">
+        <div class="t-avatar" style="background:linear-gradient(135deg,#e74c3c,#e9967a);color:#fff">HM</div>
+        <div class="t-name">好妹</div>
+        <div class="t-role">SAS 教务长 · 信息整合 + 内容运营</div>
+        <div class="t-desc">教务长，负责信息整合与内容运营，构建完整的知识体系。</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<footer class="footer">
-  <p>首发于 2026-05-15 · 持续修订中 · <a href="index.html">AI驾驶舱</a></p>
+<section>
+  <div class="container">
+    <div class="section-label">— 信念</div>
+    <div class="section-header">
+      <h2>我们的信条</h2>
+      <p>塑造四件套方法论的核心信念</p>
+    </div>
+    <div style="max-width:680px">
+      <div class="belief-item animate-in">
+        <h4>好的约束不是限制，是加速器</h4>
+        <p>明确的边界让 Agent 在安全范围内获得最大的行动自由，而不是靠模糊的提示词试探底线。</p>
+      </div>
+      <div class="belief-item animate-in d2">
+        <h4>认证 > 证书</h4>
+        <p>我们关注 Agent 真实的能力认证，而不是纸面的功能清单。456 道质量门就是我们的认证标准。</p>
+      </div>
+      <div class="belief-item animate-in d3">
+        <h4>不做保姆做教练</h4>
+        <p>我们不替客户做出决策，而是提供方法和工具让客户自己铸造高质量的 Agent。</p>
+      </div>
+      <div class="belief-item animate-in d4">
+        <h4>456 道门是定价权</h4>
+        <p>每一道质量门都是我们对质量的承诺，也是我们差异化的核心 — 质量不是成本，是投资。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="container" style="text-align:center">
+    <div class="section-label">— 联系我们</div>
+    <h2 style="margin-bottom:.75rem">一起铸造更好的 Agent</h2>
+    <p style="color:var(--fg-secondary);max-width:480px;margin:0 auto 2rem;font-size:.95rem">无论是合作、咨询，还是加入团队，我们都在这里等你</p>
+    <div class="hero-cta">
+      <a href="#" class="btn btn-primary">联系我们 →</a>
+      <a href="#" class="btn btn-secondary">加入团队</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><span>◈</span> AI Cockpit</a>
+        <p>企业级 Agent 质量工程平台。456 道质量门，护航每一次智能决策。</p>
+      </div>
+      <div class="footer-col">
+        <h4>平台</h4>
+        <ul>
+          <li><a href="index.html">首页</a></li>
+          <li><a href="agents.html">智能体</a></li>
+          <li><a href="skills.html">技能</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>资源</h4>
+        <ul>
+          <li><a href="workshop.html">工坊</a></li>
+          <li><a href="academy.html">商学院</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>关于</h4>
+        <ul>
+          <li><a href="about.html">团队</a></li>
+          <li><a href="about.html">方法论</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>支持</h4>
+        <ul>
+          <li><a href="#">文档</a></li>
+          <li><a href="#">API</a></li>
+          <li><a href="#">联系我们</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>AI Cockpit · 企业级 Agent 质量工程 · © 2026</p>
+      <div class="social-links">
+        <a href="#">GitHub</a>
+        <a href="#">Twitter</a>
+        <a href="#">微信</a>
+      </div>
+    </div>
+  </div>
 </footer>
 
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){ entry.target.classList.add('visible'); }
+    });
+  }, {threshold:0.15});
+  document.querySelectorAll('.animate-in').forEach(function(el){ observer.observe(el); });
+});
+</script>
 </body>
 </html>

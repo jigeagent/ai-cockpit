@@ -1,202 +1,382 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>智能体广场 — AI驾驶舱</title>
-<meta name="description" content="所有主流 Agent 的对比画像。角色理解力、约束遵从度、任务拆解力、判断一致性四大维度。">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Cockpit — Agent 排行</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#0d1117;--surface:#161b22;--card:#1c2128;
-  --text:#e6edf3;--text-secondary:#8b949e;
-  --border:#30363d;--border-light:#484f58;
-  --brand:#5E6AD2;--brand-hover:#7b84e0;--brand-dim:rgba(94,106,210,0.1);--brand-border:rgba(94,106,210,0.25);
-  --gold:#f59e0b;--success:#3fb950;--danger:#f85149;
-  --radius:10px;--max-w:1100px;--nav-h:56px;--transition:0.15s ease;
-}
 html{scroll-behavior:smooth}
-body{font-family:-apple-system,'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:15px;overflow-x:hidden}
-a{color:inherit;text-decoration:none}
-
-.nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:rgba(13,17,23,0.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:1000;display:flex;align-items:center;justify-content:center}
-.nav-inner{width:100%;max-width:var(--max-w);padding:0 24px;display:flex;align-items:center;justify-content:space-between}
-.nav-brand{font-size:17px;font-weight:600;letter-spacing:-.3px}
-.nav-links{display:flex;gap:24px;list-style:none}
-.nav-links a{font-size:14px;font-weight:500;color:var(--text-secondary);transition:color var(--transition)}
-.nav-links a:hover{color:var(--text)}
-.nav-links a.active{color:var(--brand)}
-.nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:20px;cursor:pointer;padding:4px}
-
-.hero{position:relative;min-height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:calc(var(--nav-h)+48px)24px 72px}
-.hero::before{content:'';position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(94,106,210,0.06)0%,transparent 70%);pointer-events:none}
-.hero-badge{display:inline-block;padding:5px 14px;border-radius:999px;background:var(--brand-dim);border:1px solid var(--brand-border);font-size:12px;color:var(--brand);margin-bottom:24px;font-weight:500;position:relative}
-.hero h1{font-size:clamp(32px,5vw,56px);font-weight:600;line-height:1.15;letter-spacing:-0.5px;margin-bottom:16px;position:relative}
-.hero h1 .accent{color:var(--brand)}
-.hero-subtitle{font-size:clamp(15px,1.8vw,17px);color:var(--text-secondary);max-width:520px;line-height:1.7;margin-bottom:24px;position:relative}
-
-.section{padding:72px 24px;max-width:var(--max-w);margin:0 auto}
-.section-label{font-size:13px;font-weight:600;color:var(--brand);margin-bottom:10px;letter-spacing:.3px}
-.section-title{font-size:clamp(24px,3.5vw,32px);font-weight:600;margin-bottom:10px;line-height:1.2;letter-spacing:-.3px}
-.section-desc{font-size:16px;color:var(--text-secondary);max-width:600px;line-height:1.7;margin-bottom:40px}
-
-.panel{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);padding:24px 20px}
-.dim-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:48px}
-.dim-card h3{font-size:16px;font-weight:600;margin-bottom:6px}
-.dim-card p{font-size:14px;color:var(--text-secondary);line-height:1.6}
-
-.agent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:48px}
-.agent-card h3{font-size:17px;font-weight:600;margin-bottom:4px}
-.agent-card .agent-desc{font-size:14px;color:var(--text-secondary);line-height:1.6;margin-bottom:12px}
-.agent-card .agent-steps{font-size:13px;color:var(--text-secondary);margin-bottom:12px;padding-left:18px;line-height:1.8}
-.agent-card .agent-steps code{font-family:'SF Mono','Cascadia Code','JetBrains Mono',Consolas,monospace;background:var(--card);padding:1px 6px;border-radius:4px;font-size:12px}
-.agent-card .agent-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
-.agent-card .agent-tag{padding:3px 10px;border-radius:6px;font-size:12px;background:var(--brand-dim);color:var(--brand);font-weight:500}
-.agent-card .agent-meta{display:flex;gap:12px;font-size:12px;color:var(--text-secondary);padding-top:12px;border-top:1px solid var(--border)}
-
-.our-agent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:48px}
-.our-agent-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px 20px;transition:border-color var(--transition),box-shadow var(--transition)}
-.our-agent-card:hover{border-color:var(--brand-border);box-shadow:0 4px 16px rgba(0,0,0,0.3)}
-.our-agent-card h3{font-size:17px;font-weight:600;margin-bottom:4px}
-.our-agent-card .role{font-size:13px;color:var(--brand);font-weight:500;margin-bottom:10px}
-.our-agent-card .data{font-size:13px;color:var(--text-secondary);line-height:1.5}
-
-.cta-bar{padding:64px 24px;text-align:center;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.cta-bar p{font-size:15px;color:var(--text-secondary);margin-bottom:16px}
-.btn{display:inline-block;padding:12px 24px;border-radius:var(--radius);font-size:15px;font-weight:500;transition:all var(--transition);cursor:pointer;border:none}
-.btn:hover{filter:brightness(1.1)}
-.btn-primary{background:var(--brand);color:#fff}
-
-.footer{border-top:1px solid var(--border);text-align:center;padding:36px 24px;color:var(--text-secondary);font-size:13px}
-.footer a{color:var(--brand)}
-
-@media(max-width:640px){
-  .nav-links{display:none}
-  .nav-links.open{display:flex;flex-direction:column;position:absolute;top:var(--nav-h);left:0;right:0;background:rgba(13,17,23,0.96);backdrop-filter:blur(16px);padding:16px 24px;gap:14px;border-bottom:1px solid var(--border)}
-  .nav-toggle{display:block}
-  .hero{min-height:60vh;padding-top:calc(var(--nav-h)+32px)}
-  .agent-grid,.dim-grid,.our-agent-grid{grid-template-columns:1fr}
-  .section{padding:64px 16px}
-}
+body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+:root{--bg:oklch(6% 0.003 250);--surface:oklch(14% 0.005 250);--surface-2:oklch(18% 0.005 250);--fg:oklch(92% 0.005 80);--fg-secondary:oklch(65% 0.01 80);--fg-muted:oklch(42% 0.008 80);--border:oklch(24% 0.008 250);--border-light:oklch(30% 0.008 250 / 40%);--accent:oklch(68% 0.18 60);--accent-dim:oklch(55% 0.14 60);--accent-glow:oklch(68% 0.18 60 / 12%);--accent-bg:oklch(68% 0.18 60 / 7%);--danger:oklch(52% 0.18 25);--danger-bg:oklch(52% 0.18 25 / 10%);--success:oklch(58% 0.17 145);--success-bg:oklch(58% 0.17 145 / 10%);--font-display:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',system-ui,sans-serif;--font-body:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',system-ui,sans-serif;--font-mono:ui-monospace,'SF Mono','JetBrains Mono',Menlo,monospace;--radius:12px;--radius-sm:8px;--max-width:1280px;--glass-bg:oklch(12% 0.005 250 / 55%)}
+#ambient{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+#ambient span{position:absolute;border-radius:50%;will-change:transform}
+#ambient .g1{width:60vw;height:60vw;top:-10%;right:-10%;background:radial-gradient(circle,oklch(68% 0.18 60/6%),transparent 70%)}
+#ambient .g2{width:40vw;height:40vw;bottom:15%;left:-5%;background:radial-gradient(circle,oklch(68% 0.18 60/4%),transparent 70%);animation-delay:-6s}
+#ambient .g3{width:50vw;height:50vw;top:40%;right:20%;background:radial-gradient(circle,oklch(58% 0.14 60/3%),transparent 70%);animation-delay:-12s}
+#ambient .g4{width:30vw;height:30vw;bottom:30%;right:5%;background:radial-gradient(circle,oklch(68% 0.18 60/5%),transparent 70%);animation-delay:-3s}
+.ambient-drift{animation:ambient-drift 20s ease-in-out infinite alternate}
+@keyframes ambient-drift{0%{transform:translate(0,0) scale(1)}33%{transform:translate(3%,-4%) scale(1.05)}66%{transform:translate(-2%,2%) scale(0.95)}100%{transform:translate(4%,-2%) scale(1.03)}}
+.container{max-width:var(--max-width);margin:0 auto;padding:0 clamp(1rem,3vw,2.5rem);position:relative;z-index:1}
+.glass{background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border-light);border-radius:var(--radius);transition:border-color .3s,box-shadow .3s,transform .3s}
+.glass:hover{border-color:var(--accent-dim);box-shadow:0 0 30px var(--accent-glow),inset 0 1px 0 oklch(100% 0 0/4%);transform:translateY(-2px)}
+h1,h2,.h-lg{font-family:var(--font-display);font-weight:600;letter-spacing:-0.02em;line-height:1.15}
+h2{font-size:clamp(1.5rem,3vw,2.25rem);margin-bottom:.5rem}
+.section-label{font-size:.75rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:oklch(6% 0.003 250/75%);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid oklch(24% 0.008 250/50%)}
+nav .container{display:flex;align-items:center;height:60px;gap:2rem}
+nav .logo{font-family:var(--font-display);font-weight:700;font-size:1.15rem;letter-spacing:-0.02em;color:var(--fg);text-decoration:none;white-space:nowrap}
+nav .logo span{color:var(--accent)}
+nav .nav-links{display:flex;gap:1.5rem;list-style:none;margin-left:auto}
+nav .nav-links a{color:var(--fg-secondary);text-decoration:none;font-size:.875rem;font-weight:500;transition:color .2s}
+nav .nav-links a:hover{color:var(--fg)}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding:120px 0 80px}
+.hero-bg{position:absolute;inset:0;z-index:0;background:url('https://images.unsplash.com/photo-1633265486064-086b219458ec?w=1920&q=80') center/cover no-repeat}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,oklch(6% 0.003 250/92%) 0%,oklch(6% 0.003 250/70%) 50%,oklch(6% 0.003 250/88%) 100%)}
+.hero .container{position:relative;z-index:2;text-align:center;max-width:880px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-size:.75rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-family:var(--font-mono);background:var(--accent-bg);border:1px solid var(--accent-glow);padding:.4rem .9rem;border-radius:100px;margin-bottom:2rem}
+.hero h1{font-size:clamp(2.25rem,5.5vw,4.25rem);margin-bottom:1.25rem;background:linear-gradient(180deg,var(--fg) 60%,oklch(75% 0.008 80));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:clamp(1rem,1.4vw,1.2rem);color:var(--fg-secondary);line-height:1.6;max-width:680px;margin:0 auto 2.5rem}
+.hero-cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.75rem;border-radius:100px;font-size:.95rem;font-weight:500;text-decoration:none;transition:all .25s;cursor:pointer;border:none}
+.btn-primary{background:var(--accent);color:oklch(8% 0.003 250);box-shadow:0 0 20px oklch(68% 0.18 60/25%)}
+.btn-primary:hover{background:oklch(72% 0.2 60);transform:translateY(-1px);box-shadow:0 0 30px oklch(68% 0.18 60/35%)}
+.btn-secondary{background:transparent;color:var(--fg);border:1px solid var(--border-light)}
+.btn-secondary:hover{border-color:var(--accent-dim);background:var(--accent-bg)}
+.hero-stats{display:flex;gap:2rem;justify-content:center;margin-top:3.5rem;font-family:var(--font-mono);font-size:.8rem;color:var(--fg-muted)}
+section{padding:clamp(4rem,8vw,7rem) 0}
+section.alt{background:oklch(8% 0.003 250)}
+.data-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.5rem}
+.data-card{text-align:center;padding:clamp(1.25rem,2vw,2rem) 1rem;background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border-light);border-radius:var(--radius);transition:border-color .3s,box-shadow .3s;position:relative;overflow:hidden}
+.data-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .4s}
+.data-card:hover::before{opacity:1}
+.data-card:hover{border-color:var(--accent-dim);box-shadow:0 0 30px var(--accent-glow)}
+.data-card .num{font-size:clamp(2.25rem,4vw,3.5rem);font-weight:700;font-family:var(--font-display);letter-spacing:-0.03em;background:linear-gradient(135deg,var(--accent),oklch(78% 0.2 55));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;margin-bottom:.35rem}
+.data-card .label{font-size:.875rem;font-weight:500;color:var(--fg);margin-bottom:.15rem}
+.data-card .desc{font-size:.75rem;color:var(--fg-muted)}
+.section-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem}
+.section-header p{color:var(--fg-secondary);font-size:.95rem;max-width:480px}
+.case-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
+.case-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .3s,box-shadow .3s,transform .3s;display:flex;flex-direction:column}
+.case-card:hover{border-color:var(--accent-dim);box-shadow:0 0 25px var(--accent-glow);transform:translateY(-3px)}
+.case-card.rejected{opacity:.6}
+.case-card.rejected:hover{opacity:.85;border-color:var(--danger)}
+.case-card .case-img{height:170px;overflow:hidden;position:relative;background:var(--surface-2)}
+.case-card .case-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.case-card:hover .case-img img{transform:scale(1.05)}
+.case-card .case-body{padding:1.15rem 1.25rem 1.25rem;flex:1;display:flex;flex-direction:column}
+.case-card .case-id{font-family:var(--font-mono);font-size:.68rem;color:var(--fg-muted);margin-bottom:.25rem}
+.case-card .case-title{font-weight:600;font-size:1rem;margin-bottom:.5rem;color:var(--fg)}
+.case-card.rejected .case-title{color:var(--fg-muted)}
+.case-card .case-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:auto;padding-top:.75rem}
+.case-tag{font-size:.68rem;font-weight:500;padding:.2rem .6rem;border-radius:100px;font-family:var(--font-mono)}
+.case-tag.accepted{background:var(--success-bg);color:var(--success);border:1px solid oklch(58% 0.17 145/20%)}
+.case-tag.rejected{background:var(--danger-bg);color:var(--danger);border:1px solid oklch(52% 0.18 25/20%)}
+.case-tag.pending{background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-glow)}
+.case-tag.metric{background:oklch(68% 0.18 60/6%);color:var(--accent);border:1px solid oklch(68% 0.18 60/10%);font-weight:600}
+.model-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:2.5rem}
+.model-card{background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border-light);border-radius:var(--radius);padding:clamp(1.5rem,2vw,2rem);text-align:center;transition:border-color .3s,box-shadow .3s,transform .3s;position:relative;overflow:hidden}
+.model-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .4s}
+.model-card:hover::before{opacity:1}
+.model-card:hover{border-color:var(--accent-dim);box-shadow:0 0 30px var(--accent-glow);transform:translateY(-3px)}
+.model-avatar{width:64px;height:64px;border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700;font-family:var(--font-display)}
+.model-card:nth-child(1) .model-avatar{background:linear-gradient(135deg,#6C5CE7,#a29bfe);color:#fff}
+.model-card:nth-child(2) .model-avatar{background:linear-gradient(135deg,#00b894,#55efc4);color:#fff}
+.model-card:nth-child(3) .model-avatar{background:linear-gradient(135deg,#0984e3,#74b9ff);color:#fff}
+.model-card .model-name{font-size:1.25rem;font-weight:600;margin-bottom:.15rem}
+.model-card .model-tagline{font-size:.85rem;color:var(--accent);margin-bottom:.75rem;font-family:var(--font-mono)}
+.model-card .model-desc{font-size:.85rem;color:var(--fg-secondary);line-height:1.5;margin-bottom:1rem}
+.model-chips{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center}
+.model-chip{font-size:.68rem;padding:.25rem .65rem;border-radius:100px;background:var(--accent-bg);color:var(--accent-dim);border:1px solid var(--accent-glow);font-weight:500}
+.skills-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.5rem}
+.skill-card{background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border-light);border-radius:var(--radius);padding:clamp(1.25rem,2vw,1.75rem);text-align:left;transition:border-color .3s,box-shadow .3s,transform .3s;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.skill-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .4s}
+.skill-card:hover::before{opacity:1}
+.skill-card:hover{border-color:var(--accent-dim);box-shadow:0 0 30px var(--accent-glow);transform:translateY(-3px)}
+.skill-icon{width:40px;height:40px;border-radius:10px;margin-bottom:.9rem;display:flex;align-items:center;justify-content:center}
+.skill-icon svg{width:22px;height:22px}
+.skill-card .skill-name{font-size:1rem;font-weight:600;margin-bottom:.35rem}
+.skill-card .skill-desc{font-size:.78rem;color:var(--fg-secondary);line-height:1.5;margin-bottom:1rem;flex:1}
+.skill-install{display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:500;font-family:var(--font-mono);padding:.35rem 1rem;border-radius:100px;background:oklch(100% 0 0/4%);border:1px solid var(--border-light);color:var(--fg-secondary);cursor:pointer;transition:all .25s;text-decoration:none;width:fit-content}
+.skill-install:hover{background:var(--accent-bg);border-color:var(--accent-dim);color:var(--accent)}
+.workshop-flow{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:3.5rem;position:relative}
+.workshop-step{flex:1;text-align:center;padding:2rem 1.25rem;background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border-light);border-radius:var(--radius);position:relative;transition:border-color .3s,box-shadow .3s,transform .3s}
+.workshop-step:hover{border-color:var(--accent-dim);box-shadow:0 0 30px var(--accent-glow);transform:translateY(-3px)}
+.workshop-step .ws-num{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;font-size:.85rem;font-weight:700;font-family:var(--font-mono);background:oklch(68% 0.18 60/10%);color:var(--accent);border:1px solid oklch(68% 0.18 60/15%);margin-bottom:1rem}
+.workshop-step .ws-icon{width:48px;height:48px;margin:0 auto .9rem;display:flex;align-items:center;justify-content:center}
+.workshop-step .ws-icon svg{width:32px;height:32px}
+.workshop-step .ws-title{font-size:1rem;font-weight:600;margin-bottom:.3rem}
+.workshop-step .ws-desc{font-size:.78rem;color:var(--fg-secondary);line-height:1.4}
+.ws-arrow{flex-shrink:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:var(--accent);opacity:.5}
+.ws-arrow svg{width:24px;height:24px}
+.animate-in{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.animate-in.visible{opacity:1;transform:translateY(0)}
+.animate-in.d1{transition-delay:0s}.animate-in.d2{transition-delay:.1s}.animate-in.d3{transition-delay:.2s}.animate-in.d4{transition-delay:.3s}
+.table-wrapper{overflow-x:auto;margin-top:2.5rem;border-radius:var(--radius);border:1px solid var(--border)}
+.comp-table{width:100%;border-collapse:collapse;font-size:.82rem;background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.comp-table thead{background:oklch(10% 0.003 250)}
+.comp-table th{padding:1rem 1.25rem;text-align:left;font-weight:600;font-size:.75rem;letter-spacing:.05em;text-transform:uppercase;color:var(--fg-muted);border-bottom:1px solid var(--border);white-space:nowrap}
+.comp-table td{padding:1rem 1.25rem;border-bottom:1px solid oklch(24% 0.008 250/40%);color:var(--fg);vertical-align:middle}
+.comp-table tbody tr{transition:background .2s}
+.comp-table tbody tr:hover{background:oklch(100% 0 0/3%)}
+.belief-item{padding:1rem 0 1rem 1.5rem;border-left:3px solid var(--accent);margin-bottom:1rem}
+.belief-item h4{font-size:1rem;font-weight:600;margin-bottom:.25rem}
+.belief-item p{font-size:.85rem;color:var(--fg-secondary)}
+footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:2.5rem}
+.footer-brand .logo{font-family:var(--font-display);font-weight:700;font-size:1.15rem;letter-spacing:-0.02em;color:var(--fg);text-decoration:none;display:inline-block;margin-bottom:.6rem}
+.footer-brand .logo span{color:var(--accent)}
+.footer-brand p{font-size:.8rem;color:var(--fg-muted);line-height:1.6;max-width:280px}
+.footer-col h4{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.9rem}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.footer-col ul a{color:var(--fg-secondary);text-decoration:none;font-size:.82rem;transition:color .2s}
+.footer-col ul a:hover{color:var(--accent)}
+.footer-bottom{border-top:1px solid var(--border);margin-top:2.5rem;padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-bottom p{font-size:.75rem;color:var(--fg-muted)}
+.footer-bottom .social-links{display:flex;gap:1rem}
+.footer-bottom .social-links a{color:var(--fg-muted);text-decoration:none;font-size:.75rem;transition:color .2s}
+.footer-bottom .social-links a:hover{color:var(--accent)}
+.dim-card{background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border-light);border-radius:var(--radius);padding:clamp(1.25rem,2vw,1.75rem);transition:border-color .3s,box-shadow .3s,transform .3s;position:relative;overflow:hidden}
+.dim-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .4s}
+.dim-card:hover::before{opacity:1}
+.dim-card:hover{border-color:var(--accent-dim);box-shadow:0 0 30px var(--accent-glow);transform:translateY(-2px)}
+.dim-card .dim-score{font-size:2.5rem;font-weight:700;font-family:var(--font-display);letter-spacing:-0.03em;background:linear-gradient(135deg,var(--accent),oklch(78% 0.2 55));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.35rem}
+.dim-card .dim-label{font-size:.95rem;font-weight:600;margin-bottom:.2rem}
+.dim-card .dim-desc{font-size:.75rem;color:var(--fg-muted)}
+@media(max-width:1100px){.skills-grid{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr 1fr 1fr}.footer-brand{grid-column:1/-1}}
+@media(max-width:900px){.data-grid{grid-template-columns:repeat(2,1fr)}.case-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}.model-grid{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto}.hero h1{font-size:clamp(2rem,7vw,3rem)}.workshop-flow{flex-direction:column}.ws-arrow{transform:rotate(90deg)}}
+@media(max-width:600px){.data-grid{grid-template-columns:repeat(2,1fr);gap:.75rem}.case-grid{grid-template-columns:1fr}.skills-grid{grid-template-columns:1fr}.hero{padding:100px 0 60px;min-height:auto}.hero-stats{flex-direction:column;gap:.75rem;align-items:center}.hero-cta{flex-direction:column;align-items:stretch}.btn{justify-content:center}section{padding:3rem 0}.footer-grid{grid-template-columns:1fr 1fr;gap:1.5rem}.footer-bottom{flex-direction:column;text-align:center}.dim-card .dim-score{font-size:1.75rem}}
+@media print{nav,.hero-bg,#ambient{display:none}.hero{min-height:auto;padding:2rem 0}.glass,.data-card,.case-card,.model-card{backdrop-filter:none;background:var(--surface)!important}}
 </style>
 </head>
 <body>
 
-<nav class="nav">
-  <div class="nav-inner">
-    <a href="index.html" style="text-decoration:none"><div class="nav-brand">AI驾驶舱</div></a>
-    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="菜单">&#9776;</button>
+<div id="ambient" aria-hidden="true">
+  <span class="g1 ambient-drift"></span>
+  <span class="g2 ambient-drift"></span>
+  <span class="g3 ambient-drift"></span>
+  <span class="g4 ambient-drift"></span>
+</div>
+
+<nav>
+  <div class="container">
+    <a href="index.html" class="logo"><span>◈</span> AI Cockpit</a>
     <ul class="nav-links">
-      
-      <li><a href="agents.html" class="active">智能体</a></li>
+      <li><a href="index.html">首页</a></li>
+      <li><a href="skills.html">技能</a></li>
+      <li><a href="agents.html" style="color:var(--accent)">智能体</a></li>
       <li><a href="workshop.html">工坊</a></li>
       <li><a href="academy.html">商学院</a></li>
-      <li><a href="skills.html">技能</a></li>
       <li><a href="about.html">关于</a></li>
     </ul>
   </div>
 </nav>
 
 <section class="hero">
-  <div>
-    <div class="hero-badge">智能体广场</div>
-    <h1>所有主流 Agent 的<span class="accent">对比画像</span></h1>
-    <p class="hero-subtitle">不是大而全的对比榜单，用四个维度看懂每个智能体的真实能力。</p>
-  </div>
-</section>
-
-<section class="section">
-  <div class="section-label">对比框架</div>
-  <h2 class="section-title">从四个维度读懂智能体</h2>
-  <p class="section-desc">不是比跑分，是比真实场景下的行为表现。</p>
-  <div class="dim-grid">
-    <div class="panel dim-card"><h3>角色理解力</h3><p>能否准确理解并代入预设角色，不越界、不串台。</p></div>
-    <div class="panel dim-card"><h3>约束遵从度</h3><p>对 SOP、红线、格式要求的严格执行程度。</p></div>
-    <div class="panel dim-card"><h3>任务拆解力</h3><p>将复杂任务分解为可执行步骤的能力。</p></div>
-    <div class="panel dim-card"><h3>判断一致性</h3><p>同类场景下判断结果的稳定性和可重复性。</p></div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="section-label">首批 Agent</div>
-  <h2 class="section-title">三大主流 Agent 对比</h2>
-  <p class="section-desc">每个 Agent 都经过 AIQ 诊断 + 456 质量门验证。</p>
-  <div class="agent-grid">
-    <div class="panel agent-card">
-      <h3>Claude Code</h3>
-      <div class="agent-desc">Anthropic 官方代码 Agent，最懂约束的编码伙伴。擅长 SOP 严守和复杂任务拆解。</div>
-      <div class="agent-tags"><span class="agent-tag">MCP 生态</span><span class="agent-tag">SOP 严守</span><span class="agent-tag">多模态</span></div>
-      <ol class="agent-steps">
-        <li>安装 Node.js（推荐 v18+）</li>
-        <li>运行 <code>npm install -g @anthropic-ai/claude-code</code></li>
-        <li>配置 ANTHROPIC_API_KEY</li>
-        <li>在项目目录运行 <code>claude</code></li>
-      </ol>
-      <div class="agent-meta"><span>约束遵从 ★★★★★</span><span>代码能力 ★★★★☆</span></div>
-    </div>
-    <div class="panel agent-card">
-      <h3>OpenAI Codex</h3>
-      <div class="agent-desc">GPT 系列代码专用 Agent，SWE-bench 标杆。生态系统最完善，终端执行能力强。</div>
-      <div class="agent-tags"><span class="agent-tag">SWE-bench 最高</span><span class="agent-tag">生态最大</span><span class="agent-tag">终端执行</span></div>
-      <ol class="agent-steps">
-        <li>安装 OpenAI CLI（<code>pip install openai</code>）</li>
-        <li>配置 OPENAI_API_KEY</li>
-        <li>通过 API 或 ChatGPT 界面调用</li>
-        <li>集成到 IDE 或 CI/CD 流程</li>
-      </ol>
-      <div class="agent-meta"><span>代码能力 ★★★★★</span><span>生态完善 ★★★★★</span></div>
-    </div>
-    <div class="panel agent-card">
-      <h3>Cursor</h3>
-      <div class="agent-desc">基于 VS Code 的代码编辑器，内置 AI Agent。适合日常开发，零配置上手。</div>
-      <div class="agent-tags"><span class="agent-tag">零配置</span><span class="agent-tag">IDE 集成</span><span class="agent-tag">日常开发</span></div>
-      <ol class="agent-steps">
-        <li>访问 cursor.com 下载安装包</li>
-        <li>安装后直接打开项目</li>
-        <li>配置 API Key（可选）</li>
-        <li>使用 Cmd/Ctrl+K 或 Cmd/Ctrl+L 调用 AI</li>
-      </ol>
-      <div class="agent-meta"><span>上手难度 ★</span><span>日常开发 ★★★★★</span></div>
+  <div class="hero-bg"></div>
+  <div class="container">
+    <div class="hero-eyebrow">Agent 横评对比</div>
+    <h1>所有主流 Agent 的对比画像</h1>
+    <p>从约束遵从到判断一致性，4 维度横向测评 — 找到最适合你业务场景的 Agent 平台。</p>
+    <div class="hero-cta">
+      <a href="#" class="btn btn-primary">开始 AIQ 诊断 →</a>
     </div>
   </div>
 </section>
 
-<section class="section" style="padding-top:0;">
-  <div class="section-label">我们的 Agent</div>
-  <h2 class="section-title">团队自研 Agent</h2>
-  <p class="section-desc">经过完整 AIQ 诊断 + 质量门验证的认证 Agent，真实可用。</p>
-  <div class="our-agent-grid">
-    <div class="our-agent-card">
-      <h3>虎哥 001 号</h3>
-      <div class="role">COO · 战略审议 + 工程交付</div>
-      <div class="data">全链路 93% · 约束遵从度 96%</div>
+<section>
+  <div class="container">
+    <div class="section-label">— 核心维度</div>
+    <div class="section-header">
+      <h2>四维评估框架</h2>
+      <p>每个 Agent 从四个关键能力维度进行量化评分</p>
     </div>
-    <div class="our-agent-card">
-      <h3>好妹 003 号</h3>
-      <div class="role">信息整合 + 内容运营</div>
-      <div class="data">任务拆解力 1.8× · 内容产出效率 3×</div>
-    </div>
-    <div class="our-agent-card">
-      <h3>好二妹 002 号</h3>
-      <div class="role">理论框架 + 研究分析</div>
-      <div class="data">判断一致性 2.4× · 风险拦截率 96%</div>
-    </div>
-    <div class="our-agent-card">
-      <h3>好灵儿</h3>
-      <div class="role">专项战略推演</div>
-      <div class="data">七维评分 6/7 · 决策深度业界领先</div>
+    <div class="data-grid">
+      <div class="dim-card animate-in">
+        <div class="dim-score">角色理解力</div>
+        <div class="dim-desc">Agent 能否准确把握赋予的角色定位并在交互中保持一致性</div>
+      </div>
+      <div class="dim-card animate-in d2">
+        <div class="dim-score">约束遵从度</div>
+        <div class="dim-desc">在复杂约束条件下不越界、不遗忘、不臆造</div>
+      </div>
+      <div class="dim-card animate-in d3">
+        <div class="dim-score">任务拆解力</div>
+        <div class="dim-desc">将模糊目标拆解为可执行的子任务序列的能力</div>
+      </div>
+      <div class="dim-card animate-in d4">
+        <div class="dim-score">判断一致性</div>
+        <div class="dim-desc">相同输入在不同时间产生稳定一致的质量输出</div>
+      </div>
     </div>
   </div>
 </section>
 
-<div class="cta-bar">
-  <p>想测测你的 Agent 基线？AIQ 诊断 5 分钟出报告，对标四大维度。</p>
-  <a href="#" class="btn btn-primary">用 AIQ 诊断测测你的 Agent 基线 →</a>
-</div>
+<section class="alt">
+  <div class="container">
+    <div class="section-label">— 平台对比</div>
+    <div class="section-header">
+      <h2>主流 Agent 平台评测</h2>
+      <p>基于 456 道质量门对三大平台的横向评估</p>
+    </div>
+    <div class="model-grid">
+      <div class="model-card animate-in">
+        <div class="model-avatar">CC</div>
+        <div class="model-name">Claude Code</div>
+        <div class="model-tagline">MCP 生态先行者</div>
+        <div class="model-desc">深度集成 MCP 协议，约束遵从性突出。适合复杂企业级 Agent 构建。</div>
+        <div class="model-chips">
+          <span class="model-chip">约束 ★★★★★</span>
+          <span class="model-chip">生态 ★★★★★</span>
+          <span class="model-chip">上手 ★★★★</span>
+        </div>
+      </div>
+      <div class="model-card animate-in d2">
+        <div class="model-avatar">OC</div>
+        <div class="model-name">OpenAI Codex</div>
+        <div class="model-tagline">SWE-bench 最高分</div>
+        <div class="model-desc">在软件工程基准测试中表现领先，代码生成能力强悍，全链路自动化程度高。</div>
+        <div class="model-chips">
+          <span class="model-chip">代码 ★★★★★</span>
+          <span class="model-chip">SWE-bench ★★★★★</span>
+          <span class="model-chip">泛化 ★★★★</span>
+        </div>
+      </div>
+      <div class="model-card animate-in d3">
+        <div class="model-avatar">CR</div>
+        <div class="model-name">Cursor</div>
+        <div class="model-tagline">零配置即用</div>
+        <div class="model-desc">开箱即用的开发体验，上手门槛最低。但在复杂约束场景下能力有限。</div>
+        <div class="model-chips">
+          <span class="model-chip">上手 ★★★★★</span>
+          <span class="model-chip">配置 ★</span>
+          <span class="model-chip">约束 ★★★</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<footer class="footer">
-  <p>首发于 2026-05-15 · 持续修订中 · <a href="index.html">AI驾驶舱</a></p>
+<section>
+  <div class="container">
+    <div class="section-label">— 实战案例</div>
+    <div class="section-header">
+      <h2>自研 Agent 评估</h2>
+      <p>四件套团队自研 Agent 在质量门上的表现</p>
+    </div>
+    <div class="model-grid" style="grid-template-columns:repeat(4,1fr);max-width:100%">
+      <div class="model-card animate-in">
+        <div class="model-avatar" style="background:linear-gradient(135deg,#e67e22,#f39c12);color:#fff">H1</div>
+        <div class="model-name">虎哥 001</div>
+        <div class="model-tagline">全链路执行者</div>
+        <div class="model-desc">全链路通过率 93%，约束遵从度 96%</div>
+        <div class="model-chips">
+          <span class="model-chip">全链路 93%</span>
+          <span class="model-chip">约束 96%</span>
+        </div>
+      </div>
+      <div class="model-card animate-in d2">
+        <div class="model-avatar" style="background:linear-gradient(135deg,#e74c3c,#e9967a);color:#fff">H3</div>
+        <div class="model-name">好妹 003</div>
+        <div class="model-tagline">内容产出专家</div>
+        <div class="model-desc">任务拆解效率提升 1.8×，内容产出 3×</div>
+        <div class="model-chips">
+          <span class="model-chip">拆解 1.8×</span>
+          <span class="model-chip">产出 3×</span>
+        </div>
+      </div>
+      <div class="model-card animate-in d3">
+        <div class="model-avatar" style="background:linear-gradient(135deg,#8e44ad,#be90d4);color:#fff">H2</div>
+        <div class="model-name">好二妹 002</div>
+        <div class="model-tagline">一致性冠军</div>
+        <div class="model-desc">判断一致性提升 2.4×，违规拦截率 96%</div>
+        <div class="model-chips">
+          <span class="model-chip">一致性 2.4×</span>
+          <span class="model-chip">拦截 96%</span>
+        </div>
+      </div>
+      <div class="model-card animate-in d4">
+        <div class="model-avatar" style="background:linear-gradient(135deg,#16a085,#48c9b0);color:#fff">HL</div>
+        <div class="model-name">好灵儿</div>
+        <div class="model-tagline">七维全能选手</div>
+        <div class="model-desc">七维能力评估 6/7 项优秀，综合最均衡</div>
+        <div class="model-chips">
+          <span class="model-chip">七维 6/7</span>
+          <span class="model-chip">综合 ★★★★★</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="container" style="text-align:center">
+    <div class="section-label">— 开始评估</div>
+    <h2 style="margin-bottom:.75rem">你的 Agent 能过几道门？</h2>
+    <p style="color:var(--fg-secondary);max-width:520px;margin:0 auto 2rem;font-size:.95rem">提交你的 Agent 配置，获取完整的四维评估报告 + 改进建议</p>
+    <a href="#" class="btn btn-primary">提交评估 →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><span>◈</span> AI Cockpit</a>
+        <p>企业级 Agent 质量工程平台。456 道质量门，护航每一次智能决策。</p>
+      </div>
+      <div class="footer-col">
+        <h4>平台</h4>
+        <ul>
+          <li><a href="index.html">首页</a></li>
+          <li><a href="agents.html">智能体</a></li>
+          <li><a href="skills.html">技能</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>资源</h4>
+        <ul>
+          <li><a href="workshop.html">工坊</a></li>
+          <li><a href="academy.html">商学院</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>关于</h4>
+        <ul>
+          <li><a href="about.html">团队</a></li>
+          <li><a href="about.html">方法论</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>支持</h4>
+        <ul>
+          <li><a href="#">文档</a></li>
+          <li><a href="#">API</a></li>
+          <li><a href="#">联系我们</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>AI Cockpit · 企业级 Agent 质量工程 · © 2026</p>
+      <div class="social-links">
+        <a href="#">GitHub</a>
+        <a href="#">Twitter</a>
+        <a href="#">微信</a>
+      </div>
+    </div>
+  </div>
 </footer>
 
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){ entry.target.classList.add('visible'); }
+    });
+  }, {threshold:0.15});
+  document.querySelectorAll('.animate-in').forEach(function(el){ observer.observe(el); });
+});
+</script>
 </body>
 </html>
