@@ -182,8 +182,8 @@ footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem}
     <h1>培养 Agent 判断力的学术底座</h1>
     <p>不是教工具，是铸造有判断力的数字生命 — 从理论到实践，构建 Agent 质量工程的完整知识体系。</p>
     <div class="hero-cta">
-      <a href="#" class="btn btn-primary">开始学习 →</a>
-      <a href="#" class="btn btn-secondary">浏览论文</a>
+      <a href="academy.html#docs" class="btn btn-primary">开始学习 →</a>
+      <a href="academy.html#docs" class="btn btn-secondary">浏览论文</a>
     </div>
   </div>
 </section>
@@ -251,13 +251,65 @@ footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem}
   </div>
 </section>
 
-<section>
+<section class="alt" id="docs">
+  <div class="container">
+    <div class="section-label">— 文档中心</div>
+    <div class="section-header">
+      <h2>学习资源</h2>
+      <p>从入门到进阶，构建你的 Agent 质量知识体系</p>
+    </div>
+    <div class="case-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr))">
+      <div class="case-card glass animate-in" style="cursor:pointer">
+        <div class="case-body">
+          <div class="case-id">入门</div>
+          <div class="case-title">快速开始指南</div>
+          <div class="case-tags"><span class="case-tag metric">3 步配置</span><span class="case-tag pending">你的第一个 Agent</span></div>
+        </div>
+      </div>
+      <div class="case-card glass animate-in d2" style="cursor:pointer">
+        <div class="case-body">
+          <div class="case-id">核心</div>
+          <div class="case-title">四件套手册</div>
+          <div class="case-tags"><span class="case-tag metric">SOUL</span><span class="case-tag metric">AGENTS</span><span class="case-tag metric">USER</span><span class="case-tag metric">IDENTITY</span></div>
+        </div>
+      </div>
+      <div class="case-card glass animate-in d3" style="cursor:pointer">
+        <div class="case-body">
+          <div class="case-id">进阶</div>
+          <div class="case-title">AI 心理学框架 v1.0</div>
+          <div class="case-tags"><span class="case-tag pending">底层逻辑</span><span class="case-tag metric">行为建模</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="aiq-diagnosis">
   <div class="container" style="text-align:center">
     <div class="section-label">— AIQ 诊断</div>
     <div class="glass" style="padding:clamp(2rem,4vw,3.5rem);max-width:700px;margin:0 auto">
       <h2>AIQ 智能体能力诊断</h2>
-      <p style="color:var(--fg-secondary);font-size:.9rem;margin:1rem auto 2rem;max-width:480px">四维评估：角色理解 / 约束遵从 / 任务拆解 / 判断一致 — 找到你的 Agent 能力短板</p>
-      <a href="#" class="btn btn-primary">开始诊断 →</a>
+      <p style="color:var(--fg-secondary);font-size:.9rem;margin:.75rem auto 1rem;max-width:480px">四维评估：角色理解 / 约束遵从 / 任务拆解 / 判断一致性 — 为你定制 Agent 进化路径</p>
+      <div style="margin:.5rem auto 1.5rem;font-size:.75rem;color:var(--accent);font-family:var(--font-mono)">🔜 即将上线 (Coming Soon)</div>
+      <form style="max-width:420px;margin:0 auto;display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center" onsubmit="return false">
+        <input type="email" placeholder="请输入您的邮箱以获取测试资格..." style="flex:1;min-width:220px;padding:.75rem 1.25rem;border-radius:100px;border:1px solid var(--border-light);background:oklch(100% 0 0/4%);color:var(--fg);font-size:.9rem;outline:none">
+        <button type="submit" class="btn btn-primary" style="white-space:nowrap">预约测试</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="api">
+  <div class="container">
+    <div class="section-label">— API 文档</div>
+    <div class="section-header">
+      <h2>开发者接口</h2>
+      <p>标准化 API，支持外部系统调用 Agent 能力</p>
+    </div>
+    <div class="glass animate-in" style="padding:clamp(2rem,3vw,3rem);text-align:center">
+      <div style="font-size:2.5rem;margin-bottom:.5rem">⚙️</div>
+      <h3 style="font-size:1.25rem;margin-bottom:.5rem">开发中</h3>
+      <p style="color:var(--fg-secondary);font-size:.9rem;max-width:480px;margin:0 auto">我们将提供标准化的 API 接口，支持外部系统调用 Agent 质量门能力，实现与企业现有工具的无缝集成。</p>
     </div>
   </div>
 </section>
@@ -337,18 +389,18 @@ footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem}
       <div class="footer-col">
         <h4>支持</h4>
         <ul>
-          <li><a href="#">文档</a></li>
-          <li><a href="#">API</a></li>
-          <li><a href="#">联系我们</a></li>
+          <li><a href="academy.html#docs">文档</a></li>
+          <li><a href="academy.html#api">API</a></li>
+          <li><a href="about.html#contact">联系我们</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <p>AI Cockpit · 企业级 Agent 质量工程 · © 2026</p>
       <div class="social-links">
-        <a href="#">GitHub</a>
-        <a href="#">Twitter</a>
-        <a href="#">微信</a>
+        <a href="https://github.com/jigeagent">GitHub</a>
+        <a href="https://x.com/jigeagent">Twitter</a>
+        <a href="javascript:void(0)">微信</a>
       </div>
     </div>
   </div>
